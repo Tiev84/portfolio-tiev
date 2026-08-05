@@ -407,34 +407,34 @@ footer {
 
   /* ===== ABOUT ===== */
   .about {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 16px;
     align-items: center;
 
-    gap: 40px;
-    padding-bottom: 75px;
+    padding-bottom: 55px;
   }
 
   .about-copy {
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
 
   .about h2 {
-    font-size: 28px;
-    text-align: center;
-    margin-bottom: 14px;
+    font-size: 18px;
+    line-height: 1.15;
+    text-align: left;
+    margin-bottom: 8px;
   }
 
   .about p {
     width: 100%;
-    max-width: 350px;
+    max-width: none;
 
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
 
-    font-size: 12px;
-    line-height: 1.7;
+    font-size: 7.5px;
+    line-height: 1.5;
 
     text-align: justify;
     text-justify: inter-word;
@@ -442,22 +442,40 @@ footer {
 
   .about .small {
     display: inline-flex;
-    margin-top: 27px;
+    margin-top: 14px;
+    padding: 9px 18px;
+    font-size: 6px;
   }
 
   /* ===== AVATAR ===== */
   .portrait-wrap {
-    width: 230px;
-    height: 257px;
+    width: 100%;
+    max-width: 160px;
+    aspect-ratio: 260 / 290;
+    height: auto;
 
     margin-left: auto;
-    margin-right: auto;
+    margin-right: 0;
   }
 
   .portrait-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .deco-a {
+    width: 42px;
+    height: 12px;
+    right: 0;
+    top: -7px;
+  }
+
+  .deco-b {
+    width: 18px;
+    height: 55px;
+    left: -10px;
+    top: 106px;
   }
 
   /* ===== SKILLS ===== */
