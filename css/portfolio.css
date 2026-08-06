@@ -488,6 +488,11 @@ footer {
   .project-wide .project-image {
     aspect-ratio: 1.55 / 1;
   }
+  .project-image-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
 
   .project-info {
     padding-top: 12px;
