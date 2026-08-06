@@ -1,0 +1,286 @@
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  background: #111;
+
+  padding: 72px 0 25px;
+
+  text-align: center;
+}
+
+/* Container riêng của footer */
+.footer-inner {
+  width: min(100% - 40px, 715px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.footer-inner h3 {
+  margin: 0 0 20px;
+
+  color: #ffda24;
+
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+
+  text-align: center;
+}
+
+/* =========================================
+   EMAIL
+========================================= */
+
+.email {
+  display: inline-block;
+
+  color: #fff;
+
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+
+  text-decoration: none;
+
+  transition: opacity 0.2s ease;
+}
+
+.email:hover {
+  opacity: 0.75;
+}
+
+/* =========================================
+   SOCIAL LINKS
+========================================= */
+
+.socials {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 43px auto 67px;
+}
+
+.socials a {
+  display: block;
+
+  color: #969696;
+
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+
+  text-decoration: none;
+  text-align: center;
+
+  transition:
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.socials a:hover {
+  color: #fff;
+}
+
+/* =========================================
+   COPYRIGHT
+========================================= */
+
+.copyright {
+  width: 100%;
+
+  margin: 0;
+
+  padding-top: 22px;
+
+  border-top: 1px solid #555;
+
+  color: #f7f7f7;
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+/* =========================================
+   TABLET
+   768px - 1023px
+========================================= */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  footer {
+    padding: 65px 0 25px;
+  }
+
+  .footer-inner {
+    width: min(100% - 60px, 760px);
+  }
+
+  .footer-inner h3 {
+    font-size: 16px;
+  }
+
+  .email {
+    font-size: 19px;
+  }
+
+  .socials {
+    margin: 40px auto 60px;
+  }
+
+  .socials a {
+    font-size: 14px;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   MOBILE
+   <= 767px
+========================================= */
+
+@media (max-width: 767px) {
+  footer {
+    width: 100%;
+
+    padding: 55px 0 28px;
+
+    text-align: center;
+  }
+
+  .footer-inner {
+    width: calc(100% - 40px);
+    max-width: 560px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---------- TITLE ---------- */
+
+  .footer-inner h3 {
+    width: 100%;
+    max-width: 300px;
+
+    margin: 0 auto 18px;
+
+    color: #ffda24;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+
+    text-align: center;
+  }
+
+  /* ---------- EMAIL ---------- */
+
+  .email {
+    display: inline-block;
+
+    max-width: 100%;
+
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    text-align: center;
+
+    overflow-wrap: anywhere;
+  }
+
+  /* ---------- SOCIALS ---------- */
+
+  .socials {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    column-gap: 30px;
+    row-gap: 28px;
+
+    align-items: center;
+
+    margin: 38px auto 50px;
+  }
+
+  .socials a {
+    width: 100%;
+
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
+
+    letter-spacing: 0.15em;
+
+    text-align: center;
+
+    white-space: nowrap;
+  }
+
+  /* ---------- COPYRIGHT ---------- */
+
+  .copyright {
+    width: 100%;
+
+    margin: 0;
+
+    padding-top: 22px;
+
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-align: center;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+   <= 380px
+========================================= */
+
+@media (max-width: 380px) {
+  .footer-inner {
+    width: calc(100% - 32px);
+  }
+
+  .footer-inner h3 {
+    max-width: 270px;
+    font-size: 13px;
+  }
+
+  .email {
+    font-size: 16px;
+  }
+
+  .socials {
+    column-gap: 20px;
+    row-gap: 25px;
+
+    margin-top: 35px;
+    margin-bottom: 45px;
+  }
+
+  .socials a {
+    font-size: 10px;
+  }
+}
