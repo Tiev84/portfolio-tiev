@@ -1,6 +1,14 @@
-/* ========================================
-   VARIABLES
-======================================== */
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
 
 :root {
   --bg: #1b1b1b;
@@ -93,7 +101,7 @@ footer {
 ======================================== */
 
 .container {
-  width: min(100% - 40px, var(--container));
+  width: min(100% - 48px, var(--container));
   margin-inline: auto;
 }
 

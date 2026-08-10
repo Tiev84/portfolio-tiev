@@ -1,6 +1,14 @@
-/* =========================================
-   FOOTER
-========================================= */
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
 
 footer {
   position: relative;
@@ -16,7 +24,7 @@ footer {
 
 /* Container riêng của footer */
 .footer-inner {
-  width: min(100% - 40px, 715px);
+  width: min(100% - 40px, 750px);
   margin-left: auto;
   margin-right: auto;
 }

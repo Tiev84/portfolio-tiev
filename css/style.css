@@ -5,12 +5,24 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("../assets/fonts/Gilroy-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
 body {
   position: relative;
   margin: 0;
   background: #1b1b1b;
   color: #f7f7f7;
   font-family: Montserrat, Arial, sans-serif;
+  /* font-family: "Gilroy", Arial, sans-serif; */
   letter-spacing: 0.01em;
   overflow-x: hidden;
   max-width: 100vw;
