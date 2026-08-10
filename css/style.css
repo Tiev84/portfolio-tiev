@@ -129,6 +129,12 @@ footer {
   border-radius: 30px;
 }
 .btn strong {
+  font-weight: 700;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.btn span {
   font-size: 17px;
   line-height: 0;
 }
