@@ -132,6 +132,9 @@ a {
 
   color: #fff;
 }
+.nav-links .nav-contact:hover {
+  border-color: #fff;
+}
 
 /* MOBILE MENU BUTTON */
 

@@ -113,6 +113,9 @@ footer {
   color: #fff;
   padding: 13px 32px;
 }
+.nav-links .nav-contact:hover {
+  border-color: #fff;
+}
 .menu-btn {
   display: none;
   background: none;
