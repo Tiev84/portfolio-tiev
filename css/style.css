@@ -93,10 +93,19 @@ footer {
   gap: 33px;
 }
 .nav-links a {
-  font-size: 12px;
   color: #aaa;
-  text-decoration: none;
+
+  font-size: 12px;
   font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+.nav-links a:hover {
+  color: #fff;
 }
 .nav-links .nav-contact {
   border: 1px solid #666;
