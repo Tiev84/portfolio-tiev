@@ -5,7 +5,7 @@ html {
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
-@font-face {
+/* @font-face {
   font-family: "Gilroy";
   src: url("../assets/fonts/Gilroy-Regular.woff2") format("woff2");
   font-weight: 400;
@@ -15,7 +15,7 @@ html {
   font-family: "Gilroy";
   src: url("../assets/fonts/Gilroy-Bold.woff2") format("woff2");
   font-weight: 700;
-}
+} */
 body {
   position: relative;
   margin: 0;
