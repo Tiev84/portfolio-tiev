@@ -105,15 +105,61 @@ document.getElementById("project-description").textContent =
    INSERT IMAGES
 ========================= */
 
+// project.images.forEach((image, index) => {
+//   const imageElement = document.getElementById(`project-image-${index + 1}`);
+
+//   if (imageElement) {
+//     imageElement.src = image;
+//     imageElement.alt = `${project.title} - ${index + 1}`;
+//   }
+// });
+const galleryItems = document.querySelectorAll(".gallery-item");
+
+const loadedImages = [];
+
 project.images.forEach((image, index) => {
+  const item = galleryItems[index];
   const imageElement = document.getElementById(`project-image-${index + 1}`);
 
-  if (imageElement) {
-    imageElement.src = image;
-    imageElement.alt = `${project.title} - ${index + 1}`;
+  if (!imageElement || !item) return;
+
+  imageElement.src = image;
+  imageElement.alt = `${project.title} - ${index + 1}`;
+
+  loadedImages.push(
+    new Promise((resolve) => {
+      imageElement.onload = () => resolve(imageElement);
+    }),
+  );
+});
+
+/* Ẩn các slot dư */
+galleryItems.forEach((item, index) => {
+  if (!project.images[index]) {
+    item.style.display = "none";
   }
 });
 
+/* Scale ảnh theo kích thước gốc */
+Promise.all(loadedImages).then((images) => {
+  const gallery = document.querySelector(".project-gallery");
+
+  const maxNaturalWidth = Math.max(...images.map((img) => img.naturalWidth));
+
+  const containerWidth = gallery.clientWidth;
+
+  images.forEach((img) => {
+    const ratio = img.naturalWidth / maxNaturalWidth;
+
+    // nhỏ nhất 60% container
+    const scale = Math.max(ratio, 0.9);
+
+    const displayWidth = containerWidth * scale;
+
+    img.style.width = `${displayWidth}px`;
+    img.style.height = "auto";
+  });
+});
 /* =========================
    MOBILE MENU
 ========================= */

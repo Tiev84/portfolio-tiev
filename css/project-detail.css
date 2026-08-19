@@ -277,14 +277,10 @@ a {
 .gallery-wide,
 .gallery-landscape,
 .gallery-third {
-  width: auto;
-  max-width: 100%;
-  background: transparent;
-  border-radius: 8px;
-  overflow: visible;
+  display: flex;
+  justify-content: center;
 
-  grid-column: unset;
-  aspect-ratio: unset;
+  background: transparent;
 }
 
 .gallery-item img {
@@ -294,11 +290,40 @@ a {
   height: auto;
 
   max-width: 100%;
-  max-height: none;
 
-  border-radius: inherit;
+  border-radius: 8px;
+}
+.project-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+
+  width: 100%;
 }
 
+.gallery-item,
+.gallery-wide,
+.gallery-landscape,
+.gallery-third {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  background: transparent;
+}
+
+.gallery-item img {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 100%;
+
+  border-radius: 8px;
+}
 .lightbox {
   position: fixed;
   inset: 0;
