@@ -60,6 +60,24 @@ const projects = {
       "assets/projects/expo-hang-moi/09.jpg",
     ],
   },
+
+  "expo-health": {
+    category: "SOCIAL MEDIA | POSM",
+
+    title: "Expo sức khỏe Droppii",
+
+    description: "Meta meta meta",
+
+    images: [
+      "assets/project/thumb expo.png",
+      "assets/project/DIEM HEN SUC KHOE TEASER 2.png",
+      "assets/project/bia km.png",
+      "assets/project/TRAI NGHIEM GI.png",
+      "assets/project/backdrop.png",
+      "assets/project/standee.png",
+      "assets/project/pic.png",
+    ],
+  },
 };
 
 /* =========================
@@ -112,3 +130,77 @@ if (menuBtn && navLinks) {
     menuBtn.setAttribute("aria-expanded", isOpen);
   });
 }
+
+const galleryImages = document.querySelectorAll(".gallery-item img");
+
+const lightbox = document.getElementById("lightbox");
+
+const lightboxImg = document.getElementById("lightbox-image");
+
+const btnClose = document.querySelector(".lightbox-close");
+const btnPrev = document.querySelector(".lightbox-prev");
+const btnNext = document.querySelector(".lightbox-next");
+
+let current = 0;
+
+galleryImages.forEach((img, index) => {
+  img.style.cursor = "zoom-in";
+
+  img.addEventListener("click", () => {
+    current = index;
+
+    showImage();
+
+    lightbox.classList.add("open");
+  });
+});
+
+function showImage() {
+  lightboxImg.src = galleryImages[current].src;
+
+  lightboxImg.alt = galleryImages[current].alt;
+}
+
+btnClose.onclick = () => {
+  lightbox.classList.remove("open");
+};
+
+lightbox.onclick = (e) => {
+  if (e.target === lightbox) {
+    lightbox.classList.remove("open");
+  }
+};
+
+btnPrev.onclick = (e) => {
+  e.stopPropagation();
+
+  current = (current - 1 + galleryImages.length) % galleryImages.length;
+
+  showImage();
+};
+
+btnNext.onclick = (e) => {
+  e.stopPropagation();
+
+  current = (current + 1) % galleryImages.length;
+
+  showImage();
+};
+
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("open")) return;
+
+  if (e.key === "Escape") lightbox.classList.remove("open");
+
+  if (e.key === "ArrowLeft") {
+    current = (current - 1 + galleryImages.length) % galleryImages.length;
+
+    showImage();
+  }
+
+  if (e.key === "ArrowRight") {
+    current = (current + 1) % galleryImages.length;
+
+    showImage();
+  }
+});
