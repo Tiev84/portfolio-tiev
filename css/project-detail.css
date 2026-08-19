@@ -255,7 +255,7 @@ a {
 
   color: var(--text-muted);
 
-  font-size: 12px;
+  font-size: 15px;
   line-height: 1.65;
 
   text-align: justify;
@@ -384,26 +384,19 @@ a {
   }
 }
 
-/* =====================================
-   MOBILE
-===================================== */
-
 @media (max-width: 767px) {
-  /* CONTAINER */
+  /* ================= CONTAINER ================= */
 
   .container {
-    width: calc(100% - 40px);
-
+    width: calc(100% - 32px);
     margin-inline: auto;
   }
 
   /* ================= HEADER ================= */
 
   .site-header {
-    position: relative;
-
     height: 72px;
-
+    position: relative;
     z-index: 1000;
   }
 
@@ -417,20 +410,17 @@ a {
 
   .menu-btn {
     display: block;
-
     padding: 5px;
-
     z-index: 1002;
   }
 
   .nav-links {
     display: none;
-
     position: absolute;
 
     top: 62px;
-    left: 20px;
-    right: 20px;
+    left: 16px;
+    right: 16px;
 
     padding: 22px;
 
@@ -441,7 +431,6 @@ a {
 
     flex-direction: column;
     align-items: center;
-
     gap: 18px;
 
     z-index: 1001;
@@ -452,81 +441,74 @@ a {
   }
 
   .nav-links a {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   /* ================= PROJECT ================= */
 
   .project-detail {
-    padding-top: 35px;
-    padding-bottom: 65px;
+    padding-top: 28px;
+    padding-bottom: 60px;
   }
 
   .page-title {
-    margin-bottom: 20px;
-
-    font-size: 30px;
+    font-size: 34px;
+    margin-bottom: 18px;
+    line-height: 1.05;
   }
 
-  /* HEADER INFO */
-
   .project-heading {
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
-
     gap: 14px;
+    margin-bottom: 18px;
   }
 
   .back-btn {
-    padding: 10px 13px;
-
-    font-size: 6px;
+    padding: 10px 16px;
+    font-size: 10px;
   }
 
   .project-category {
-    font-size: 6px;
+    font-size: 10px;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
   }
 
   .project-title-wrap h2 {
-    font-size: 14px;
+    font-size: 22px;
+    line-height: 1.25;
+    margin-top: 4px;
   }
 
-  /* DESCRIPTION */
-
   .project-description {
-    margin-bottom: 25px;
-
-    font-size: 10px;
-    line-height: 1.65;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 28px;
   }
 
   /* ================= GALLERY ================= */
 
   .project-gallery {
-    grid-template-columns: 1fr;
-
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   .gallery-item,
   .gallery-wide,
   .gallery-landscape,
   .gallery-third {
-    grid-column: 1;
-
     width: 100%;
   }
 
-  /* ẢNH LỚN */
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
 
-  .gallery-wide,
-  .gallery-landscape {
-    aspect-ratio: 16 / 10;
-  }
-
-  /* ẢNH NHỎ */
-
-  .gallery-item:not(.gallery-wide) {
-    aspect-ratio: 4 / 5;
+    border-radius: 8px;
   }
 
   /* ================= FOOTER ================= */
@@ -537,7 +519,7 @@ a {
 
   .footer-inner h3 {
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.45;
   }
 
   .email {
@@ -546,12 +528,11 @@ a {
 
   .socials {
     display: grid;
+    grid-template-columns: repeat(2, 1fr);
 
-    grid-template-columns: 1fr 1fr;
+    gap: 24px 16px;
 
-    gap: 28px;
-
-    margin: 40px 0 55px;
+    margin: 38px 0 50px;
   }
 }
 
