@@ -82,6 +82,23 @@ const projects = {
       "assets/project/pic.png",
     ],
   },
+
+  "sale-event": {
+    category: "SOCIAL MEDIA | UI - UX DESIGN",
+
+    title: "Sale event Droppii",
+
+    description: "Meta meta meta",
+
+    images: [
+      "assets/project/thumb 283.png",
+      "assets/project/teaser.png",
+      "assets/project/full rule 28 vuong.png",
+      "assets/project/full rule 28 vuong 2.png",
+      "assets/project/bia km (1).png",
+      "assets/project/LP.png",
+    ],
+  },
 };
 
 /* =========================
