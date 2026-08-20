@@ -28,9 +28,9 @@ const projects = {
       "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
 
     images: [
-      "assets/projects/digital-advertising/01.jpg",
-      "assets/projects/digital-advertising/02.jpg",
-      "assets/projects/digital-advertising/03.jpg",
+      "assets/project/thumb ads.png",
+      "assets/project/153 OPT2.png",
+      "assets/project/180.png",
       "assets/projects/digital-advertising/04.jpg",
       "assets/projects/digital-advertising/05.jpg",
       "assets/projects/digital-advertising/06.jpg",
@@ -104,13 +104,30 @@ document.getElementById("project-description").textContent =
 /* =========================
    INSERT IMAGES
 ========================= */
+// const galleryItems = document.querySelectorAll(".gallery-item");
+
+// const loadedImages = [];
 
 // project.images.forEach((image, index) => {
+//   const item = galleryItems[index];
 //   const imageElement = document.getElementById(`project-image-${index + 1}`);
 
-//   if (imageElement) {
-//     imageElement.src = image;
-//     imageElement.alt = `${project.title} - ${index + 1}`;
+//   if (!imageElement || !item) return;
+
+//   imageElement.src = image;
+//   imageElement.alt = `${project.title} - ${index + 1}`;
+
+//   loadedImages.push(
+//     new Promise((resolve) => {
+//       imageElement.onload = () => resolve(imageElement);
+//     }),
+//   );
+// });
+
+// /* Ẩn các slot dư */
+// galleryItems.forEach((item, index) => {
+//   if (!project.images[index]) {
+//     item.style.display = "none";
 //   }
 // });
 const galleryItems = document.querySelectorAll(".gallery-item");
@@ -123,20 +140,33 @@ project.images.forEach((image, index) => {
 
   if (!imageElement || !item) return;
 
-  imageElement.src = image;
   imageElement.alt = `${project.title} - ${index + 1}`;
 
-  loadedImages.push(
-    new Promise((resolve) => {
-      imageElement.onload = () => resolve(imageElement);
-    }),
-  );
+  const loadPromise = new Promise((resolve) => {
+    const done = () => resolve(imageElement);
+
+    // GẮN onload TRƯỚC khi set src
+    imageElement.addEventListener("load", done, {
+      once: true,
+    });
+
+    imageElement.src = image;
+
+    // Nếu ảnh đã có trong cache
+    if (imageElement.complete && imageElement.naturalWidth > 0) {
+      resolve(imageElement);
+    }
+  });
+
+  loadedImages.push(loadPromise);
 });
 
-/* Ẩn các slot dư */
+/* Ẩn slot không có ảnh */
 galleryItems.forEach((item, index) => {
   if (!project.images[index]) {
     item.style.display = "none";
+  } else {
+    item.style.display = "";
   }
 });
 
@@ -150,8 +180,6 @@ Promise.all(loadedImages).then((images) => {
 
   images.forEach((img) => {
     const ratio = img.naturalWidth / maxNaturalWidth;
-
-    // nhỏ nhất 60% container
     const scale = Math.max(ratio, 0.9);
 
     const displayWidth = containerWidth * scale;
