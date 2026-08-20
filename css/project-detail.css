@@ -270,19 +270,22 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  width: 100%;
+
   gap: 28px;
 }
 
-.gallery-item,
-.gallery-wide,
-.gallery-landscape,
-.gallery-third {
+.gallery-item {
   display: flex;
   justify-content: center;
+
+  width: 100%;
 
   background: transparent;
 }
 
+/* Ảnh */
 .gallery-item img {
   display: block;
 
@@ -293,36 +296,20 @@ a {
 
   border-radius: 8px;
 }
-.project-gallery {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
 
+/* Ảnh ngang */
+.gallery-item.landscape img {
   width: 100%;
 }
 
-.gallery-item,
-.gallery-wide,
-.gallery-landscape,
-.gallery-third {
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-
-  background: transparent;
+/* Ảnh vuông */
+.gallery-item.square img {
+  width: 90%;
 }
 
-.gallery-item img {
-  display: block;
-
-  width: auto;
-  height: auto;
-
-  max-width: 100%;
-
-  border-radius: 8px;
+/* Ảnh dọc */
+.gallery-item.portrait img {
+  width: 90%;
 }
 .lightbox {
   position: fixed;
@@ -521,19 +508,24 @@ a {
     gap: 20px;
   }
 
-  .gallery-item,
-  .gallery-wide,
-  .gallery-landscape,
-  .gallery-third {
+  .project-gallery {
+    gap: 20px;
+  }
+
+  .gallery-item {
     width: 100%;
   }
 
-  .gallery-item img {
-    display: block;
+  .gallery-item.landscape img {
     width: 100%;
-    height: auto;
+  }
 
-    border-radius: 8px;
+  .gallery-item.square img {
+    width: 90%;
+  }
+
+  .gallery-item.portrait img {
+    width: 75%;
   }
 
   /* ================= FOOTER ================= */

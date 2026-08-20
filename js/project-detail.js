@@ -31,12 +31,16 @@ const projects = {
       "assets/project/thumb ads.png",
       "assets/project/153 OPT2.png",
       "assets/project/180.png",
-      "assets/projects/digital-advertising/04.jpg",
-      "assets/projects/digital-advertising/05.jpg",
-      "assets/projects/digital-advertising/06.jpg",
-      "assets/projects/digital-advertising/07.jpg",
-      "assets/projects/digital-advertising/08.jpg",
-      "assets/projects/digital-advertising/09.jpg",
+      "assets/project/ADS 5.png",
+      "assets/project/2.png",
+      "assets/project/5.png",
+      "assets/project/ADS 4.png",
+      "assets/project/ADS PT TEXT 2.png",
+      "assets/project/181.png",
+      "assets/project/ADS 6.png",
+      "assets/project/LP ADS.png",
+      "assets/project/Landingpage droppii mall sua.png",
+      "assets/project/LP AI (1).png",
     ],
   },
 
@@ -100,93 +104,47 @@ document.getElementById("project-title").textContent = project.title;
 
 document.getElementById("project-description").textContent =
   project.description;
-
 /* =========================
-   INSERT IMAGES
+   CREATE GALLERY
 ========================= */
-// const galleryItems = document.querySelectorAll(".gallery-item");
 
-// const loadedImages = [];
+const gallery = document.getElementById("project-gallery");
 
-// project.images.forEach((image, index) => {
-//   const item = galleryItems[index];
-//   const imageElement = document.getElementById(`project-image-${index + 1}`);
+project.images.forEach((src, index) => {
+  const item = document.createElement("div");
+  item.className = "gallery-item";
 
-//   if (!imageElement || !item) return;
+  const img = document.createElement("img");
 
-//   imageElement.src = image;
-//   imageElement.alt = `${project.title} - ${index + 1}`;
+  img.alt = `${project.title} - ${index + 1}`;
 
-//   loadedImages.push(
-//     new Promise((resolve) => {
-//       imageElement.onload = () => resolve(imageElement);
-//     }),
-//   );
-// });
+  // Ảnh đầu load ngay, ảnh sau lazy load
+  if (index === 0) {
+    img.loading = "eager";
+    img.fetchPriority = "high";
+  } else {
+    img.loading = "lazy";
+  }
 
-// /* Ẩn các slot dư */
-// galleryItems.forEach((item, index) => {
-//   if (!project.images[index]) {
-//     item.style.display = "none";
-//   }
-// });
-const galleryItems = document.querySelectorAll(".gallery-item");
+  img.decoding = "async";
 
-const loadedImages = [];
+  // Đọc tỉ lệ thật của file ảnh
+  img.addEventListener("load", () => {
+    const ratio = img.naturalWidth / img.naturalHeight;
 
-project.images.forEach((image, index) => {
-  const item = galleryItems[index];
-  const imageElement = document.getElementById(`project-image-${index + 1}`);
-
-  if (!imageElement || !item) return;
-
-  imageElement.alt = `${project.title} - ${index + 1}`;
-
-  const loadPromise = new Promise((resolve) => {
-    const done = () => resolve(imageElement);
-
-    // GẮN onload TRƯỚC khi set src
-    imageElement.addEventListener("load", done, {
-      once: true,
-    });
-
-    imageElement.src = image;
-
-    // Nếu ảnh đã có trong cache
-    if (imageElement.complete && imageElement.naturalWidth > 0) {
-      resolve(imageElement);
+    if (ratio > 1.15) {
+      item.classList.add("landscape");
+    } else if (ratio < 0.85) {
+      item.classList.add("portrait");
+    } else {
+      item.classList.add("square");
     }
   });
 
-  loadedImages.push(loadPromise);
-});
+  img.src = src;
 
-/* Ẩn slot không có ảnh */
-galleryItems.forEach((item, index) => {
-  if (!project.images[index]) {
-    item.style.display = "none";
-  } else {
-    item.style.display = "";
-  }
-});
-
-/* Scale ảnh theo kích thước gốc */
-Promise.all(loadedImages).then((images) => {
-  const gallery = document.querySelector(".project-gallery");
-
-  const maxNaturalWidth = Math.max(...images.map((img) => img.naturalWidth));
-
-  const containerWidth = gallery.clientWidth;
-
-  images.forEach((img) => {
-    const ratio = img.naturalWidth / maxNaturalWidth;
-    const scale = Math.max(ratio, 0.9);
-
-    const displayWidth = containerWidth * scale;
-
-    img.style.width = `${displayWidth}px`;
-    img.style.height = "auto";
-  });
+  item.appendChild(img);
+  gallery.appendChild(item);
 });
 /* =========================
    MOBILE MENU
@@ -205,8 +163,9 @@ if (menuBtn && navLinks) {
   });
 }
 
-const galleryImages = document.querySelectorAll(".gallery-item img");
-
+const galleryImages = Array.from(
+  document.querySelectorAll(".gallery-item img"),
+);
 const lightbox = document.getElementById("lightbox");
 
 const lightboxImg = document.getElementById("lightbox-image");
