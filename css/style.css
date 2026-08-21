@@ -77,7 +77,9 @@ footer {
 }
 .brand {
   display: block;
-  width: 60px;
+  width: 65px;
+  height: auto;
+  aspect-ratio: 99 / 64;
   flex-shrink: 0;
   line-height: 0;
 }
@@ -85,7 +87,8 @@ footer {
 .brand img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
 }
 .nav-links {
   display: flex;

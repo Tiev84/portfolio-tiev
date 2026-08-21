@@ -88,7 +88,9 @@ a {
 .brand {
   display: block;
 
-  width: 60px;
+  width: 65px;
+  height: auto;
+  aspect-ratio: 99 / 64;
 
   flex-shrink: 0;
 
@@ -96,8 +98,11 @@ a {
 }
 
 .brand img {
+  display: block;
+
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* NAVIGATION */
