@@ -246,19 +246,6 @@ footer {
   padding-bottom: 88px;
 }
 
-/*
-  Desktop Figma:
-
-  Có các row 2 cột lớn
-  và các row 3 cột nhỏ.
-
-  Dùng grid 6 columns giúp chia được:
-  3 + 3 = 2 cột
-  2 + 2 + 2 = 3 cột
-
-  Đỡ phải absolute positioning như một con quỷ.
-*/
-
 .project-grid {
   display: grid;
 
@@ -332,14 +319,14 @@ footer {
 }
 
 .project-category {
-  margin: 0 0 7px;
+  margin: 0 0 6px;
 
-  color: #fff;
+  color: #d1d1d1;
 
-  font-size: 12px;
+  font-size: 11px;
   line-height: 1.4;
 
-  font-weight: 700;
+  font-weight: 650;
 
   letter-spacing: 0.14em;
 
@@ -351,8 +338,8 @@ footer {
 
   color: #fff;
 
-  font-size: 12px;
-  line-height: 1.35;
+  font-size: 15px;
+  line-height: 1.3;
 
   font-weight: 700;
 }
@@ -507,11 +494,11 @@ footer {
   }
 
   .project-category {
-    font-size: 6.5px;
+    font-size: 9px;
   }
 
   .project-info h2 {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   /* ---------- FOOTER ---------- */
