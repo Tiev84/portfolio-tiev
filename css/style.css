@@ -167,8 +167,8 @@ footer {
 }
 .about {
   display: grid;
-  grid-template-columns: 1.2fr 0.92fr;
-  gap: 60px;
+  grid-template-columns: 1.26fr 0.86fr;
+  gap: 50px;
   align-items: center;
   padding: 0 0 80px;
 }
@@ -180,7 +180,7 @@ footer {
 }
 .about p,
 .clients p {
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.58;
   color: #d1d1d1;
   margin: 0;
@@ -295,7 +295,7 @@ footer {
   max-width: none;
   margin: 0;
 
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.58;
 
   text-align: justify;
