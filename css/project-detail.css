@@ -290,8 +290,9 @@ a {
   background: transparent;
 }
 
-/* Ảnh */
-.gallery-item img {
+/* Ảnh & Video */
+.gallery-item img,
+.gallery-item video {
   display: block;
 
   width: auto;
@@ -300,6 +301,10 @@ a {
   max-width: 100%;
 
   border-radius: 8px;
+}
+
+.gallery-item video {
+  width: 100%;
 }
 
 /* Ảnh ngang */

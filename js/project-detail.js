@@ -7,15 +7,30 @@ const projects = {
       "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
 
     images: [
-      "assets/projects/event-droppii/01.jpg",
-      "assets/projects/event-droppii/02.jpg",
-      "assets/projects/event-droppii/03.jpg",
-      "assets/projects/event-droppii/04.jpg",
-      "assets/projects/event-droppii/05.jpg",
-      "assets/projects/event-droppii/06.jpg",
-      "assets/projects/event-droppii/07.jpg",
-      "assets/projects/event-droppii/08.jpg",
-      "assets/projects/event-droppii/09.jpg",
+      "assets/project/GALA/thumb dhn.jpg",
+      "assets/project/GALA/video.mp4",
+      "assets/project/GALA/3.jpg",
+      "assets/project/GALA/4.jpg",
+      "assets/project/GALA/5.jpg",
+      "assets/project/GALA/6.png",
+      "assets/project/GALA/7.png",
+      "assets/project/GALA/8.png",
+      "assets/project/GALA/9.png",
+      "assets/project/GALA/10.png",
+      "assets/project/GALA/11.png",
+      "assets/project/GALA/12.png",
+      "assets/project/GALA/13.png",
+      "assets/project/GALA/14.jpg",
+      "assets/project/GALA/15.jpg",
+      "assets/project/GALA/16.png",
+      "assets/project/GALA/17.png",
+      "assets/project/GALA/18.jpg",
+      "assets/project/GALA/19.png",
+      "assets/project/GALA/20.jpg",
+      "assets/project/GALA/21.jpg",
+      "assets/project/GALA/22.jpg",
+      "assets/project/GALA/23.jpg",
+      "assets/project/GALA/24.jpg",
     ],
   },
 
@@ -131,36 +146,51 @@ project.images.forEach((src, index) => {
   const item = document.createElement("div");
   item.className = "gallery-item";
 
-  const img = document.createElement("img");
+  const isVideo = src.match(/\.(mp4|webm|mov|ogg)$/i);
 
-  img.alt = `${project.title} - ${index + 1}`;
-
-  // Ảnh đầu load ngay, ảnh sau lazy load
-  if (index === 0) {
-    img.loading = "eager";
-    img.fetchPriority = "high";
+  if (isVideo) {
+    item.classList.add("landscape");
+    const video = document.createElement("video");
+    video.src = src;
+    video.controls = true;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    item.appendChild(video);
   } else {
-    img.loading = "lazy";
+    const img = document.createElement("img");
+
+    img.alt = `${project.title} - ${index + 1}`;
+
+    // Ảnh đầu load ngay, ảnh sau lazy load
+    if (index === 0) {
+      img.loading = "eager";
+      img.fetchPriority = "high";
+    } else {
+      img.loading = "lazy";
+    }
+
+    img.decoding = "async";
+
+    // Đọc tỉ lệ thật của file ảnh
+    img.addEventListener("load", () => {
+      const ratio = img.naturalWidth / img.naturalHeight;
+
+      if (ratio > 1.15) {
+        item.classList.add("landscape");
+      } else if (ratio < 0.85) {
+        item.classList.add("portrait");
+      } else {
+        item.classList.add("square");
+      }
+    });
+
+    img.src = src;
+
+    item.appendChild(img);
   }
 
-  img.decoding = "async";
-
-  // Đọc tỉ lệ thật của file ảnh
-  img.addEventListener("load", () => {
-    const ratio = img.naturalWidth / img.naturalHeight;
-
-    if (ratio > 1.15) {
-      item.classList.add("landscape");
-    } else if (ratio < 0.85) {
-      item.classList.add("portrait");
-    } else {
-      item.classList.add("square");
-    }
-  });
-
-  img.src = src;
-
-  item.appendChild(img);
   gallery.appendChild(item);
 });
 /* =========================
