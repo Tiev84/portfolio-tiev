@@ -300,7 +300,7 @@ footer {
 .back-to-top {
   position: fixed;
   right: 28px;
-  bottom: 28px;
+  bottom: 130px;
 
   width: 46px;
   height: 46px;
@@ -311,18 +311,20 @@ footer {
 
   padding: 0;
 
-  background: rgba(17, 17, 17, 0.9);
-  color: #ffda24;
+  background: #ffda24;
+  color: #151515;
 
   border: 1px solid #ffda24;
   border-radius: 50%;
 
   cursor: pointer;
-  z-index: 9999;
+  z-index: 999999;
 
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transform: translateY(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 
   transition:
     opacity 0.25s ease,
@@ -338,7 +340,7 @@ footer {
 
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -346,14 +348,16 @@ footer {
 .back-to-top.show {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
   transform: translateY(0);
 }
 
 /* Desktop */
 @media (hover: hover) {
   .back-to-top:hover {
-    background: #ffda24;
+    background: #ffffff;
     color: #151515;
+    border-color: #ffffff;
     transform: translateY(-3px);
   }
 }
@@ -366,10 +370,10 @@ footer {
 @media (max-width: 767px) {
   .back-to-top {
     right: 16px;
-    bottom: 18px;
+    bottom: 140px;
 
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
   }
 
   .back-to-top svg {

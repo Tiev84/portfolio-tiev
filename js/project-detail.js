@@ -43,7 +43,7 @@ const projects = {
       "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
 
     images: [
-      "assets/project/thumb ads.png",
+      "assets/project/thumb ads (1).png",
       "assets/project/153 OPT2.png",
       "assets/project/180.png",
       "assets/project/ADS 5.png",
@@ -88,7 +88,7 @@ const projects = {
     description: "Meta meta meta",
 
     images: [
-      "assets/project/thumb expo.png",
+      "assets/project/thumb expo (1).png",
       "assets/project/DIEM HEN SUC KHOE TEASER 2.png",
       "assets/project/bia km.png",
       "assets/project/TRAI NGHIEM GI.png",
@@ -106,7 +106,7 @@ const projects = {
     description: "Meta meta meta",
 
     images: [
-      "assets/project/thumb 283.png",
+      "assets/project/thumb 283 (1).png",
       "assets/project/teaser.png",
       "assets/project/full rule 28 vuong.png",
       "assets/project/full rule 28 vuong 2.png",
@@ -137,10 +137,31 @@ document.getElementById("project-title").textContent = project.title;
 document.getElementById("project-description").textContent =
   project.description;
 /* =========================
-   CREATE GALLERY
+   CREATE GALLERY & LAZY OBSERVER
 ========================= */
 
 const gallery = document.getElementById("project-gallery");
+
+const lazyObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        if (el.dataset.src) {
+          if (el.tagName === "VIDEO") {
+            el.src = el.dataset.src;
+            el.load();
+          } else if (el.tagName === "IMG") {
+            el.src = el.dataset.src;
+          }
+          delete el.dataset.src;
+        }
+        observer.unobserve(el);
+      }
+    });
+  },
+  { rootMargin: "300px 0px" },
+);
 
 project.images.forEach((src, index) => {
   const item = document.createElement("div");
@@ -151,26 +172,27 @@ project.images.forEach((src, index) => {
   if (isVideo) {
     item.classList.add("landscape");
     const video = document.createElement("video");
-    video.src = src;
     video.controls = true;
     video.autoplay = true;
     video.muted = true;
     video.loop = true;
     video.playsInline = true;
+
+    // Dùng ảnh thumb làm poster để hiển thị tức thì
+    if (
+      project.images[0] &&
+      !project.images[0].match(/\.(mp4|webm|mov|ogg)$/i)
+    ) {
+      video.poster = project.images[0];
+    }
+
+    video.dataset.src = src;
+    lazyObserver.observe(video);
     item.appendChild(video);
   } else {
     const img = document.createElement("img");
 
     img.alt = `${project.title} - ${index + 1}`;
-
-    // Ảnh đầu load ngay, ảnh sau lazy load
-    if (index === 0) {
-      img.loading = "eager";
-      img.fetchPriority = "high";
-    } else {
-      img.loading = "lazy";
-    }
-
     img.decoding = "async";
 
     // Đọc tỉ lệ thật của file ảnh
@@ -186,7 +208,14 @@ project.images.forEach((src, index) => {
       }
     });
 
-    img.src = src;
+    if (index === 0) {
+      img.loading = "eager";
+      img.fetchPriority = "high";
+      img.src = src;
+    } else {
+      img.dataset.src = src;
+      lazyObserver.observe(img);
+    }
 
     item.appendChild(img);
   }
@@ -236,9 +265,15 @@ galleryImages.forEach((img, index) => {
 });
 
 function showImage() {
-  lightboxImg.src = galleryImages[current].src;
-
-  lightboxImg.alt = galleryImages[current].alt;
+  const targetImg = galleryImages[current];
+  if (targetImg) {
+    const src = targetImg.dataset.src || targetImg.src;
+    if (!targetImg.src && targetImg.dataset.src) {
+      targetImg.src = targetImg.dataset.src;
+    }
+    lightboxImg.src = src;
+    lightboxImg.alt = targetImg.alt;
+  }
 }
 
 btnClose.onclick = () => {
