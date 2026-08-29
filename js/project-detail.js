@@ -114,6 +114,19 @@ const projects = {
       "assets/project/LP.png",
     ],
   },
+
+  "bingto-vlog": {
+    category: "Social Media",
+
+    title: "Bingto Vlog - Điền Quân Network",
+
+    description: "Meta meta meta",
+
+    images: [
+      "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
+      "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
+    ],
+  },
 };
 
 /* =========================
