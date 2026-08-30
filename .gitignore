@@ -12,3 +12,6 @@ desktop.ini
 
 # Moi truong Python cua app (macOS)
 admin/.venv/
+
+# Icon macOS - trinh cai tu dung lai moi lan
+admin/ui/icon.icns

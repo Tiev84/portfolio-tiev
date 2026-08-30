@@ -72,7 +72,9 @@ def git(*args: str, timeout: int = 900) -> tuple[int, str]:
         timeout=timeout,
         env=git_env(),
     )
-    return proc.returncode, ((proc.stdout or "") + (proc.stderr or "")).strip()
+    # Chỉ cắt khoảng trắng cuối: `git status --porcelain` dùng khoảng trắng
+    # ĐẦU dòng làm mã trạng thái, cắt đi là mất ký tự đầu của tên file.
+    return proc.returncode, ((proc.stdout or "") + (proc.stderr or "")).rstrip()
 
 
 AUTH_HINTS = (
@@ -93,6 +95,7 @@ def looks_like_auth_error(text: str) -> bool:
 def unpushed_count() -> int:
     """Số commit đã lưu ở máy nhưng chưa đẩy lên GitHub."""
     code, out = git("rev-list", "--count", "@{u}..HEAD", timeout=30)
+    out = out.strip()
     return int(out) if code == 0 and out.isdigit() else 0
 
 
@@ -103,8 +106,10 @@ def git_status() -> dict:
     changes = []
     for line in out.splitlines():
         if len(line) > 3:
-            changes.append({"state": line[:2].strip() or "?", "path": line[3:].strip()})
+            # 2 ký tự đầu là mã trạng thái, ký tự thứ 3 là dấu cách ngăn cách
+            changes.append({"state": line[:2].strip() or "?", "path": line[3:].strip().strip('"')})
     _, branch = git("rev-parse", "--abbrev-ref", "HEAD")
+    branch = branch.strip()
     return {"ok": True, "branch": branch, "changes": changes, "ahead": unpushed_count()}
 
 

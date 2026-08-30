@@ -17,7 +17,18 @@ DEFAULT_DIR="$HOME/Documents/portfolio-tiev"
 say()  { printf '\n\033[1;33m%s\033[0m\n' "$*"; }
 ok()   { printf '  \033[0;32m✓\033[0m %s\n' "$*"; }
 warn() { printf '  \033[0;33m!\033[0m %s\n' "$*"; }
-die()  { printf '\n\033[0;31m✗ %s\033[0m\n\n' "$*"; read -r -p "Nhấn Enter để đóng..." _; exit 1; }
+die()  { printf '\n\033[0;31m✗ %s\033[0m\n\n' "$*"; ask "Nhấn Enter để đóng..." "" >/dev/null; exit 1; }
+
+# Hỏi người dùng một câu. Chạy bằng cách bấm đúp trong Finder thì có bàn phím
+# (/dev/tty); chạy trong script tự động thì không — lúc đó lấy giá trị mặc định.
+ask() {
+  __prompt="$1"; __default="${2-}"; __reply=""
+  if { : > /dev/tty; } 2>/dev/null; then
+    printf '%s' "$__prompt" > /dev/tty 2>/dev/null
+    read -r __reply < /dev/tty 2>/dev/null || __reply=""
+  fi
+  printf '%s' "${__reply:-$__default}"
+}
 
 printf '\n\033[1m============================================================\033[0m\n'
 printf '\033[1m  CÀI ĐẶT PORTFOLIO MANAGER (macOS)\033[0m\n'
@@ -45,12 +56,18 @@ Cách 1: chạy  xcode-select --install
 Cách 2: tải tại https://www.python.org/downloads/macos/"
 ok "python3 ($("$PYTHON" -V 2>&1))"
 
+# File .mp4 trong repo lưu bằng git-lfs. Nếu máy chưa có git-lfs thì git sẽ
+# CHẾT giữa lúc checkout ("git-lfs: command not found" -> clone hỏng), nên phải
+# tắt hẳn bộ lọc lfs. Lúc đó file video chỉ là con trỏ vài trăm byte, còn mọi
+# thứ khác tải về đầy đủ.
+LFS_OFF=""
 if command -v git-lfs >/dev/null 2>&1; then
   ok "git-lfs"
   git lfs install --skip-repo >/dev/null 2>&1
 else
-  warn "Chưa có git-lfs — file video .mp4 sẽ tải về dạng rút gọn, không xem được."
-  warn "Muốn có video: cài Homebrew rồi chạy  brew install git-lfs"
+  LFS_OFF="-c filter.lfs.smudge= -c filter.lfs.clean= -c filter.lfs.process= -c filter.lfs.required=false"
+  warn "Chưa có git-lfs — bỏ qua file video .mp4, phần còn lại vẫn đủ."
+  warn "Muốn có video: cài Homebrew rồi chạy  brew install git-lfs, sau đó chạy lại file này."
 fi
 
 # ------------------------------------------------------------
@@ -63,22 +80,42 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 if [ -f "$HERE/portfolio.html" ] && [ -d "$HERE/admin" ]; then
   REPO="$HERE"
   ok "Đang chạy sẵn trong repo: $REPO"
-elif [ -f "$DEFAULT_DIR/portfolio.html" ]; then
+elif [ -d "$DEFAULT_DIR/.git" ]; then
   REPO="$DEFAULT_DIR"
   ok "Đã có sẵn: $REPO"
-  git -C "$REPO" pull --ff-only >/dev/null 2>&1 && ok "Đã cập nhật bản mới nhất" || warn "Không pull được (có thay đổi chưa lưu?) — bỏ qua."
 else
   printf '\n  Chưa có portfolio trên máy này. Sẽ tải về từ GitHub.\n'
-  printf '  Thư mục [%s]: ' "$DEFAULT_DIR"
-  read -r ANSWER </dev/tty
-  REPO="${ANSWER:-$DEFAULT_DIR}"
+  REPO="$(ask "  Thư mục [$DEFAULT_DIR]: " "$DEFAULT_DIR")"
   REPO="${REPO/#\~/$HOME}"
-  mkdir -p "$(dirname "$REPO")" || die "Không tạo được $(dirname "$REPO")"
-  git clone "$REPO_URL" "$REPO" || die "Tải repo thất bại. Kiểm tra mạng rồi thử lại."
-  ok "Đã tải về: $REPO"
+
+  if [ -d "$REPO/.git" ]; then
+    ok "Đã có sẵn: $REPO"
+  else
+    mkdir -p "$(dirname "$REPO")" || die "Không tạo được $(dirname "$REPO")"
+    git $LFS_OFF clone "$REPO_URL" "$REPO" || die "Tải repo thất bại. Kiểm tra mạng rồi thử lại."
+    ok "Đã tải về: $REPO"
+  fi
 fi
 
-[ -f "$REPO/admin/server.py" ] || die "Thư mục $REPO thiếu admin/server.py — có vẻ chưa phải bản mới."
+# Lấy bản mới nhất. Bỏ qua nếu đang có thay đổi chưa lưu — không giẫm lên chúng.
+if [ -z "$(git -C "$REPO" status --porcelain 2>/dev/null)" ]; then
+  git $LFS_OFF -C "$REPO" pull --ff-only >/dev/null 2>&1 && ok "Đã cập nhật bản mới nhất"
+fi
+
+# Cứu trường hợp lần trước clone xong nhưng checkout dở dang (thiếu git-lfs).
+if [ ! -f "$REPO/portfolio.html" ] || [ ! -f "$REPO/admin/server.py" ]; then
+  warn "Thư mục thiếu file — đang ghi lại từ bản đã tải…"
+  git $LFS_OFF -C "$REPO" checkout -f HEAD >/dev/null 2>&1 || true
+fi
+
+[ -f "$REPO/admin/server.py" ] || die "Thư mục $REPO vẫn thiếu admin/server.py.
+Xoá thư mục đó đi rồi chạy lại file này:
+    rm -rf \"$REPO\""
+
+# Có git-lfs thì kéo nội dung video thật về (thay cho file con trỏ).
+if command -v git-lfs >/dev/null 2>&1; then
+  git -C "$REPO" lfs pull >/dev/null 2>&1 && ok "Đã tải file video" || warn "Không tải được file video (bỏ qua)"
+fi
 
 # ------------------------------------------------------------
 # 3. Môi trường Python riêng
@@ -168,19 +205,40 @@ chmod +x "$APP_DIR/Contents/MacOS/launcher"
 touch "$APP_DIR"
 ok "$APP_DIR"
 
-ln -sfn "$APP_DIR" "$HOME/Desktop/$APP_NAME.app" 2>/dev/null && ok "Đã đặt icon trên Desktop"
+# ---- Shortcut trên Desktop ----
+# Ưu tiên alias thật của Finder (hiện đúng icon, bấm đúp là chạy).
+# Không được thì lùi về liên kết tượng trưng.
+ALIAS_PATH="$HOME/Desktop/$APP_NAME"
+
+[ -L "$ALIAS_PATH.app" ] && rm -f "$ALIAS_PATH.app"
+[ -L "$ALIAS_PATH" ] && rm -f "$ALIAS_PATH"
+# alias cũ là file thường — xoá để tạo lại; thư mục thật thì không đụng tới
+if [ -e "$ALIAS_PATH" ] && [ ! -d "$ALIAS_PATH" ]; then rm -f "$ALIAS_PATH"; fi
+
+if osascript -e "tell application \"Finder\" to make alias file to POSIX file \"$APP_DIR\" at POSIX file \"$HOME/Desktop\"" >/dev/null 2>&1; then
+  # Finder đặt tên kèm chữ "alias" — đổi lại cho gọn
+  [ -e "$HOME/Desktop/$APP_NAME alias" ] && mv -f "$HOME/Desktop/$APP_NAME alias" "$ALIAS_PATH"
+  ok "Shortcut trên Desktop"
+elif ln -sfn "$APP_DIR" "$ALIAS_PATH.app"; then
+  ok "Shortcut trên Desktop (dạng liên kết)"
+else
+  warn "Không đặt được shortcut trên Desktop — mở app từ Launchpad cũng được."
+fi
 
 # ------------------------------------------------------------
 # 6. Thông tin git
 # ------------------------------------------------------------
 say "[6/6] Kiểm tra git"
 
-if [ -z "$(git -C "$REPO" config user.email || true)" ]; then
-  git -C "$REPO" config user.name "dangkimanh01"
-  git -C "$REPO" config user.email "anhdangkim962@gmail.com"
-  ok "Đã đặt tên người commit"
+if [ -z "$(git -C "$REPO" config user.email 2>/dev/null || true)" ]; then
+  if git -C "$REPO" config user.name "dangkimanh01" 2>/dev/null &&
+     git -C "$REPO" config user.email "anhdangkim962@gmail.com" 2>/dev/null; then
+    ok "Đã đặt tên người commit"
+  else
+    warn "Không đặt được tên người commit — git sẽ hỏi khi đăng lên web lần đầu."
+  fi
 else
-  ok "Đã có tên người commit: $(git -C "$REPO" config user.name)"
+  ok "Đã có tên người commit: $(git -C "$REPO" config user.name 2>/dev/null)"
 fi
 warn 'Lần đầu bấm "Đăng lên web", GitHub sẽ hỏi đăng nhập trong Terminal hoặc trình duyệt.'
 
@@ -191,8 +249,8 @@ printf '  Ứng dụng   : %s\n' "$APP_DIR"
 printf '  Mở app     : bấm icon "%s" trên Desktop hoặc trong Launchpad\n' "$APP_NAME"
 printf '\033[1m============================================================\033[0m\n\n'
 
-read -r -p "Mở app luôn bây giờ? [Y/n] " RUN </dev/tty
-case "${RUN:-Y}" in
-  [Nn]*) ;;
+RUN="$(ask "Mở app luôn bây giờ? [Y/n] " "Y")"
+case "$RUN" in
+  [Nn]*) printf '\nMở sau bằng icon "%s" trên Desktop.\n\n' "$APP_NAME" ;;
   *) open "$APP_DIR" ;;
 esac
