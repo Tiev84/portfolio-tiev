@@ -50,6 +50,18 @@ except ImportError:  # pragma: no cover - app vẫn chạy, chỉ chậm hơn
 # ----------------------------------------------------------------------
 
 
+# Biến môi trường chặn git hỏi đăng nhập. Nếu máy lỡ có sẵn mấy biến này
+# (do một công cụ khác đặt), git sẽ báo "Cannot prompt" thay vì hiện ô đăng
+# nhập — nên app luôn dọn sạch chúng trước khi gọi git.
+BLOCKS_LOGIN_PROMPT = ("GCM_INTERACTIVE", "GIT_ASKPASS", "SSH_ASKPASS")
+
+
+def git_env() -> dict:
+    env = {k: v for k, v in os.environ.items() if k not in BLOCKS_LOGIN_PROMPT}
+    env["GIT_TERMINAL_PROMPT"] = "1"
+    return env
+
+
 def git(*args: str, timeout: int = 900) -> tuple[int, str]:
     proc = subprocess.run(
         ["git", "-C", str(REPO), *args],
@@ -58,6 +70,7 @@ def git(*args: str, timeout: int = 900) -> tuple[int, str]:
         encoding="utf-8",
         errors="replace",
         timeout=timeout,
+        env=git_env(),
     )
     return proc.returncode, ((proc.stdout or "") + (proc.stderr or "")).strip()
 
@@ -466,10 +479,13 @@ class Handler(SimpleHTTPRequestHandler):
         Cần thiết vì lần đầu push, GitHub phải hỏi đăng nhập — mà app chạy nền
         thì không hiện được ô đăng nhập đó.
         """
+        env = git_env()
+
         if sys.platform == "win32":
             subprocess.Popen(
                 ["cmd", "/c", "start", "", "cmd", "/k", "git push & echo. & pause"],
                 cwd=str(REPO),
+                env=env,
                 creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0),
             )
         elif sys.platform == "darwin":
@@ -478,7 +494,7 @@ class Handler(SimpleHTTPRequestHandler):
                 f'"cd {json.dumps(str(REPO))} && git push"\n'
                 'tell application "Terminal" to activate'
             )
-            subprocess.Popen(["osascript", "-e", script])
+            subprocess.Popen(["osascript", "-e", script], env=env)
         else:
             return self.send_json({"ok": False, "error": "Hệ điều hành chưa hỗ trợ"}, 400)
 
