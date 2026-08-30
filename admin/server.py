@@ -536,7 +536,24 @@ def already_running() -> bool:
         return sock.connect_ex(("127.0.0.1", PORT)) == 0
 
 
+def use_utf8_output() -> None:
+    """
+    Console Windows mặc định là cp1252, ghi log ra file cũng vậy — in tiếng Việt
+    là ném UnicodeEncodeError và app chết ngay lúc khởi động. Ép UTF-8 tại đây
+    thay vì trông chờ biến môi trường bên ngoài.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            # line_buffering: khi ghi ra file log (macOS) thì lỗi hiện ra ngay,
+            # không bị kẹt trong bộ đệm lúc app chết.
+            stream.reconfigure(encoding="utf-8", errors="replace", line_buffering=True)
+        except (AttributeError, ValueError):
+            pass
+
+
 def main() -> None:
+    use_utf8_output()
+
     if not (REPO / "portfolio.html").exists():
         sys.exit(f"Không thấy portfolio.html trong {REPO} — đặt thư mục admin/ vào gốc repo.")
 
@@ -560,7 +577,10 @@ def main() -> None:
     print('\n  Tắt app: bấm nút "Tắt app" trong trình duyệt, hoặc đóng cửa sổ này.')
     print("=" * 60)
 
-    threading.Timer(0.8, lambda: webbrowser.open(url)).start()
+    # Trên macOS, app bundle tự mở trình duyệt (đáng tin hơn khi chạy nền),
+    # nên nó đặt PORTFOLIO_NO_BROWSER=1 để tránh mở hai lần.
+    if os.environ.get("PORTFOLIO_NO_BROWSER") != "1":
+        threading.Timer(0.8, lambda: webbrowser.open(url)).start()
     try:
         server.serve_forever()
     except KeyboardInterrupt:

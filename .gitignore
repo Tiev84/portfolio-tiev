@@ -15,3 +15,6 @@ admin/.venv/
 
 # Icon macOS - trinh cai tu dung lai moi lan
 admin/ui/icon.icns
+
+# Trinh mo app tren macOS - tao boi install-mac.command
+start-mac.command

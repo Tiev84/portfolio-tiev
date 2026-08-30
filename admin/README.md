@@ -57,6 +57,17 @@ Trình duyệt tự mở <http://localhost:4321/admin/>.
 **Tắt app:** bấm nút **Tắt app** góc trên bên phải trong giao diện.
 (Trên Windows cũng có thể đóng cửa sổ đen đang thu nhỏ ở thanh taskbar.)
 
+### Nếu bấm icon mà không thấy gì (macOS)
+
+App macOS chạy ngầm, không có cửa sổ. Thử theo thứ tự:
+
+1. Mở trình duyệt vào <http://localhost:4321/admin/> — nếu ra trang thì app
+   đang chạy, chỉ là nó không tự mở trình duyệt giúp bạn.
+2. Bấm đúp `start-mac.command` trong thư mục portfolio — chạy kèm cửa sổ
+   Terminal nên thấy được lỗi.
+3. Xem nhật ký ở `~/Library/Logs/PortfolioManager.log`.
+4. Chạy lại `install-mac.command` để dựng lại app.
+
 Bấm icon hai lần cũng không sao — app biết mình đang chạy rồi và chỉ mở lại tab.
 
 ---

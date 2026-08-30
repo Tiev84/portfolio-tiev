@@ -162,68 +162,160 @@ fi
 # ------------------------------------------------------------
 say "[5/6] Tạo ứng dụng"
 
-APP_DIR="/Applications/$APP_NAME.app"
-if ! mkdir -p "$APP_DIR/Contents/MacOS" 2>/dev/null; then
-  APP_DIR="$HOME/Applications/$APP_NAME.app"
-  mkdir -p "$APP_DIR/Contents/MacOS" || die "Không tạo được app ở /Applications lẫn ~/Applications"
-  warn "Không ghi được vào /Applications — đặt ở ~/Applications"
-fi
-mkdir -p "$APP_DIR/Contents/Resources"
+LOG_PATH="$HOME/Library/Logs/PortfolioManager.log"
+mkdir -p "$HOME/Library/Logs" 2>/dev/null || true
 
-cat > "$APP_DIR/Contents/Info.plist" <<PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>CFBundleName</key>              <string>$APP_NAME</string>
-  <key>CFBundleDisplayName</key>       <string>$APP_NAME</string>
-  <key>CFBundleIdentifier</key>        <string>com.tiev.portfoliomanager</string>
-  <key>CFBundleVersion</key>           <string>1.0</string>
-  <key>CFBundleShortVersionString</key><string>1.0</string>
-  <key>CFBundlePackageType</key>       <string>APPL</string>
-  <key>CFBundleExecutable</key>        <string>launcher</string>
-  <key>CFBundleIconFile</key>          <string>icon</string>
-  <key>NSHighResolutionCapable</key>   <true/>
-</dict>
-</plist>
-PLIST
+# App được dựng bằng osacompile — công cụ có sẵn của macOS. Bundle do Apple
+# sinh ra thì Finder/Gatekeeper luôn chấp nhận, chắc ăn hơn tự tạo thư mục
+# .app bằng tay (cách cũ có máy bấm vào không chạy).
+SCRIPT_SRC="$(mktemp -t portfoliomgr).applescript"
 
-cat > "$APP_DIR/Contents/MacOS/launcher" <<LAUNCHER
+cat > "$SCRIPT_SRC" <<'APPLESCRIPT'
+-- Portfolio Manager — do install-mac.command tạo tự động.
+-- Chạy máy chủ localhost ở chế độ nền rồi mở trình duyệt.
+
+set repoPath to "__REPO__"
+set pyPath to "__PY__"
+set logPath to "__LOG__"
+set appURL to "http://localhost:__PORT__/admin/"
+
+on failWith(msg, logPath)
+	display alert "Portfolio Manager không chạy được" message msg & return & return & "Chi tiết ghi ở:" & return & logPath as critical
+	try
+		do shell script "open -a TextEdit " & quoted form of logPath
+	end try
+end failWith
+
+-- Thư mục portfolio còn nguyên không?
+try
+	do shell script "test -f " & quoted form of (repoPath & "/admin/server.py")
+on error
+	failWith("Không thấy portfolio ở:" & return & repoPath & return & return & "Có thể thư mục đã bị đổi tên hoặc xoá. Chạy lại install-mac.command để sửa.", logPath)
+	return
+end try
+
+-- Còn Python không?
+try
+	do shell script "test -x " & quoted form of pyPath
+on error
+	try
+		set pyPath to do shell script "/usr/bin/which python3"
+	on error
+		failWith("Không tìm thấy Python 3 trên máy." & return & return & "Mở Terminal chạy:  xcode-select --install", logPath)
+		return
+	end try
+end try
+
+-- Khởi động máy chủ ở chế độ nền. PORTFOLIO_NO_BROWSER=1 để nó khỏi tự mở
+-- trình duyệt — việc đó để AppleScript làm, đáng tin hơn.
+do shell script "cd " & quoted form of repoPath & " && PORTFOLIO_NO_BROWSER=1 nohup " & quoted form of pyPath & " admin/server.py >> " & quoted form of logPath & " 2>&1 &"
+
+-- Đợi máy chủ lên (tối đa ~10 giây)
+set isUp to false
+repeat 20 times
+	delay 0.5
+	try
+		do shell script "/usr/bin/curl -sf -o /dev/null --max-time 2 " & quoted form of appURL
+		set isUp to true
+		exit repeat
+	end try
+end repeat
+
+if isUp then
+	do shell script "/usr/bin/open " & quoted form of appURL
+else
+	failWith("Máy chủ localhost không khởi động được.", logPath)
+end if
+APPLESCRIPT
+
+# Nhét đường dẫn thật vào (dùng | làm dấu phân cách để khỏi vướng dấu /)
+sed -i '' \
+  -e "s|__REPO__|$REPO|g" \
+  -e "s|__PY__|$VENV/bin/python3|g" \
+  -e "s|__LOG__|$LOG_PATH|g" \
+  -e "s|__PORT__|4321|g" \
+  "$SCRIPT_SRC" 2>/dev/null || sed -i \
+  -e "s|__REPO__|$REPO|g" \
+  -e "s|__PY__|$VENV/bin/python3|g" \
+  -e "s|__LOG__|$LOG_PATH|g" \
+  -e "s|__PORT__|4321|g" \
+  "$SCRIPT_SRC"
+
+# Phương án cứu hộ, tạo TRƯỚC: file bấm đúp chạy trong Terminal. Luôn hoạt động
+# kể cả khi bundle .app gặp trục trặc.
+cat > "$REPO/start-mac.command" <<STARTER
 #!/bin/bash
-# Tự tạo bởi install-mac.command — chạy lại trình cài đặt nếu đổi chỗ thư mục.
-REPO="$REPO"
+# Mở Portfolio Manager bằng Terminal (dùng khi bấm icon không lên).
+cd "$REPO" || exit 1
 PY="$VENV/bin/python3"
-[ -x "\$PY" ] || PY="$PYTHON"
-cd "\$REPO" || exit 1
-exec "\$PY" "\$REPO/admin/server.py"
-LAUNCHER
+[ -x "\$PY" ] || PY="\$(command -v python3)"
+exec "\$PY" admin/server.py
+STARTER
+chmod +x "$REPO/start-mac.command"
 
-chmod +x "$APP_DIR/Contents/MacOS/launcher"
-[ -f "$ICNS" ] && cp "$ICNS" "$APP_DIR/Contents/Resources/icon.icns"
+APP_OK=0
+APP_DIR="/Applications/$APP_NAME.app"
+rm -rf "$APP_DIR" 2>/dev/null
+if osacompile -o "$APP_DIR" "$SCRIPT_SRC" 2>/dev/null; then
+  APP_OK=1
+else
+  APP_DIR="$HOME/Applications/$APP_NAME.app"
+  mkdir -p "$HOME/Applications"
+  rm -rf "$APP_DIR" 2>/dev/null
+  if osacompile -o "$APP_DIR" "$SCRIPT_SRC" 2>/dev/null; then
+    APP_OK=1
+    warn "Không ghi được vào /Applications — đặt ở ~/Applications"
+  else
+    warn "Máy này không dựng được ứng dụng .app — dùng cách mở bằng Terminal."
+  fi
+fi
+rm -f "$SCRIPT_SRC"
 
-# Bắt Finder đọc lại icon
-touch "$APP_DIR"
-ok "$APP_DIR"
-
-# ---- Shortcut trên Desktop ----
-# Ưu tiên alias thật của Finder (hiện đúng icon, bấm đúp là chạy).
-# Không được thì lùi về liên kết tượng trưng.
+# ---- Dọn shortcut cũ trên Desktop ----
 ALIAS_PATH="$HOME/Desktop/$APP_NAME"
-
 [ -L "$ALIAS_PATH.app" ] && rm -f "$ALIAS_PATH.app"
 [ -L "$ALIAS_PATH" ] && rm -f "$ALIAS_PATH"
+[ -f "$ALIAS_PATH.command" ] && rm -f "$ALIAS_PATH.command"
 # alias cũ là file thường — xoá để tạo lại; thư mục thật thì không đụng tới
 if [ -e "$ALIAS_PATH" ] && [ ! -d "$ALIAS_PATH" ]; then rm -f "$ALIAS_PATH"; fi
 
-if osascript -e "tell application \"Finder\" to make alias file to POSIX file \"$APP_DIR\" at POSIX file \"$HOME/Desktop\"" >/dev/null 2>&1; then
-  # Finder đặt tên kèm chữ "alias" — đổi lại cho gọn
-  [ -e "$HOME/Desktop/$APP_NAME alias" ] && mv -f "$HOME/Desktop/$APP_NAME alias" "$ALIAS_PATH"
-  ok "Shortcut trên Desktop"
-elif ln -sfn "$APP_DIR" "$ALIAS_PATH.app"; then
-  ok "Shortcut trên Desktop (dạng liên kết)"
+if [ "$APP_OK" = "1" ]; then
+  # ---- Hoàn thiện bundle: tên hiển thị + icon ----
+  PLB=/usr/libexec/PlistBuddy
+  if [ -x "$PLB" ]; then
+    "$PLB" -c "Set :CFBundleName $APP_NAME" "$APP_DIR/Contents/Info.plist" 2>/dev/null || true
+    "$PLB" -c "Add :CFBundleDisplayName string $APP_NAME" "$APP_DIR/Contents/Info.plist" 2>/dev/null ||
+      "$PLB" -c "Set :CFBundleDisplayName $APP_NAME" "$APP_DIR/Contents/Info.plist" 2>/dev/null || true
+    "$PLB" -c "Add :CFBundleIdentifier string com.tiev.portfoliomanager" "$APP_DIR/Contents/Info.plist" 2>/dev/null ||
+      "$PLB" -c "Set :CFBundleIdentifier com.tiev.portfoliomanager" "$APP_DIR/Contents/Info.plist" 2>/dev/null || true
+  fi
+
+  # osacompile đặt tên icon mặc định là applet.icns — ghi đè bằng icon của mình
+  [ -f "$ICNS" ] && cp -f "$ICNS" "$APP_DIR/Contents/Resources/applet.icns" 2>/dev/null
+
+  touch "$APP_DIR"        # bắt Finder đọc lại icon
+  LSREG="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister"
+  [ -x "$LSREG" ] && "$LSREG" -f "$APP_DIR" >/dev/null 2>&1
+  ok "$APP_DIR"
+
+  # ---- Shortcut Desktop: alias thật của Finder ----
+  if osascript -e "tell application \"Finder\" to make alias file to POSIX file \"$APP_DIR\" at POSIX file \"$HOME/Desktop\"" >/dev/null 2>&1; then
+    [ -e "$HOME/Desktop/$APP_NAME alias" ] && mv -f "$HOME/Desktop/$APP_NAME alias" "$ALIAS_PATH"
+    ok "Shortcut trên Desktop"
+  else
+    # Finder từ chối (thường do chưa cấp quyền Automation) — dùng file .command
+    cp -f "$REPO/start-mac.command" "$ALIAS_PATH.command"
+    chmod +x "$ALIAS_PATH.command"
+    warn "Finder không cho tạo alias — đã đặt \"$APP_NAME.command\" trên Desktop thay thế."
+    warn "App vẫn nằm trong Launchpad."
+  fi
 else
-  warn "Không đặt được shortcut trên Desktop — mở app từ Launchpad cũng được."
+  # Không dựng được .app: đặt thẳng file .command ra Desktop, bấm đúp vẫn chạy.
+  cp -f "$REPO/start-mac.command" "$ALIAS_PATH.command"
+  chmod +x "$ALIAS_PATH.command"
+  ok "Đã đặt \"$APP_NAME.command\" trên Desktop (mở kèm cửa sổ Terminal)"
 fi
+
 
 # ------------------------------------------------------------
 # 6. Thông tin git

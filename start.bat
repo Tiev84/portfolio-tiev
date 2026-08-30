@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 title Portfolio Manager - Tiev
 cd /d "%~dp0"
 
