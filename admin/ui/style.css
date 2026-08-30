@@ -150,6 +150,12 @@ code {
   background: #3a1e1d;
 }
 
+.btn.primary.pending {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
 .btn.quit {
   color: var(--text-muted);
 }

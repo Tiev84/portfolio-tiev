@@ -62,16 +62,37 @@ def git(*args: str, timeout: int = 900) -> tuple[int, str]:
     return proc.returncode, ((proc.stdout or "") + (proc.stderr or "")).strip()
 
 
+AUTH_HINTS = (
+    "could not read username",
+    "authentication failed",
+    "terminal prompts disabled",
+    "invalid username or password",
+    "permission denied",
+    "403",
+)
+
+
+def looks_like_auth_error(text: str) -> bool:
+    low = text.lower()
+    return any(hint in low for hint in AUTH_HINTS)
+
+
+def unpushed_count() -> int:
+    """Số commit đã lưu ở máy nhưng chưa đẩy lên GitHub."""
+    code, out = git("rev-list", "--count", "@{u}..HEAD", timeout=30)
+    return int(out) if code == 0 and out.isdigit() else 0
+
+
 def git_status() -> dict:
     code, out = git("status", "--porcelain")
     if code != 0:
-        return {"ok": False, "error": out, "changes": []}
+        return {"ok": False, "error": out, "changes": [], "ahead": 0}
     changes = []
     for line in out.splitlines():
         if len(line) > 3:
             changes.append({"state": line[:2].strip() or "?", "path": line[3:].strip()})
     _, branch = git("rev-parse", "--abbrev-ref", "HEAD")
-    return {"ok": True, "branch": branch, "changes": changes}
+    return {"ok": True, "branch": branch, "changes": changes, "ahead": unpushed_count()}
 
 
 # ----------------------------------------------------------------------
@@ -406,23 +427,62 @@ class Handler(SimpleHTTPRequestHandler):
         if code != 0:
             return self.send_json({"ok": False, "step": "add", "error": out}, 500)
 
-        code, out = git("status", "--porcelain")
-        if not out.strip():
+        # Có thay đổi mới thì lưu lại. Không có cũng không sao — có thể lần
+        # trước đã lưu rồi mà push hỏng, giờ chỉ cần push tiếp.
+        commit_out = ""
+        _, dirty = git("status", "--porcelain")
+        if dirty.strip():
+            code, commit_out = git("commit", "-m", message)
+            if code != 0:
+                return self.send_json({"ok": False, "step": "commit", "error": commit_out}, 500)
+
+        ahead = unpushed_count()
+        if ahead == 0:
             return self.send_json(
                 {"ok": True, "nothing": True, "message": "Không có gì thay đổi để đăng.", **result}
             )
 
-        code, commit_out = git("commit", "-m", message)
-        if code != 0:
-            return self.send_json({"ok": False, "step": "commit", "error": commit_out}, 500)
-
         code, push_out = git("push")
         if code != 0:
+            print("\n--- git push thất bại ---\n" + push_out + "\n-------------------------\n")
             return self.send_json(
-                {"ok": False, "step": "push", "error": push_out, "committed": True}, 500
+                {
+                    "ok": False,
+                    "step": "push",
+                    "error": push_out,
+                    "committed": True,
+                    "ahead": ahead,
+                    "auth": looks_like_auth_error(push_out),
+                },
+                500,
             )
 
         self.send_json({"ok": True, "log": f"{commit_out}\n\n{push_out}".strip(), **result})
+
+    def api_git_terminal(self):
+        """
+        Mở một cửa sổ dòng lệnh thật rồi chạy `git push` trong đó.
+
+        Cần thiết vì lần đầu push, GitHub phải hỏi đăng nhập — mà app chạy nền
+        thì không hiện được ô đăng nhập đó.
+        """
+        if sys.platform == "win32":
+            subprocess.Popen(
+                ["cmd", "/c", "start", "", "cmd", "/k", "git push & echo. & pause"],
+                cwd=str(REPO),
+                creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0),
+            )
+        elif sys.platform == "darwin":
+            script = (
+                f'tell application "Terminal" to do script '
+                f'"cd {json.dumps(str(REPO))} && git push"\n'
+                'tell application "Terminal" to activate'
+            )
+            subprocess.Popen(["osascript", "-e", script])
+        else:
+            return self.send_json({"ok": False, "error": "Hệ điều hành chưa hỗ trợ"}, 400)
+
+        self.send_json({"ok": True})
 
     # ---- tiện ích hệ thống --------------------------------------------
 

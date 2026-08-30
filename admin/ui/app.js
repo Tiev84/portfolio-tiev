@@ -126,10 +126,27 @@ async function load() {
   PLACEHOLDER = data.placeholder;
   $("#repo-path").textContent = data.repo;
   renderList();
+  refreshPublishBadge();
   if (current) {
     const fresh = PROJECTS.find((p) => p.id === current.id);
     if (fresh) openProject(fresh.id);
     else showList();
+  }
+}
+
+/** Nhắc trên nút khi có thay đổi đã lưu ở máy nhưng chưa lên GitHub. */
+async function refreshPublishBadge() {
+  const button = $("#btn-publish");
+  try {
+    const status = await api("/api/git/status");
+    const waiting = status.ahead || 0;
+    button.textContent = waiting ? `Đăng lên web · ${waiting} chờ` : "Đăng lên web";
+    button.classList.toggle("pending", waiting > 0);
+    button.title = waiting
+      ? `${waiting} lần lưu đang chờ đẩy lên GitHub`
+      : "Lưu và đẩy thay đổi lên GitHub";
+  } catch {
+    /* không lấy được trạng thái git thì cứ để nút như cũ */
   }
 }
 
@@ -645,6 +662,42 @@ function tagged(labelText, input) {
   return wrap;
 }
 
+/* ---- Chưa đăng nhập GitHub ---- */
+
+function showLoginNeeded(data) {
+  modal({
+    title: "Cần đăng nhập GitHub một lần",
+    body: [
+      el(
+        "p",
+        "hint",
+        `Thay đổi đã được <b>lưu trên máy</b> (${data.ahead || 1} lần lưu chờ đăng), nhưng GitHub
+         chưa biết bạn là ai nên không cho đẩy lên.<br /><br />
+         Bấm nút bên dưới — một <b>cửa sổ đen</b> sẽ mở ra và hiện ô đăng nhập GitHub.
+         Đăng nhập xong, cửa sổ đó báo thành công thì đóng lại, quay về đây bấm
+         “Đăng lên web” lần nữa. Chỉ phải làm một lần duy nhất.`
+      ),
+      el("div", "log error", escapeHtml(data.error || "")),
+    ],
+    actions: [
+      { label: "Để sau", onClick: closeModal },
+      {
+        label: "Mở cửa sổ đăng nhập",
+        kind: "primary",
+        onClick: async () => {
+          closeModal();
+          try {
+            await post("/api/git/terminal");
+            toast("Đã mở cửa sổ đăng nhập — làm theo hướng dẫn trong đó", "ok");
+          } catch (err) {
+            toast(err.message, "err");
+          }
+        },
+      },
+    ],
+  });
+}
+
 /* ---- Đăng lên web ---- */
 
 $("#btn-publish").onclick = async () => {
@@ -655,7 +708,7 @@ $("#btn-publish").onclick = async () => {
 
   const body = el("div");
 
-  if (!status.changes.length) {
+  if (!status.changes.length && !status.ahead) {
     body.appendChild(el("p", "hint", "Không có thay đổi nào so với bản đang chạy trên web."));
     return modal({
       title: "Đăng lên web",
@@ -664,26 +717,36 @@ $("#btn-publish").onclick = async () => {
     });
   }
 
+  const parts = [];
+  if (status.changes.length) parts.push(`<b>${status.changes.length}</b> thay đổi mới`);
+  if (status.ahead) {
+    parts.push(
+      `<b>${status.ahead}</b> lần lưu trước đó <b style="color:var(--red)">chưa lên được GitHub</b>`
+    );
+  }
+
   body.appendChild(
     el(
       "p",
       "hint",
-      `Sẽ đẩy <b>${status.changes.length}</b> thay đổi lên nhánh <code>${escapeHtml(
+      `Sẽ đẩy ${parts.join(" và ")} lên nhánh <code>${escapeHtml(
         status.branch
-      )}</code> của GitHub. Web sẽ tự cập nhật sau 1–2 phút.`
+      )}</code>. Web tự cập nhật sau 1–2 phút.`
     )
   );
 
-  const files = el("div", "file-list");
-  status.changes.slice(0, 300).forEach((change) => {
-    files.innerHTML += `<span class="st">${escapeHtml(change.state)}</span>${escapeHtml(
-      change.path
-    )}<br />`;
-  });
-  if (status.changes.length > 300) {
-    files.innerHTML += `… và ${status.changes.length - 300} file nữa`;
+  if (status.changes.length) {
+    const files = el("div", "file-list");
+    status.changes.slice(0, 300).forEach((change) => {
+      files.innerHTML += `<span class="st">${escapeHtml(change.state)}</span>${escapeHtml(
+        change.path
+      )}<br />`;
+    });
+    if (status.changes.length > 300) {
+      files.innerHTML += `… và ${status.changes.length - 300} file nữa`;
+    }
+    body.appendChild(files);
   }
-  body.appendChild(files);
 
   const message = el("input");
   message.type = "text";
@@ -735,6 +798,8 @@ $("#btn-publish").onclick = async () => {
               });
             }
 
+            if (data.auth) return showLoginNeeded(data);
+
             const stepText =
               { add: "gom file", commit: "lưu thay đổi", push: "đẩy lên GitHub" }[data.step] ||
               "xử lý";
@@ -745,7 +810,7 @@ $("#btn-publish").onclick = async () => {
                   "p",
                   "hint",
                   data.committed
-                    ? "Thay đổi đã được lưu (commit) nhưng chưa đẩy lên được. Bạn có thể mở GitHub Desktop bấm Push, hoặc thử lại."
+                    ? "Thay đổi đã được <b>lưu trên máy</b> nhưng <b>chưa lên GitHub</b>. Sửa lỗi bên dưới rồi bấm “Đăng lên web” lại — app sẽ đẩy tiếp, không mất gì cả."
                     : "Chưa có gì được đẩy lên. Nội dung lỗi từ git:"
                 ),
                 el("div", "log error", escapeHtml(data.error || "")),
