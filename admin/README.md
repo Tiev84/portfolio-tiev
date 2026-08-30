@@ -1,0 +1,139 @@
+# Portfolio Manager
+
+App localhost để thêm / sửa / xóa ảnh cho portfolio mà không phải mở code.
+
+---
+
+## Cài đặt
+
+### Windows
+
+1. Bấm đúp **`install-windows.bat`** ở thư mục gốc của repo.
+2. Xong — icon **Portfolio Manager** xuất hiện trên Desktop.
+
+Trình cài đặt sẽ tự kiểm tra Python, cài Pillow, dựng icon và tạo shortcut.
+Nếu báo thiếu Python: tải ở <https://www.python.org/downloads/>, nhớ tick
+**"Add Python to PATH"** rồi chạy lại.
+
+### macOS
+
+Mở **Terminal** (Cmd + Space, gõ `terminal`), dán nguyên dòng này rồi Enter:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tiev84/portfolio-tiev/main/install-mac.command -o ~/Downloads/install-mac.command && chmod +x ~/Downloads/install-mac.command && ~/Downloads/install-mac.command
+```
+
+Trình cài đặt sẽ tự làm hết: tải portfolio về `~/Documents/portfolio-tiev`,
+cài thư viện, tạo icon và đặt app **Portfolio Manager** vào Launchpad + Desktop.
+
+Nếu đã tải repo về máy Mac rồi thì chỉ cần bấm đúp `install-mac.command`
+trong thư mục repo.
+
+**Cần có sẵn:** `git` và `python3`. Nếu thiếu, mở Terminal chạy:
+
+```bash
+xcode-select --install
+```
+
+Muốn xem được file video `.mp4` trong project GALA thì cài thêm git-lfs
+(qua [Homebrew](https://brew.sh)):
+
+```bash
+brew install git-lfs
+```
+
+> Đổi chỗ thư mục portfolio trên máy Mac thì chạy lại `install-mac.command`,
+> vì app nhớ đường dẫn cũ.
+
+---
+
+## Chạy app
+
+- **Windows:** bấm icon **Portfolio Manager** trên Desktop (hoặc `start.bat`).
+- **macOS:** bấm icon **Portfolio Manager** trên Desktop hoặc trong Launchpad.
+
+Trình duyệt tự mở <http://localhost:4321/admin/>.
+
+**Tắt app:** bấm nút **Tắt app** góc trên bên phải trong giao diện.
+(Trên Windows cũng có thể đóng cửa sổ đen đang thu nhỏ ở thanh taskbar.)
+
+Bấm icon hai lần cũng không sao — app biết mình đang chạy rồi và chỉ mở lại tab.
+
+---
+
+## Cách hoạt động
+
+**Mỗi thư mục trong `assets/project/` là một project.**
+
+```
+assets/project/
+  ĐIỀN QUÂN NETWORK/
+    _project.json          <- tên, mô tả, thứ tự ảnh (app tự ghi)
+    bingto vlog poster.png
+    cbcbec8a-....jpg
+  EXPO SUC KHOE DROPPII/
+    ...
+```
+
+- Bỏ ảnh mới vào thư mục bằng Explorer / Finder → bấm **Quét lại thư mục**
+  trong app, ảnh tự động được thêm vào cuối danh sách.
+- Xóa ảnh khỏi thư mục → ảnh tự rớt khỏi web ở lần quét sau.
+- Không sửa tay `_project.json` — app sẽ ghi đè.
+
+Từ dữ liệu đó, app tạo lại hai chỗ trên web:
+
+| File | Nội dung |
+|---|---|
+| `js/projects-data.js` | toàn bộ dữ liệu project (tạo tự động) |
+| `portfolio.html` | lưới project, phần nằm giữa `PROJECTS:START` và `PROJECTS:END` |
+
+Phần còn lại của `portfolio.html` (header, footer, script…) không bị đụng tới.
+
+---
+
+## Trong app làm được gì
+
+| Nút | Việc |
+|---|---|
+| Kéo thả thẻ project | đổi thứ tự hiện trên trang portfolio |
+| **Sửa** | mở màn chỉnh tên, danh mục, mô tả, thẻ rộng/hẹp |
+| Kéo thả ô ảnh | đổi thứ tự ảnh trong project |
+| **⭐ Bìa** | chọn ảnh làm thumbnail ngoài trang portfolio |
+| **🚫 Ẩn** | giữ file trong thư mục nhưng không hiện trên web |
+| **🗑** | xóa ảnh (chuyển vào `admin/_trash/`, vẫn lấy lại được) |
+| **+ Thêm ảnh** / kéo file vào | copy ảnh từ máy vào thư mục project |
+| **+ Project mới** | tạo thư mục + project mới |
+| **Mở thư mục** | mở thư mục project trong Explorer / Finder |
+| **Xem thử web** | mở trang portfolio thật đang chạy trên localhost |
+| **Đăng lên web** | `git add` + `commit` + `push` — thay cho GitHub Desktop |
+| **Tắt app** | dừng máy chủ localhost |
+
+---
+
+## Xóa nhầm thì sao
+
+Mọi thứ bị xóa đều nằm trong `admin/_trash/<ngày-giờ>/`.
+Kéo ngược lại vào thư mục project rồi bấm **Quét lại thư mục** là xong.
+Thư mục này không được đẩy lên GitHub.
+
+## Nếu "Đăng lên web" báo lỗi
+
+App sẽ hiện nguyên văn lỗi của git. Trường hợp hay gặp:
+
+- **push bị từ chối / hỏi đăng nhập** → đăng nhập GitHub một lần
+  (Windows: mở GitHub Desktop bấm Push; macOS: làm theo hướng dẫn hiện trong
+  Terminal hoặc trình duyệt). Các lần sau app tự push được.
+- **đã commit nhưng chưa push** → mở GitHub Desktop, bấm **Push origin**.
+
+---
+
+## Chạy tay bằng dòng lệnh
+
+```bash
+py -3 admin/server.py          # Windows: mở app
+admin/.venv/bin/python3 admin/server.py   # macOS: mở app
+py -3 admin/make_icon.py       # dựng lại icon
+py -3 admin/migrate.py         # xem trước việc gom ảnh vào thư mục (đã chạy 1 lần)
+```
+
+Đổi cổng nếu 4321 bị chiếm: đặt biến môi trường `PORTFOLIO_ADMIN_PORT`.

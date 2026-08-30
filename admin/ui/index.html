@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio Manager — Tiev</title>
+    <link rel="icon" href="/admin/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/style.css" />
+  </head>
+  <body>
+    <!-- ================= THANH TRÊN ================= -->
+    <header class="bar">
+      <div class="bar-left">
+        <img class="bar-logo" src="/admin/icon.png" alt="" />
+        <div>
+          <strong>PORTFOLIO MANAGER</strong>
+          <span class="bar-repo" id="repo-path"></span>
+        </div>
+      </div>
+
+      <div class="bar-right">
+        <button class="btn ghost" id="btn-rescan" title="Đọc lại ảnh trong các thư mục">
+          Quét lại thư mục
+        </button>
+        <button class="btn ghost" id="btn-open-root" title="Mở assets/project trong Explorer">
+          Mở thư mục
+        </button>
+        <a class="btn ghost" href="/portfolio.html" target="_blank">Xem thử web</a>
+        <button class="btn primary" id="btn-publish">Đăng lên web</button>
+        <button class="btn ghost quit" id="btn-quit" title="Dừng máy chủ localhost">
+          Tắt app
+        </button>
+      </div>
+    </header>
+
+    <!-- ================= DANH SÁCH PROJECT ================= -->
+    <main id="view-list" class="view">
+      <div class="page-head container">
+        <div>
+          <h1>Các project</h1>
+          <p class="hint">
+            Mỗi thư mục trong <code>assets/project/</code> là một project. Kéo thả thẻ để đổi
+            thứ tự hiển thị trên web.
+          </p>
+        </div>
+        <button class="btn primary" id="btn-new">+ Project mới</button>
+      </div>
+
+      <section class="projects container">
+        <div class="project-grid" id="project-grid"></div>
+      </section>
+    </main>
+
+    <!-- ================= SỬA MỘT PROJECT ================= -->
+    <main id="view-edit" class="view hidden">
+      <div class="container">
+        <button class="link-back" id="btn-back">← Quay lại danh sách</button>
+
+        <div class="edit-head">
+          <h1 id="edit-title-display">…</h1>
+          <div class="edit-head-actions">
+            <button class="btn ghost" id="btn-open-project">Mở thư mục</button>
+            <button class="btn danger ghost" id="btn-delete-project">Xóa project</button>
+          </div>
+        </div>
+
+        <div class="edit-grid">
+          <!-- Thông tin -->
+          <div class="card">
+            <h2>Thông tin</h2>
+
+            <label>Tên project (hiện trên web)</label>
+            <input id="f-title" type="text" />
+
+            <label>Danh mục</label>
+            <input id="f-category" type="text" placeholder="SOCIAL MEDIA | POSM" />
+
+            <label>Mô tả</label>
+            <textarea id="f-description" rows="7"></textarea>
+
+            <label class="check">
+              <input id="f-wide" type="checkbox" />
+              Thẻ rộng (chiếm nửa hàng trên trang portfolio)
+            </label>
+
+            <div class="meta-lines">
+              <div><span>Thư mục</span><code id="f-folder"></code></div>
+              <div><span>Địa chỉ web</span><code id="f-id"></code></div>
+            </div>
+
+            <button class="btn primary wide" id="btn-save-meta">Lưu thông tin</button>
+          </div>
+
+          <!-- Ảnh -->
+          <div class="card">
+            <div class="card-head">
+              <h2>Hình ảnh <span class="count" id="img-count"></span></h2>
+              <div>
+                <button class="btn ghost small" id="btn-add-image">+ Thêm ảnh</button>
+              </div>
+            </div>
+
+            <p class="hint">
+              Kéo thả để đổi thứ tự. Ảnh đầu tiên (hoặc ảnh gắn ⭐) sẽ làm ảnh bìa.
+              Bạn cũng có thể kéo file thẳng từ máy vào khung dưới đây.
+            </p>
+
+            <div class="dropzone" id="dropzone">
+              <div class="image-grid" id="image-grid"></div>
+              <p class="dropzone-hint">Thả ảnh vào đây để thêm</p>
+            </div>
+
+            <input id="file-input" type="file" multiple accept="image/*,video/*" hidden />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= MODAL ================= -->
+    <div class="modal-backdrop hidden" id="modal">
+      <div class="modal">
+        <h2 id="modal-title"></h2>
+        <div id="modal-body"></div>
+        <div class="modal-actions" id="modal-actions"></div>
+      </div>
+    </div>
+
+    <div class="toast-wrap" id="toasts"></div>
+    <div class="busy hidden" id="busy"><div class="spinner"></div><span id="busy-text"></span></div>
+
+    <script src="/admin/app.js"></script>
+  </body>
+</html>

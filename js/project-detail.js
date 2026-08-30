@@ -1,133 +1,10 @@
-const projects = {
-  "event-droppii": {
-    category: "SOCIAL MEDIA | EVENT | POSM | UI - UX DESIGN",
-    title: "Event Đại hội năm 2026 Droppii",
+/* =========================================================
+   Dữ liệu project nằm ở js/projects-data.js (do admin app tạo).
+   Muốn thêm / bớt / đổi thứ tự ảnh: mở app quản lý (start.bat),
+   chỉnh trong đó rồi bấm "Đăng lên web".
+   ========================================================= */
 
-    description:
-      "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
-
-    images: [
-      "assets/project/GALA/thumb dhn.jpg",
-      "assets/project/GALA/video.mp4",
-      "assets/project/GALA/3.jpg",
-      "assets/project/GALA/4.jpg",
-      "assets/project/GALA/5.jpg",
-      "assets/project/GALA/6.png",
-      "assets/project/GALA/7.png",
-      "assets/project/GALA/8.png",
-      "assets/project/GALA/9.png",
-      "assets/project/GALA/10.png",
-      "assets/project/GALA/11.png",
-      "assets/project/GALA/12.png",
-      "assets/project/GALA/13.png",
-      "assets/project/GALA/14.jpg",
-      "assets/project/GALA/15.jpg",
-      "assets/project/GALA/16.png",
-      "assets/project/GALA/17.png",
-      "assets/project/GALA/18.jpg",
-      "assets/project/GALA/19.png",
-      "assets/project/GALA/20.jpg",
-      "assets/project/GALA/21.jpg",
-      "assets/project/GALA/22.jpg",
-      "assets/project/GALA/23.jpg",
-      "assets/project/GALA/24.jpg",
-    ],
-  },
-
-  "digital-advertising-droppii": {
-    category: "SOCIAL MEDIA | UI - UX DESIGN",
-
-    title: "Digital advertising Droppii",
-
-    description:
-      "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
-
-    images: [
-      "assets/project/thumb ads (1).png",
-      "assets/project/153 OPT2.png",
-      "assets/project/180.png",
-      "assets/project/ADS 5.png",
-      "assets/project/2.png",
-      "assets/project/5.png",
-      "assets/project/ADS 4.png",
-      "assets/project/ADS PT TEXT 2.png",
-      "assets/project/181.png",
-      "assets/project/ADS 6.png",
-      "assets/project/LP ADS.png",
-      "assets/project/Landingpage droppii mall sua.png",
-      "assets/project/LP AI (1).png",
-    ],
-  },
-
-  "expo-hang-moi-droppii": {
-    category: "SOCIAL MEDIA | POSM",
-
-    title: "Expo hàng mới lên kệ Droppii",
-
-    description:
-      "Hệ thống thiết kế truyền thông và POSM phục vụ hoạt động giới thiệu các sản phẩm mới trên nền tảng Droppii.",
-
-    images: [
-      "assets/projects/expo-hang-moi/01.jpg",
-      "assets/projects/expo-hang-moi/02.jpg",
-      "assets/projects/expo-hang-moi/03.jpg",
-      "assets/projects/expo-hang-moi/04.jpg",
-      "assets/projects/expo-hang-moi/05.jpg",
-      "assets/projects/expo-hang-moi/06.jpg",
-      "assets/projects/expo-hang-moi/07.jpg",
-      "assets/projects/expo-hang-moi/08.jpg",
-      "assets/projects/expo-hang-moi/09.jpg",
-    ],
-  },
-
-  "expo-health": {
-    category: "SOCIAL MEDIA | POSM",
-
-    title: "Expo sức khỏe Droppii",
-
-    description: "Meta meta meta",
-
-    images: [
-      "assets/project/thumb expo (1).png",
-      "assets/project/DIEM HEN SUC KHOE TEASER 2.png",
-      "assets/project/bia km.png",
-      "assets/project/TRAI NGHIEM GI.png",
-      "assets/project/backdrop.png",
-      "assets/project/standee.png",
-      "assets/project/pic.png",
-    ],
-  },
-
-  "sale-event": {
-    category: "SOCIAL MEDIA | UI - UX DESIGN",
-
-    title: "Sale event Droppii",
-
-    description: "Meta meta meta",
-
-    images: [
-      "assets/project/thumb 283 (1).png",
-      "assets/project/teaser.png",
-      "assets/project/full rule 28 vuong.png",
-      "assets/project/full rule 28 vuong 2.png",
-      "assets/project/bia km (1).png",
-      "assets/project/LP.png",
-    ],
-  },
-
-  "bingto-vlog": {
-    category: "Social Media",
-
-    title: "Bingto Vlog - Điền Quân Network",
-
-    description: "Meta meta meta",
-
-    images: [
-      "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
-      "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
-    ],
-  },
-};
+const projects = window.PROJECTS || {};
 
 /* =========================
    GET PROJECT FROM URL
@@ -137,7 +14,10 @@ const params = new URLSearchParams(window.location.search);
 
 const projectId = params.get("project");
 
-const project = projects[projectId] || projects["event-droppii"];
+const fallbackId = Object.keys(projects)[0];
+
+const project = projects[projectId] ||
+  projects[fallbackId] || { category: "", title: "", description: "", images: [] };
 
 /* =========================
    INSERT CONTENT

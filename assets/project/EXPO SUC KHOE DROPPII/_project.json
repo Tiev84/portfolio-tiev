@@ -1,0 +1,21 @@
+{
+  "id": "expo-health",
+  "title": "Expo sức khỏe Droppii",
+  "category": "SOCIAL MEDIA | POSM",
+  "description": "Meta meta meta",
+  "wide": false,
+  "order": 4,
+  "cover": "thumb expo (1).png",
+  "images": [
+    "thumb expo (1).png",
+    "DIEM HEN SUC KHOE TEASER 2.png",
+    "bia km.png",
+    "TRAI NGHIEM GI.png",
+    "backdrop.png",
+    "standee.png",
+    "pic.png"
+  ],
+  "hidden": [
+    "REMIND HN.png"
+  ]
+}

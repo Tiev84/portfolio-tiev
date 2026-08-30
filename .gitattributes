@@ -1,3 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 *.mp4 filter=lfs diff=lfs merge=lfs -text
+
+# Script cho macOS/Linux phải giữ xuống dòng kiểu LF, không thì bash báo lỗi
+*.command text eol=lf
+*.sh      text eol=lf
+# Script cho Windows giữ CRLF
+*.bat     text eol=crlf
+*.ps1     text eol=crlf

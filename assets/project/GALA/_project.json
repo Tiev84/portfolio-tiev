@@ -1,0 +1,39 @@
+{
+  "id": "event-droppii",
+  "title": "Event Đại hội năm 2026 Droppii",
+  "category": "SOCIAL MEDIA | EVENT | POSM",
+  "description": "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
+  "wide": true,
+  "order": 1,
+  "cover": "thumb dhn.jpg",
+  "images": [
+    "thumb dhn.jpg",
+    "video.mp4",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.png",
+    "7.png",
+    "8.png",
+    "9.png",
+    "10.png",
+    "11.png",
+    "12.png",
+    "13.png",
+    "14.jpg",
+    "15.jpg",
+    "16.png",
+    "17.png",
+    "18.jpg",
+    "19.png",
+    "20.jpg",
+    "21.jpg",
+    "22.jpg",
+    "23.jpg",
+    "24.jpg"
+  ],
+  "hidden": [
+    "12h.png",
+    "619556438_2633119150377312_1179977227882623657_n.jpg"
+  ]
+}

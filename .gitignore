@@ -1,0 +1,14 @@
+# App quản lý portfolio
+admin/_trash/
+admin/_cache/
+admin/__pycache__/
+__pycache__/
+
+# Rác hệ thống
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# Moi truong Python cua app (macOS)
+admin/.venv/
