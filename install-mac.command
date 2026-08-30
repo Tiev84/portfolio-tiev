@@ -172,60 +172,40 @@ SCRIPT_SRC="$(mktemp -t portfoliomgr).applescript"
 
 cat > "$SCRIPT_SRC" <<'APPLESCRIPT'
 -- Portfolio Manager — do install-mac.command tạo tự động.
--- Chạy máy chủ localhost ở chế độ nền rồi mở trình duyệt.
+-- Nhiệm vụ duy nhất: mở start-mac.command trong Terminal.
+-- Chạy trong Terminal (thay vì chạy ngầm) để lỗi hiện ra trước mắt,
+-- giống hệt cửa sổ đen của bản Windows.
 
 set repoPath to "__REPO__"
-set pyPath to "__PY__"
-set logPath to "__LOG__"
-set appURL to "http://localhost:__PORT__/admin/"
+set starterPath to repoPath & "/start-mac.command"
 
-on failWith(msg, logPath)
-	display alert "Portfolio Manager không chạy được" message msg & return & return & "Chi tiết ghi ở:" & return & logPath as critical
-	try
-		do shell script "open -a TextEdit " & quoted form of logPath
-	end try
+on failWith(msg)
+	display alert "Portfolio Manager không chạy được" message msg as critical
 end failWith
 
 -- Thư mục portfolio còn nguyên không?
 try
 	do shell script "test -f " & quoted form of (repoPath & "/admin/server.py")
 on error
-	failWith("Không thấy portfolio ở:" & return & repoPath & return & return & "Có thể thư mục đã bị đổi tên hoặc xoá. Chạy lại install-mac.command để sửa.", logPath)
+	failWith("Không thấy portfolio ở:" & return & repoPath & return & return & "Có thể thư mục đã bị đổi tên hoặc xoá. Chạy lại install-mac.command để sửa.")
 	return
 end try
 
--- Còn Python không?
+-- File khởi động còn không?
 try
-	do shell script "test -x " & quoted form of pyPath
+	do shell script "test -x " & quoted form of starterPath
 on error
-	try
-		set pyPath to do shell script "/usr/bin/which python3"
-	on error
-		failWith("Không tìm thấy Python 3 trên máy." & return & return & "Mở Terminal chạy:  xcode-select --install", logPath)
-		return
-	end try
+	failWith("Thiếu file khởi động:" & return & starterPath & return & return & "Chạy lại install-mac.command để tạo lại.")
+	return
 end try
 
--- Khởi động máy chủ ở chế độ nền. PORTFOLIO_NO_BROWSER=1 để nó khỏi tự mở
--- trình duyệt — việc đó để AppleScript làm, đáng tin hơn.
-do shell script "cd " & quoted form of repoPath & " && PORTFOLIO_NO_BROWSER=1 nohup " & quoted form of pyPath & " admin/server.py >> " & quoted form of logPath & " 2>&1 &"
-
--- Đợi máy chủ lên (tối đa ~10 giây)
-set isUp to false
-repeat 20 times
-	delay 0.5
-	try
-		do shell script "/usr/bin/curl -sf -o /dev/null --max-time 2 " & quoted form of appURL
-		set isUp to true
-		exit repeat
-	end try
-end repeat
-
-if isUp then
-	do shell script "/usr/bin/open " & quoted form of appURL
-else
-	failWith("Máy chủ localhost không khởi động được.", logPath)
-end if
+-- open -a Terminal không cần xin quyền điều khiển ứng dụng, khác với
+-- \"tell application Terminal\" — nên chạy được ngay từ lần đầu.
+try
+	do shell script "/usr/bin/open -a Terminal " & quoted form of starterPath
+on error errMsg
+	failWith("Không mở được Terminal." & return & return & errMsg)
+end try
 APPLESCRIPT
 
 # Nhét đường dẫn thật vào (dùng | làm dấu phân cách để khỏi vướng dấu /)
@@ -245,11 +225,31 @@ sed -i '' \
 # kể cả khi bundle .app gặp trục trặc.
 cat > "$REPO/start-mac.command" <<STARTER
 #!/bin/bash
-# Mở Portfolio Manager bằng Terminal (dùng khi bấm icon không lên).
-cd "$REPO" || exit 1
+# Mở Portfolio Manager. Tạo tự động bởi install-mac.command.
+# Cửa sổ Terminal này chính là "máy chủ" — đóng nó là app tắt.
+
+cd "$REPO" || { echo "Không mở được thư mục: $REPO"; read -r _; exit 1; }
+
 PY="$VENV/bin/python3"
 [ -x "\$PY" ] || PY="\$(command -v python3)"
-exec "\$PY" admin/server.py
+if [ -z "\$PY" ]; then
+  echo "Không tìm thấy Python 3 trên máy."
+  echo "Mở Terminal chạy:  xcode-select --install"
+  read -r _
+  exit 1
+fi
+
+"\$PY" admin/server.py
+CODE=\$?
+
+if [ \$CODE -ne 0 ]; then
+  echo
+  echo "============================================================"
+  echo "  App dừng với mã lỗi \$CODE."
+  echo "  Chụp màn hình cửa sổ này để biết nguyên nhân."
+  echo "============================================================"
+  read -r _
+fi
 STARTER
 chmod +x "$REPO/start-mac.command"
 

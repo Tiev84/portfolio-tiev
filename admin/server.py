@@ -41,8 +41,8 @@ try:
     from PIL import Image, ImageOps
 
     HAS_PIL = True
-except ImportError:  # pragma: no cover - app vẫn chạy, chỉ chậm hơn
-    HAS_PIL = False
+except Exception:  # thiếu Pillow, hoặc Pillow cài hỏng/sai kiến trúc máy
+    HAS_PIL = False  # app vẫn chạy, chỉ là ảnh xem trước nặng hơn
 
 
 # ----------------------------------------------------------------------
