@@ -1,11 +1,18 @@
 {
   "id": "1",
-  "title": "Series Khoảnh khắc vô giá Droppii",
+  "title": "SERIES KHOẢNH KHẮC VÔ GIÁ DROPPII",
   "category": "SOCIAL MEDIA",
-  "description": "",
+  "description": "Series bài viết “Khoảnh Khắc Vô Giá” trên Fanpage Droppii là không gian lắng đọng để ghi dấu và tôn vinh hành trình nỗ lực của các đối tác kinh doanh thông qua những chuyến du lịch tưởng thưởng hàng năm. Đồng hành cùng chiến dịch, Tiến trực tiếp thiết kế toàn bộ các bài đăng Social Media, tập trung vào việc trau chuốt hình ảnh, khéo léo lồng ghép cảm xúc và duy trì tính đồng bộ với nhận diện thương hiệu. Từng thiết kế không chỉ tái hiện trọn vẹn những khoảnh khắc đáng nhớ mà còn tạo cảm hứng truyền động lực mạnh mẽ tới cộng đồng đối tác Droppii.",
   "wide": true,
   "order": 11,
-  "cover": "",
-  "images": [],
+  "cover": "THUMB kkvg.jpg",
+  "images": [
+    "THUMB kkvg.jpg",
+    "khoanh khac 2.png",
+    "post 1.png",
+    "post 2.png",
+    "post 3png.png",
+    "post 4.png"
+  ],
   "hidden": []
 }

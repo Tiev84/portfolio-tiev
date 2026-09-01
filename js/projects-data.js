@@ -6,7 +6,7 @@
 window.PROJECTS = {
   "event-droppii": {
     category: "SOCIAL MEDIA | EVENT",
-    title: "Event Đại hội năm 2026 Droppii",
+    title: "GALA ĐẠI HỘI NĂM 2026 DROPPII",
     description: "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
     images: [
       "assets/project/GALA/thumb dhn.jpg",
@@ -37,7 +37,7 @@ window.PROJECTS = {
   },
   "digital-advertising-droppii": {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
-    title: "Digital advertising Droppii",
+    title: "DIGITAL ADVERTISING DROPPII",
     description: "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
     images: [
       "assets/project/DIGITAL ADVERTISING DROPPII/thumb ads (1).png",
@@ -57,7 +57,7 @@ window.PROJECTS = {
   },
   "expo-hang-moi-droppii": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Expo lên kệ Tết 2026 Droppii",
+    title: "EXPO LÊN KỆ TẾT 2026 DROPPII",
     description: "Expo Lên Kệ Quà Tết 2026 – Droppii là sự kiện giao thương trọng điểm, khởi động chiến dịch kinh doanh mùa lễ hội lớn nhất trong năm của Droppii nhằm kết nối các Nhà phát triển sản phẩm (PDP) với hàng nghìn đối tác kinh doanh. Đồng hành cùng chương trình, Tiến đảm nhiệm toàn bộ khâu thiết kế—từ việc thiết kế các bộ Social Media Post truyền thông sôi nổi trên Fanpage đến việc sản xuất hệ thống POSM in ấn đồng bộ tại sự kiện như standee, backdrop và tờ rơi quảng bá. Sự chỉn chu và không khí Tết rực rỡ trong từng thiết kế đã góp phần tạo nên một không gian triển lãm chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối cho sự kiện.",
     images: [
       "assets/project/EXPO HANG MOI DROPPII/THUMB LEN KE TET.jpg",
@@ -79,7 +79,7 @@ window.PROJECTS = {
   },
   "expo-health": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Expo sức khỏe Droppii",
+    title: "EXPO SỨC KHỎE DROPPII",
     description: "Meta meta meta",
     images: [
       "assets/project/EXPO SUC KHOE DROPPII/thumb expo (1).png",
@@ -93,7 +93,7 @@ window.PROJECTS = {
   },
   "sale-event": {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
-    title: "Sale event Droppii",
+    title: "SALE EVENT 28.3 DROPPII",
     description: "Meta meta meta",
     images: [
       "assets/project/SALE EVENT DROPPII/thumb 28.png",
@@ -106,14 +106,14 @@ window.PROJECTS = {
   },
   "sale-campaign-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
-    title: "EXPO Đại hội năm Droppii 2026",
+    title: "EXPO ĐẠI HỘI NĂM DROPPII 2026",
     description: "",
     images: [
     ],
   },
   "vu-lan-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Tháng phụ nữ Droppii",
+    title: "THÁNG PHỤ NỮ DROPPII",
     description: "Trong khuôn khổ chuỗi hoạt động Tháng Phụ Nữ (10/2025) của Droppii—với các chương trình sale ưu đãi cùng không gian EXPO mua sắm ấm cúng, Tiến đảm nhiệm toàn bộ khâu thiết kế thị giác cho chiến dịch. Từ các bộ Social Media Posts bắt mắt trên Fanpage đến hệ thống POSM in ấn gọn gàng tại khu vực trưng bày như standee, backdrop và tờ rơi, từng thiết kế đều được chăm chút chỉn chu, mang tinh thần tôn vinh phái đẹp và tạo điểm nhấn thu hút khách ghé thăm.",
     images: [
       "assets/project/VU LAN NHAN DUYEN/THUMB phu nu.jpg",
@@ -155,9 +155,15 @@ window.PROJECTS = {
   },
   "1": {
     category: "SOCIAL MEDIA",
-    title: "Series Khoảnh khắc vô giá Droppii",
-    description: "",
+    title: "SERIES KHOẢNH KHẮC VÔ GIÁ DROPPII",
+    description: "Series bài viết “Khoảnh Khắc Vô Giá” trên Fanpage Droppii là không gian lắng đọng để ghi dấu và tôn vinh hành trình nỗ lực của các đối tác kinh doanh thông qua những chuyến du lịch tưởng thưởng hàng năm. Đồng hành cùng chiến dịch, Tiến trực tiếp thiết kế toàn bộ các bài đăng Social Media, tập trung vào việc trau chuốt hình ảnh, khéo léo lồng ghép cảm xúc và duy trì tính đồng bộ với nhận diện thương hiệu. Từng thiết kế không chỉ tái hiện trọn vẹn những khoảnh khắc đáng nhớ mà còn tạo cảm hứng truyền động lực mạnh mẽ tới cộng đồng đối tác Droppii.",
     images: [
+      "assets/project/1/THUMB kkvg.jpg",
+      "assets/project/1/khoanh khac 2.png",
+      "assets/project/1/post 1.png",
+      "assets/project/1/post 2.png",
+      "assets/project/1/post 3png.png",
+      "assets/project/1/post 4.png",
     ],
   },
   "yen-sao": {
