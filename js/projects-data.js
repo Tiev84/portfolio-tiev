@@ -114,8 +114,22 @@ window.PROJECTS = {
   "vu-lan-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
     title: "Tháng phụ nữ Droppii",
-    description: "",
+    description: "Trong khuôn khổ chuỗi hoạt động Tháng Phụ Nữ (10/2025) của Droppii—với các chương trình sale ưu đãi cùng không gian EXPO mua sắm ấm cúng, Tiến đảm nhiệm toàn bộ khâu thiết kế thị giác cho chiến dịch. Từ các bộ Social Media Posts bắt mắt trên Fanpage đến hệ thống POSM in ấn gọn gàng tại khu vực trưng bày như standee, backdrop và tờ rơi, từng thiết kế đều được chăm chút chỉn chu, mang tinh thần tôn vinh phái đẹp và tạo điểm nhấn thu hút khách ghé thăm.",
     images: [
+      "assets/project/VU LAN NHAN DUYEN/THUMB phu nu.jpg",
+      "assets/project/VU LAN NHAN DUYEN/chuc 2010.png",
+      "assets/project/VU LAN NHAN DUYEN/bia.png",
+      "assets/project/VU LAN NHAN DUYEN/TEASER.png",
+      "assets/project/VU LAN NHAN DUYEN/official.png",
+      "assets/project/VU LAN NHAN DUYEN/SALE GIUA THANG.png",
+      "assets/project/VU LAN NHAN DUYEN/OFFICIAL-SALE-GIUA-THANG.png",
+      "assets/project/VU LAN NHAN DUYEN/VOUCHER-FREESHIP-LIVE.png",
+      "assets/project/VU LAN NHAN DUYEN/bia km BIZ.png",
+      "assets/project/VU LAN NHAN DUYEN/QUA YEU THUONG DOC.png",
+      "assets/project/VU LAN NHAN DUYEN/bia km (1).png",
+      "assets/project/VU LAN NHAN DUYEN/bg phu nu.jpg",
+      "assets/project/VU LAN NHAN DUYEN/standee phu nu.jpg",
+      "assets/project/VU LAN NHAN DUYEN/559502623_122227704656105281_4061632812752644012_n.jpg",
     ],
   },
   "king-jades-83": {

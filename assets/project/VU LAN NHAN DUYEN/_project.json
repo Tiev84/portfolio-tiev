@@ -2,10 +2,25 @@
   "id": "vu-lan-nhan-duyen",
   "title": "Tháng phụ nữ Droppii",
   "category": "SOCIAL MEDIA | POSM",
-  "description": "",
+  "description": "Trong khuôn khổ chuỗi hoạt động Tháng Phụ Nữ (10/2025) của Droppii—với các chương trình sale ưu đãi cùng không gian EXPO mua sắm ấm cúng, Tiến đảm nhiệm toàn bộ khâu thiết kế thị giác cho chiến dịch. Từ các bộ Social Media Posts bắt mắt trên Fanpage đến hệ thống POSM in ấn gọn gàng tại khu vực trưng bày như standee, backdrop và tờ rơi, từng thiết kế đều được chăm chút chỉn chu, mang tinh thần tôn vinh phái đẹp và tạo điểm nhấn thu hút khách ghé thăm.",
   "wide": true,
   "order": 7,
-  "cover": "",
-  "images": [],
+  "cover": "THUMB phu nu.jpg",
+  "images": [
+    "THUMB phu nu.jpg",
+    "chuc 2010.png",
+    "bia.png",
+    "TEASER.png",
+    "official.png",
+    "SALE GIUA THANG.png",
+    "OFFICIAL-SALE-GIUA-THANG.png",
+    "VOUCHER-FREESHIP-LIVE.png",
+    "bia km BIZ.png",
+    "QUA YEU THUONG DOC.png",
+    "bia km (1).png",
+    "bg phu nu.jpg",
+    "standee phu nu.jpg",
+    "559502623_122227704656105281_4061632812752644012_n.jpg"
+  ],
   "hidden": []
 }
