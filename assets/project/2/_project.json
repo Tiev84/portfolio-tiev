@@ -1,10 +1,10 @@
 {
   "id": "project-moi-3",
-  "title": "PROJECT MOI 3",
+  "title": "Tết đến gần Droppii",
   "category": "",
   "description": "",
-  "wide": false,
-  "order": 20,
+  "wide": true,
+  "order": 19,
   "cover": "",
   "images": [],
   "hidden": []

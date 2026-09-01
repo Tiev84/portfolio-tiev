@@ -105,7 +105,7 @@ window.PROJECTS = {
   },
   "king-jades-83": {
     category: "SOCIAL MEDIA",
-    title: "Series APPROVER Droppii",
+    title: "Series APPROVER - 3 màn lọc Droppii",
     description: "",
     images: [
     ],
@@ -117,48 +117,31 @@ window.PROJECTS = {
     images: [
     ],
   },
-  "project-moi-1": {
-    category: "Travel",
-    title: "KV Company trip Droppii 2025",
-    description: "",
+  "ooh": {
+    category: "SOCIAL MEDIA | PRINTING",
+    title: "Chay Nhân Duyên - Tệp khách Hoa",
+    description: "Nhà hàng chay Nhân Duyên là điểm đến ẩm thực thanh tịnh, gói trọn hương vị thực dưỡng lành mạnh và rất được lòng cộng đồng người Hoa tại TP.HCM. Đồng hành cùng định hướng truyền thông của nhà hàng, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts bắt mắt, chuẩn phong cách văn hóa trên Fanpage cho đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee và poster A5 để bàn. Sự tinh tế trong từng đường nét thiết kế không chỉ tôn vinh nét đẹp ẩm thực chay mà còn tạo sự kết nối gần gũi, thu hút hiệu quả tệp thực khách người Hoa tại địa phương.",
     images: [
-    ],
-  },
-  "project-moi-2": {
-    category: "SOCIAL MEDIA",
-    title: "Event Đại hội năm 2026 Droppii",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-3": {
-    category: "",
-    title: "Event Đại hội năm 2024 Droppii",
-    description: "",
-    images: [
-    ],
-  },
-  "bingto-vlog": {
-    category: "SOCIAL MEDIA",
-    title: "Bingto Vlog - Điền Quân Network",
-    description: "Meta meta meta",
-    images: [
-      "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
-      "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
-    ],
-  },
-  "project-moi-4": {
-    category: "SOCIAL MEDIA",
-    title: "Lá gan nguồn sống - Vitaleaf x Droppii",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-5": {
-    category: "SOCIAL MEDIA",
-    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
-    description: "",
-    images: [
+      "assets/project/OOH - PANO - BACKDROP/thumb nhan duyen hoa.jpg",
+      "assets/project/OOH - PANO - BACKDROP/typo (1).png",
+      "assets/project/OOH - PANO - BACKDROP/SOCIAL DAT BAN NHAN MON .png",
+      "assets/project/OOH - PANO - BACKDROP/HANH TRINH TAM BAO VUONG.png",
+      "assets/project/OOH - PANO - BACKDROP/RULE HANH TRINH TAM BAO.png",
+      "assets/project/OOH - PANO - BACKDROP/kim co chi bao.png",
+      "assets/project/OOH - PANO - BACKDROP/mon goi 2.png",
+      "assets/project/OOH - PANO - BACKDROP/DIMSUM VA TRA.png",
+      "assets/project/OOH - PANO - BACKDROP/nam nhay tuong.png",
+      "assets/project/OOH - PANO - BACKDROP/post ds.png",
+      "assets/project/OOH - PANO - BACKDROP/1 binh tan.png",
+      "assets/project/OOH - PANO - BACKDROP/2 (2).png",
+      "assets/project/OOH - PANO - BACKDROP/adss.png",
+      "assets/project/OOH - PANO - BACKDROP/Set MỘC LIÊN (1).png",
+      "assets/project/OOH - PANO - BACKDROP/Set NGỌC HỶ (1).png",
+      "assets/project/OOH - PANO - BACKDROP/Set TUỆ TÂM fix (1).png",
+      "assets/project/OOH - PANO - BACKDROP/kim ngoc man duong social.png",
+      "assets/project/OOH - PANO - BACKDROP/album mon moi.png",
+      "assets/project/OOH - PANO - BACKDROP/an chay tich phuoc.png",
+      "assets/project/OOH - PANO - BACKDROP/via quan cong.png",
     ],
   },
   "logofolio": {
@@ -197,31 +180,83 @@ window.PROJECTS = {
       "assets/project/LOGOFOLIO/tang nen thom social.png",
     ],
   },
-  "ooh": {
-    category: "SOCIAL MEDIA | PRINTING",
-    title: "Chay Nhân Duyên - Tệp khách Hoa",
-    description: "Nhà hàng chay Nhân Duyên là điểm đến ẩm thực thanh tịnh, gói trọn hương vị thực dưỡng lành mạnh và rất được lòng cộng đồng người Hoa tại TP.HCM. Đồng hành cùng định hướng truyền thông của nhà hàng, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts bắt mắt, chuẩn phong cách văn hóa trên Fanpage cho đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee và poster A5 để bàn. Sự tinh tế trong từng đường nét thiết kế không chỉ tôn vinh nét đẹp ẩm thực chay mà còn tạo sự kết nối gần gũi, thu hút hiệu quả tệp thực khách người Hoa tại địa phương.",
+  "project-moi-1": {
+    category: "Travel",
+    title: "KV Droppii Travel",
+    description: "",
     images: [
-      "assets/project/OOH - PANO - BACKDROP/thumb nhan duyen hoa.jpg",
-      "assets/project/OOH - PANO - BACKDROP/typo (1).png",
-      "assets/project/OOH - PANO - BACKDROP/SOCIAL DAT BAN NHAN MON .png",
-      "assets/project/OOH - PANO - BACKDROP/HANH TRINH TAM BAO VUONG.png",
-      "assets/project/OOH - PANO - BACKDROP/RULE HANH TRINH TAM BAO.png",
-      "assets/project/OOH - PANO - BACKDROP/kim co chi bao.png",
-      "assets/project/OOH - PANO - BACKDROP/mon goi 2.png",
-      "assets/project/OOH - PANO - BACKDROP/DIMSUM VA TRA.png",
-      "assets/project/OOH - PANO - BACKDROP/nam nhay tuong.png",
-      "assets/project/OOH - PANO - BACKDROP/post ds.png",
-      "assets/project/OOH - PANO - BACKDROP/1 binh tan.png",
-      "assets/project/OOH - PANO - BACKDROP/2 (2).png",
-      "assets/project/OOH - PANO - BACKDROP/adss.png",
-      "assets/project/OOH - PANO - BACKDROP/Set MỘC LIÊN (1).png",
-      "assets/project/OOH - PANO - BACKDROP/Set NGỌC HỶ (1).png",
-      "assets/project/OOH - PANO - BACKDROP/Set TUỆ TÂM fix (1).png",
-      "assets/project/OOH - PANO - BACKDROP/kim ngoc man duong social.png",
-      "assets/project/OOH - PANO - BACKDROP/album mon moi.png",
-      "assets/project/OOH - PANO - BACKDROP/an chay tich phuoc.png",
-      "assets/project/OOH - PANO - BACKDROP/via quan cong.png",
+    ],
+  },
+  "project-moi-1": {
+    category: "",
+    title: "PROJECT MOI 1",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-4": {
+    category: "SOCIAL MEDIA",
+    title: "Lá gan nguồn sống - Vitaleaf x Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-4": {
+    category: "",
+    title: "PROJECT MOI 4",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-2": {
+    category: "SOCIAL MEDIA",
+    title: "Series Khoảnh khắc vô giá Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-3": {
+    category: "",
+    title: "Tết đến gần Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-2": {
+    category: "",
+    title: "PROJECT MOI 2",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-3": {
+    category: "",
+    title: "PROJECT MOI 3",
+    description: "",
+    images: [
+    ],
+  },
+  "bingto-vlog": {
+    category: "SOCIAL MEDIA",
+    title: "Bingto Vlog - Điền Quân Network",
+    description: "Meta meta meta",
+    images: [
+      "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
+      "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
+    ],
+  },
+  "project-moi-5": {
+    category: "SOCIAL MEDIA",
+    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-5": {
+    category: "",
+    title: "PROJECT MOI 5",
+    description: "",
+    images: [
     ],
   },
 };
