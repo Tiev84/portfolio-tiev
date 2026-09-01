@@ -466,9 +466,13 @@ footer {
     grid-column: 1 / -1;
   }
 
-  .project-image,
+  .project-image {
+    aspect-ratio: var(--card-ratio-mobile);
+  }
+
+  /* Thẻ lớn giữ đúng tỉ lệ ảnh gốc ở mọi khổ màn hình, khỏi bị cắt */
   .project-wide .project-image {
-    aspect-ratio: 1.55 / 1;
+    aspect-ratio: var(--card-ratio-wide);
   }
   .project-image-link {
     display: block;

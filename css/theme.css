@@ -36,7 +36,8 @@
   --grid-col-gap: 18px;
   --grid-row-gap: 31px;
   --card-ratio: 1 / 1;
-  --card-ratio-wide: 1.6 / 1;
+  --card-ratio-wide: 4500 / 3519;
+  --card-ratio-mobile: 1.55 / 1;
 
   /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */
   --yellow: var(--accent);

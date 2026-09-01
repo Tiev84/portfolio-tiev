@@ -905,6 +905,7 @@ const T = {
   rowGap: "#t-row-gap",
   ratio: "#t-ratio",
   ratioWide: "#t-ratio-wide",
+  ratioMobile: "#t-ratio-mobile",
 };
 
 /* ---- chuyển màn ---- */
@@ -1018,6 +1019,7 @@ function fillThemeForm() {
   $(T.rowGap).value = THEME.layout.grid_row_gap;
   $(T.ratio).value = THEME.layout.card_ratio;
   $(T.ratioWide).value = THEME.layout.card_ratio_wide;
+  $(T.ratioMobile).value = THEME.layout.card_ratio_mobile;
 }
 
 function readThemeForm() {
@@ -1036,7 +1038,8 @@ function readThemeForm() {
   THEME.layout.grid_col_gap = num(T.colGap, 18);
   THEME.layout.grid_row_gap = num(T.rowGap, 31);
   THEME.layout.card_ratio = $(T.ratio).value.trim() || "1 / 1";
-  THEME.layout.card_ratio_wide = $(T.ratioWide).value.trim() || "1.6 / 1";
+  THEME.layout.card_ratio_wide = $(T.ratioWide).value.trim() || "4500 / 3519";
+  THEME.layout.card_ratio_mobile = $(T.ratioMobile).value.trim() || "1.55 / 1";
 }
 
 Object.values(T).forEach((sel) => {
@@ -1062,6 +1065,7 @@ function themeCss() {
   decls.push(`--grid-row-gap:${l.grid_row_gap}px;`);
   decls.push(`--card-ratio:${l.card_ratio};`);
   decls.push(`--card-ratio-wide:${l.card_ratio_wide};`);
+  decls.push(`--card-ratio-mobile:${l.card_ratio_mobile};`);
   decls.push("--yellow:var(--accent);");
   return `:root{${decls.join("")}}`;
 }

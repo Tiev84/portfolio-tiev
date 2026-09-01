@@ -71,7 +71,9 @@ DEFAULTS = {
         "grid_col_gap": 18,  # khoảng cách ngang giữa các thẻ (px)
         "grid_row_gap": 31,  # khoảng cách dọc (px)
         "card_ratio": "1 / 1",  # tỉ lệ khung ảnh thẻ nhỏ
-        "card_ratio_wide": "1.6 / 1",  # tỉ lệ khung ảnh thẻ lớn
+        # Thẻ lớn: đúng tỉ lệ file gốc 4500x3519 để ảnh không bị cắt
+        "card_ratio_wide": "4500 / 3519",
+        "card_ratio_mobile": "1.55 / 1",  # thẻ nhỏ khi xem trên điện thoại
     },
     "grid": {
         # Bố cục lặp: mỗi khối gồm 2 thẻ lớn rồi 3 thẻ nhỏ.
@@ -158,6 +160,7 @@ def render(cfg: dict | None = None) -> str:
         f"  --grid-row-gap: {layout['grid_row_gap']}px;",
         f"  --card-ratio: {layout['card_ratio']};",
         f"  --card-ratio-wide: {layout['card_ratio_wide']};",
+        f"  --card-ratio-mobile: {layout['card_ratio_mobile']};",
         "",
         "  /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */",
         "  --yellow: var(--accent);",

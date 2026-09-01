@@ -158,6 +158,11 @@ bên phải — xem được cả 3 trang và 3 cỡ màn hình, chưa lưu thì
 | Chữ | phông chính và phông dự phòng |
 | Kích thước | bề ngang nội dung, bo góc, khoảng cách thẻ, tỉ lệ khung ảnh |
 
+**Tỉ lệ khung ảnh** viết dạng `rộng / cao`. Muốn ảnh bìa không bị cắt thì điền
+đúng kích thước file gốc — thẻ lớn đang để `4500 / 3519` khớp với ảnh bìa thật,
+nên hiện nguyên khung không mất phần nào. Thẻ lớn dùng chung một tỉ lệ ở mọi
+khổ màn hình; thẻ nhỏ có ô riêng cho điện thoại.
+
 Bấm **Lưu giao diện** để ghi ra `css/theme.css`, hoặc **Về mặc định** để quay
 lại bản gốc. Ảnh và project không bị ảnh hưởng.
 

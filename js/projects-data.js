@@ -57,7 +57,7 @@ window.PROJECTS = {
   },
   "expo-hang-moi-droppii": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Expo hàng mới lên kệ Droppii",
+    title: "Expo lên kệ Tết 2026 Droppii",
     description: "Hệ thống thiết kế truyền thông và POSM phục vụ hoạt động giới thiệu các sản phẩm mới trên nền tảng Droppii.",
     images: [
     ],
@@ -136,41 +136,6 @@ window.PROJECTS = {
   "ooh": {
     category: "LARGE SCALE PRINTING",
     title: "OOH - Pano - Backdrop ngoài trời",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-1": {
-    category: "",
-    title: "PROJECT MOI 1",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-2": {
-    category: "",
-    title: "PROJECT MOI 2",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-3": {
-    category: "",
-    title: "PROJECT MOI 3",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-4": {
-    category: "",
-    title: "PROJECT MOI 4",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-5": {
-    category: "",
-    title: "PROJECT MOI 5",
     description: "",
     images: [
     ],
