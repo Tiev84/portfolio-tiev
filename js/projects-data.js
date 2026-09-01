@@ -140,4 +140,39 @@ window.PROJECTS = {
     images: [
     ],
   },
+  "project-moi-1": {
+    category: "",
+    title: "PROJECT MOI 1",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-2": {
+    category: "",
+    title: "PROJECT MOI 2",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-3": {
+    category: "",
+    title: "PROJECT MOI 3",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-4": {
+    category: "",
+    title: "PROJECT MOI 4",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-5": {
+    category: "",
+    title: "PROJECT MOI 5",
+    description: "",
+    images: [
+    ],
+  },
 };
