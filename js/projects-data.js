@@ -81,7 +81,7 @@ window.PROJECTS = {
     title: "Sale event Droppii",
     description: "Meta meta meta",
     images: [
-      "assets/project/SALE EVENT DROPPII/thumb 283 (1).png",
+      "assets/project/SALE EVENT DROPPII/thumb 28.png",
       "assets/project/SALE EVENT DROPPII/teaser.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong 2.png",
