@@ -10,20 +10,6 @@
   font-weight: 700;
 }
 
-:root {
-  --bg: #1b1b1b;
-  --footer-bg: #111111;
-
-  --text: #f7f7f7;
-  --text-muted: #c9c9c9;
-
-  --yellow: #ffda24;
-  --border: #555555;
-
-  --container: 850px;
-
-  --radius: 8px;
-}
 
 /* =========================
    RESET
@@ -115,7 +101,7 @@ a {
 }
 
 .nav-links a {
-  color: #aaa;
+  color: var(--text-dim);
 
   font-size: 12px;
   font-weight: 600;
@@ -127,18 +113,18 @@ a {
     border-color 0.2s ease;
 }
 .nav-links a:hover {
-  color: #fff;
+  color: var(--text-strong);
 }
 .nav-links .nav-contact {
   padding: 11px 28px;
 
-  border: 1px solid #666;
+  border: 1px solid var(--border);
   border-radius: 25px;
 
-  color: #fff;
+  color: var(--text-strong);
 }
 .nav-links .nav-contact:hover {
-  border-color: #fff;
+  border-color: var(--surface-light);
 }
 
 /* MOBILE MENU BUTTON */
@@ -160,7 +146,7 @@ a {
 
   margin: 5px;
 
-  background: #fff;
+  background: var(--surface-light);
 }
 
 /* =========================
@@ -212,7 +198,7 @@ a {
 
   border-radius: 999px;
 
-  color: #151515;
+  color: var(--on-accent);
 
   text-decoration: none;
 
@@ -241,7 +227,7 @@ a {
 
   letter-spacing: 0.13em;
 
-  color: #d1d1d1;
+  color: var(--text-body);
 }
 
 .project-title-wrap h2 {
@@ -258,7 +244,7 @@ a {
 .project-description {
   margin: 0 0 22px;
 
-  color: var(--text-muted);
+  color: var(--text-quiet);
 
   font-size: 15px;
   line-height: 1.65;
@@ -357,7 +343,7 @@ a {
 
   font-size: 44px;
 
-  color: #fff;
+  color: var(--text-strong);
 
   background: none;
   border: none;
@@ -382,7 +368,7 @@ a {
 
   background: rgba(255, 255, 255, 0.15);
 
-  color: #fff;
+  color: var(--text-strong);
 
   font-size: 26px;
 
@@ -446,9 +432,9 @@ a {
 
     padding: 22px;
 
-    background: #111;
+    background: var(--footer-bg);
 
-    border: 1px solid #333;
+    border: 1px solid var(--border-strong);
     border-radius: 12px;
 
     flex-direction: column;

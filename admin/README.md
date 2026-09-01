@@ -91,14 +91,49 @@ assets/project/
 - Xóa ảnh khỏi thư mục → ảnh tự rớt khỏi web ở lần quét sau.
 - Không sửa tay `_project.json` — app sẽ ghi đè.
 
-Từ dữ liệu đó, app tạo lại hai chỗ trên web:
+Từ dữ liệu đó, app tạo lại ba chỗ trên web:
 
 | File | Nội dung |
 |---|---|
-| `js/projects-data.js` | toàn bộ dữ liệu project (tạo tự động) |
-| `portfolio.html` | lưới project, phần nằm giữa `PROJECTS:START` và `PROJECTS:END` |
+| `css/theme.css` | màu sắc, phông, kích thước — dùng chung cho **cả 3 trang** |
+| `js/projects-data.js` | toàn bộ dữ liệu project |
+| `portfolio.html` | lưới project, phần giữa `PROJECTS:START` và `PROJECTS:END` |
 
-Phần còn lại của `portfolio.html` (header, footer, script…) không bị đụng tới.
+Cả ba đều **tạo tự động, đừng sửa tay**. Phần còn lại của các file .html
+(header, footer, script…) không bị đụng tới.
+
+---
+
+## Bố cục 2 lớn + 3 nhỏ
+
+Trang portfolio xếp theo nhịp lặp: 2 thẻ lớn, rồi 3 thẻ nhỏ, rồi lại 2 lớn…
+
+App tính kích thước thẻ **theo vị trí** chứ không theo ô tick từng project, nên
+kéo thả đổi thứ tự xong nhịp vẫn khớp. Bấm **+ Project mới** là tạo trọn một
+khối 5 cái — hộp thoại ghi rõ cái nào sẽ ra thẻ lớn, cái nào thẻ nhỏ.
+
+Muốn tự quyết từng thẻ: vào **Giao diện → Bố cục lưới project**, tắt "Tự động
+lặp". Cũng chỗ đó đổi được số thẻ lớn / nhỏ mỗi khối.
+
+---
+
+## Giao diện (màu sắc, chữ, bố cục)
+
+Tab **Giao diện** trên thanh trên. Chỉnh gì cũng thấy ngay ở khung xem trước
+bên phải — xem được cả 3 trang và 3 cỡ màn hình, chưa lưu thì web thật chưa đổi.
+
+| Nhóm | Chỉnh được |
+|---|---|
+| Bố cục lưới | bật/tắt nhịp tự động, số thẻ lớn - nhỏ mỗi khối |
+| Màu sắc | 17 màu: nền, màu nhấn, các cấp độ chữ, viền |
+| Chữ | phông chính và phông dự phòng |
+| Kích thước | bề ngang nội dung, bo góc, khoảng cách thẻ, tỉ lệ khung ảnh |
+
+Bấm **Lưu giao diện** để ghi ra `css/theme.css`, hoặc **Về mặc định** để quay
+lại bản gốc. Ảnh và project không bị ảnh hưởng.
+
+> Đổi phông chữ thì nhớ sửa cả link Google Fonts trong 3 file .html, không thì
+> trình duyệt dùng phông dự phòng.
 
 ---
 

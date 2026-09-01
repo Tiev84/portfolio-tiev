@@ -24,6 +24,11 @@
         </div>
       </div>
 
+      <nav class="bar-tabs">
+        <button class="tab is-on" id="tab-projects" type="button">Project</button>
+        <button class="tab" id="tab-theme" type="button">Giao diện</button>
+      </nav>
+
       <div class="bar-right">
         <button class="btn ghost" id="btn-rescan" title="Đọc lại ảnh trong các thư mục">
           Quét lại thư mục
@@ -117,6 +122,124 @@
             </div>
 
             <input id="file-input" type="file" multiple accept="image/*,video/*" hidden />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= GIAO DIỆN TOÀN WEB ================= -->
+    <main id="view-theme" class="view hidden">
+      <div class="theme-layout">
+        <!-- Bảng điều khiển -->
+        <div class="theme-panel">
+          <div class="page-head tight">
+            <div>
+              <h1>Giao diện</h1>
+              <p class="hint">
+                Áp dụng cho <b>toàn bộ web</b>: trang chủ, portfolio và trang chi tiết.
+                Xem thay đổi ngay ở khung bên phải.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Bố cục lưới project</h2>
+            <label class="check">
+              <input id="t-auto-pattern" type="checkbox" />
+              Tự động lặp <b>2 thẻ lớn + 3 thẻ nhỏ</b>
+            </label>
+            <p class="hint">
+              Bật thì kích thước thẻ tính theo vị trí, kéo thả đổi thứ tự xong
+              nhịp bố cục vẫn khớp. Tắt thì chỉnh tay từng project.
+            </p>
+
+            <div class="row2">
+              <div>
+                <label>Số thẻ lớn mỗi khối</label>
+                <input id="t-wide" type="number" min="0" max="6" />
+              </div>
+              <div>
+                <label>Số thẻ nhỏ mỗi khối</label>
+                <input id="t-narrow" type="number" min="0" max="6" />
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Màu sắc</h2>
+            <div id="color-groups"></div>
+          </div>
+
+          <div class="card">
+            <h2>Chữ</h2>
+            <label>Phông chữ (Google Fonts)</label>
+            <input id="t-font" type="text" placeholder="Montserrat" />
+            <label>Phông dự phòng</label>
+            <input id="t-fallback" type="text" placeholder="Arial, sans-serif" />
+            <p class="hint">
+              Đổi phông thì nhớ cập nhật link Google Fonts trong các file .html,
+              nếu không trình duyệt sẽ dùng phông dự phòng.
+            </p>
+          </div>
+
+          <div class="card">
+            <h2>Kích thước &amp; khoảng cách</h2>
+            <div class="row2">
+              <div>
+                <label>Bề ngang nội dung (px)</label>
+                <input id="t-container" type="number" min="600" max="1600" />
+              </div>
+              <div>
+                <label>Bo góc chung (px)</label>
+                <input id="t-radius" type="number" min="0" max="40" />
+              </div>
+              <div>
+                <label>Bo góc thẻ (px)</label>
+                <input id="t-card-radius" type="number" min="0" max="40" />
+              </div>
+              <div>
+                <label>Cách ngang giữa thẻ (px)</label>
+                <input id="t-col-gap" type="number" min="0" max="80" />
+              </div>
+              <div>
+                <label>Cách dọc giữa thẻ (px)</label>
+                <input id="t-row-gap" type="number" min="0" max="120" />
+              </div>
+            </div>
+            <div class="row2">
+              <div>
+                <label>Tỉ lệ ảnh thẻ nhỏ</label>
+                <input id="t-ratio" type="text" placeholder="1 / 1" />
+              </div>
+              <div>
+                <label>Tỉ lệ ảnh thẻ lớn</label>
+                <input id="t-ratio-wide" type="text" placeholder="1.6 / 1" />
+              </div>
+            </div>
+          </div>
+
+          <div class="theme-actions">
+            <button class="btn danger ghost" id="btn-theme-reset">Về mặc định</button>
+            <button class="btn primary" id="btn-theme-save">Lưu giao diện</button>
+          </div>
+        </div>
+
+        <!-- Xem trước -->
+        <div class="theme-preview">
+          <div class="preview-bar">
+            <div class="preview-tabs">
+              <button class="tab is-on" data-page="index.html">Trang chủ</button>
+              <button class="tab" data-page="portfolio.html">Portfolio</button>
+              <button class="tab" data-page="project-detail.html">Chi tiết</button>
+            </div>
+            <div class="preview-sizes">
+              <button class="tab is-on" data-w="100%">Máy tính</button>
+              <button class="tab" data-w="820px">Tablet</button>
+              <button class="tab" data-w="390px">Điện thoại</button>
+            </div>
+          </div>
+          <div class="preview-stage">
+            <iframe id="preview-frame" title="Xem trước"></iframe>
           </div>
         </div>
       </div>

@@ -606,53 +606,104 @@ $("#btn-quit").onclick = () =>
 $("#btn-open-root").onclick = () =>
   post("/api/open-folder", {}).catch((err) => toast(err.message, "err"));
 
-$("#btn-new").onclick = () => {
-  const name = el("input");
-  name.type = "text";
-  name.placeholder = "VD: KING JADES";
-  const title = el("input");
-  title.type = "text";
-  title.placeholder = "VD: Campaign 8.3 King Jades";
-  const category = el("input");
-  category.type = "text";
-  category.placeholder = "VD: SOCIAL MEDIA | POSM";
+$("#btn-new").onclick = async () => {
+  if (!THEME) {
+    try {
+      const data = await api("/api/theme");
+      THEME = data.theme;
+      THEME_FIELDS = data.fields;
+      THEME_DEFAULTS = data.defaults;
+    } catch {
+      THEME = { grid: { auto_pattern: true, wide_per_block: 2, narrow_per_block: 3 } };
+    }
+  }
+
+  const wideCount = Math.max(0, THEME.grid.wide_per_block);
+  const narrowCount = Math.max(0, THEME.grid.narrow_per_block);
+  const blockSize = wideCount + narrowCount || 1;
+
+  // Nhãn phải tính từ VỊ TRÍ THẬT của project mới trong lưới, không phải
+  // từ đầu khối — đang có 12 project thì cái thứ 13 rơi vào giữa nhịp.
+  const batDau = PROJECTS.length;
+  const slots = [];
+  for (let i = 0; i < blockSize; i++) {
+    const viTri = batDau + i;
+    const big = THEME.grid.auto_pattern ? viTri % blockSize < wideCount : i < wideCount;
+    slots.push({ big, label: big ? "Thẻ lớn" : "Thẻ nhỏ", stt: viTri + 1 });
+  }
 
   const body = el("div");
-  body.append(
-    tagged("Tên thư mục trên máy", name),
-    tagged("Tên project hiện trên web", title),
-    tagged("Danh mục", category)
+  body.appendChild(
+    el(
+      "p",
+      "hint",
+      `Trang portfolio xếp theo nhịp <b>${wideCount} thẻ lớn + ${narrowCount} thẻ nhỏ</b> lặp lại.
+       Tạo trọn <b>${blockSize}</b> cái một lần thì nhịp không bị lệch.<br />
+       Nhãn bên dưới là kích thước thật của thẻ khi lên web.
+       Ô nào bỏ trống sẽ được đặt tên tạm, đổi lại sau cũng được.`
+    )
   );
+
+  const rows = slots.map((slot, i) => {
+    const input = el("input");
+    input.type = "text";
+    input.placeholder = `PROJECT MOI ${i + 1}`;
+    const wrap = el("div", "slot-row");
+    wrap.appendChild(
+      el("label", slot.big ? "slot big" : "slot", `#${slot.stt} · ${slot.label}`)
+    );
+    wrap.appendChild(input);
+    body.appendChild(wrap);
+    return input;
+  });
+
+  const one = el("input");
+  one.type = "checkbox";
+  const oneWrap = el("label", "check");
+  oneWrap.append(one, document.createTextNode(" Chỉ tạo 1 project (bố cục có thể lệch nhịp)"));
+  body.appendChild(oneWrap);
+
+  one.onchange = () => {
+    rows.forEach((input, i) => {
+      input.closest(".slot-row").style.display = one.checked && i > 0 ? "none" : "";
+    });
+  };
+
+  const doCreate = async () => {
+    const wanted = one.checked ? rows.slice(0, 1) : rows;
+    const items = wanted.map((input, i) => {
+      const name = input.value.trim() || input.placeholder;
+      return { name, title: name };
+    });
+
+    const names = items.map((x) => x.name.toLowerCase());
+    if (new Set(names).size !== names.length) {
+      return toast("Có hai ô trùng tên thư mục", "err");
+    }
+
+    closeModal();
+    const res = await guard("Đang tạo…", async () => {
+      const r = await post("/api/project/create", { items });
+      scheduleBuild();
+      await load();
+      return r;
+    });
+
+    if (res.errors && res.errors.length) toast(res.errors.join(" · "), "err");
+    toast(`Đã tạo ${res.created.length} project`, "ok");
+    if (res.created.length === 1) openProject(res.created[0].id);
+  };
 
   modal({
     title: "Tạo project mới",
     body,
     actions: [
       { label: "Hủy", onClick: closeModal },
-      {
-        label: "Tạo",
-        kind: "primary",
-        onClick: async () => {
-          if (!name.value.trim()) return toast("Chưa nhập tên thư mục", "err");
-          closeModal();
-          const created = await guard("Đang tạo…", async () => {
-            const res = await post("/api/project/create", {
-              name: name.value,
-              title: title.value || name.value,
-              category: category.value,
-            });
-            scheduleBuild();
-            await load();
-            return res;
-          });
-          toast("Đã tạo project", "ok");
-          openProject(created.id);
-        },
-      },
+      { label: "Tạo", kind: "primary", onClick: doCreate },
     ],
   });
 
-  setTimeout(() => name.focus(), 50);
+  setTimeout(() => rows[0].focus(), 50);
 };
 
 function tagged(labelText, input) {
@@ -832,3 +883,254 @@ $("#btn-publish").onclick = async () => {
 --------------------------------------------------------- */
 
 load().catch((err) => toast(err.message, "err"));
+
+/* =========================================================
+   MÀN GIAO DIỆN — màu sắc, chữ, bố cục cho TOÀN BỘ web
+   ========================================================= */
+
+let THEME = null;
+let THEME_FIELDS = [];
+let THEME_DEFAULTS = null;
+
+const T = {
+  auto: "#t-auto-pattern",
+  wide: "#t-wide",
+  narrow: "#t-narrow",
+  font: "#t-font",
+  fallback: "#t-fallback",
+  container: "#t-container",
+  radius: "#t-radius",
+  cardRadius: "#t-card-radius",
+  colGap: "#t-col-gap",
+  rowGap: "#t-row-gap",
+  ratio: "#t-ratio",
+  ratioWide: "#t-ratio-wide",
+};
+
+/* ---- chuyển màn ---- */
+
+function showTheme() {
+  $("#view-list").classList.add("hidden");
+  $("#view-edit").classList.add("hidden");
+  $("#view-theme").classList.remove("hidden");
+  $("#tab-projects").classList.remove("is-on");
+  $("#tab-theme").classList.add("is-on");
+  window.scrollTo(0, 0);
+  if (!THEME) loadTheme();
+  else refreshPreview();
+}
+
+function showProjects() {
+  $("#view-theme").classList.add("hidden");
+  $("#tab-theme").classList.remove("is-on");
+  $("#tab-projects").classList.add("is-on");
+  if (current) openProject(current.id);
+  else showList();
+}
+
+$("#tab-theme").onclick = showTheme;
+$("#tab-projects").onclick = showProjects;
+
+/* ---- nạp cấu hình ---- */
+
+async function loadTheme() {
+  const data = await guard("Đang tải giao diện…", () => api("/api/theme"));
+  THEME = data.theme;
+  THEME_FIELDS = data.fields;
+  THEME_DEFAULTS = data.defaults;
+  renderColorFields();
+  fillThemeForm();
+  refreshPreview();
+}
+
+function renderColorFields() {
+  const host = $("#color-groups");
+  host.innerHTML = "";
+
+  const groups = [];
+  THEME_FIELDS.forEach((f) => {
+    let g = groups.find((x) => x.name === f.group);
+    if (!g) groups.push((g = { name: f.group, items: [] }));
+    g.items.push(f);
+  });
+
+  groups.forEach((g) => {
+    const box = el("div", "color-group");
+    box.appendChild(el("h3", null, escapeHtml(g.name)));
+
+    g.items.forEach((f) => {
+      const row = el("div", "color-row");
+
+      const swatch = el("input");
+      swatch.type = "color";
+      swatch.dataset.token = f.token;
+
+      const hex = el("input");
+      hex.type = "text";
+      hex.dataset.token = f.token;
+      hex.spellcheck = false;
+
+      const label = el(
+        "div",
+        "cl",
+        `${escapeHtml(f.label)}${f.hint ? `<small>${escapeHtml(f.hint)}</small>` : ""}`
+      );
+
+      // Hai ô luôn đi cùng nhau
+      swatch.oninput = () => {
+        hex.value = swatch.value;
+        THEME.colors[f.token] = swatch.value;
+        applyPreviewTheme();
+      };
+      hex.oninput = () => {
+        const v = hex.value.trim();
+        if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+          swatch.value = v;
+          THEME.colors[f.token] = v;
+          applyPreviewTheme();
+        }
+      };
+
+      row.append(swatch, hex, label);
+      box.appendChild(row);
+    });
+
+    host.appendChild(box);
+  });
+}
+
+function fillThemeForm() {
+  Object.entries(THEME.colors).forEach(([token, value]) => {
+    document.querySelectorAll(`[data-token="${token}"]`).forEach((input) => {
+      input.value = value;
+    });
+  });
+
+  $(T.auto).checked = !!THEME.grid.auto_pattern;
+  $(T.wide).value = THEME.grid.wide_per_block;
+  $(T.narrow).value = THEME.grid.narrow_per_block;
+  $(T.font).value = THEME.font.family;
+  $(T.fallback).value = THEME.font.fallback;
+  $(T.container).value = THEME.layout.container;
+  $(T.radius).value = THEME.layout.radius;
+  $(T.cardRadius).value = THEME.layout.card_radius;
+  $(T.colGap).value = THEME.layout.grid_col_gap;
+  $(T.rowGap).value = THEME.layout.grid_row_gap;
+  $(T.ratio).value = THEME.layout.card_ratio;
+  $(T.ratioWide).value = THEME.layout.card_ratio_wide;
+}
+
+function readThemeForm() {
+  const num = (sel, fallback) => {
+    const v = parseInt($(sel).value, 10);
+    return Number.isFinite(v) ? v : fallback;
+  };
+  THEME.grid.auto_pattern = $(T.auto).checked;
+  THEME.grid.wide_per_block = num(T.wide, 2);
+  THEME.grid.narrow_per_block = num(T.narrow, 3);
+  THEME.font.family = $(T.font).value.trim() || "Montserrat";
+  THEME.font.fallback = $(T.fallback).value.trim() || "Arial, sans-serif";
+  THEME.layout.container = num(T.container, 850);
+  THEME.layout.radius = num(T.radius, 8);
+  THEME.layout.card_radius = num(T.cardRadius, 7);
+  THEME.layout.grid_col_gap = num(T.colGap, 18);
+  THEME.layout.grid_row_gap = num(T.rowGap, 31);
+  THEME.layout.card_ratio = $(T.ratio).value.trim() || "1 / 1";
+  THEME.layout.card_ratio_wide = $(T.ratioWide).value.trim() || "1.6 / 1";
+}
+
+Object.values(T).forEach((sel) => {
+  const input = $(sel);
+  if (!input) return;
+  input.addEventListener("input", () => {
+    readThemeForm();
+    applyPreviewTheme();
+  });
+});
+
+/* ---- xem trước trực tiếp ---- */
+
+function themeCss() {
+  const c = THEME.colors;
+  const l = THEME.layout;
+  const decls = Object.entries(c).map(([k, v]) => `--${k}:${v};`);
+  decls.push(`--font-main:"${THEME.font.family}", ${THEME.font.fallback};`);
+  decls.push(`--container:${l.container}px;`);
+  decls.push(`--radius:${l.radius}px;`);
+  decls.push(`--card-radius:${l.card_radius}px;`);
+  decls.push(`--grid-col-gap:${l.grid_col_gap}px;`);
+  decls.push(`--grid-row-gap:${l.grid_row_gap}px;`);
+  decls.push(`--card-ratio:${l.card_ratio};`);
+  decls.push(`--card-ratio-wide:${l.card_ratio_wide};`);
+  decls.push("--yellow:var(--accent);");
+  return `:root{${decls.join("")}}`;
+}
+
+/** Bơm thẳng css vào khung xem trước — thấy ngay, chưa ghi ra file. */
+function applyPreviewTheme() {
+  const frame = $("#preview-frame");
+  const doc = frame?.contentDocument;
+  if (!doc || !THEME) return;
+  let tag = doc.getElementById("preview-theme");
+  if (!tag) {
+    tag = doc.createElement("style");
+    tag.id = "preview-theme";
+    doc.head.appendChild(tag);
+  }
+  tag.textContent = themeCss();
+}
+
+let previewPage = "index.html";
+
+function refreshPreview() {
+  const frame = $("#preview-frame");
+  const url = previewPage === "project-detail.html" ? `${previewPage}?preview=1` : previewPage;
+  frame.src = `/${url}#t=${Date.now()}`;
+  frame.onload = applyPreviewTheme;
+}
+
+document.querySelectorAll(".preview-tabs .tab").forEach((tab) => {
+  tab.onclick = () => {
+    document.querySelectorAll(".preview-tabs .tab").forEach((t) => t.classList.remove("is-on"));
+    tab.classList.add("is-on");
+    previewPage = tab.dataset.page;
+    refreshPreview();
+  };
+});
+
+document.querySelectorAll(".preview-sizes .tab").forEach((tab) => {
+  tab.onclick = () => {
+    document.querySelectorAll(".preview-sizes .tab").forEach((t) => t.classList.remove("is-on"));
+    tab.classList.add("is-on");
+    $("#preview-frame").style.width = tab.dataset.w;
+  };
+});
+
+/* ---- lưu / đặt lại ---- */
+
+$("#btn-theme-save").onclick = async () => {
+  readThemeForm();
+  await guard("Đang lưu giao diện…", async () => {
+    await post("/api/theme/save", { theme: THEME });
+    await load();
+  });
+  toast("Đã lưu giao diện cho toàn bộ web", "ok");
+  refreshPreview();
+};
+
+$("#btn-theme-reset").onclick = () =>
+  confirmBox(
+    "Về giao diện mặc định?",
+    "Toàn bộ màu sắc, chữ và bố cục sẽ quay lại như bản gốc. Ảnh và project không bị ảnh hưởng.",
+    "Đặt lại",
+    async () => {
+      await guard("Đang đặt lại…", async () => {
+        const res = await post("/api/theme/reset");
+        THEME = res.theme;
+        fillThemeForm();
+        await load();
+      });
+      refreshPreview();
+      toast("Đã về mặc định", "ok");
+    }
+  );

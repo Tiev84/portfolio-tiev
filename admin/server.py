@@ -29,6 +29,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import store  # noqa: E402
+import theme  # noqa: E402
 
 REPO = store.REPO
 UI_DIR = Path(__file__).resolve().parent / "ui"
@@ -168,9 +169,16 @@ class Handler(SimpleHTTPRequestHandler):
 
     # -- tiện ích -------------------------------------------------------
 
-    def log_message(self, fmt, *args):  # bớt ồn ào
-        if "/api/" in (args[0] if args else ""):
-            sys.stderr.write("  %s\n" % (fmt % args))
+    def log_message(self, fmt, *args):  # bớt ồn ào, nhưng đừng nuốt lỗi
+        # Cẩn thận: log_error() truyền vào HTTPStatus chứ không phải chuỗi,
+        # nên phải dựng câu trước rồi mới xét — kiểm tra args[0] là ném
+        # TypeError và làm chết luôn luồng xử lý request.
+        try:
+            line = fmt % args
+        except (TypeError, ValueError):
+            line = str(fmt)
+        if "/api/" in line or "code 4" in line or "code 5" in line:
+            sys.stderr.write("  %s\n" % line)
 
     def send_json(self, payload, status: int = 200) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -196,8 +204,12 @@ class Handler(SimpleHTTPRequestHandler):
         return json.loads(self.rfile.read(length).decode("utf-8"))
 
     def end_headers(self):
-        # Preview trong iframe phải luôn thấy file mới nhất
-        if self.path.endswith((".html", ".js", ".css")):
+        # Preview phải luôn thấy file mới nhất.
+        # Phải cắt phần ?query= trước khi xét đuôi file — nếu không thì
+        # "/project-detail.html?project=abc" không khớp ".html" và trình
+        # duyệt sẽ giữ bản cũ trong cache.
+        path = self.path.split("?", 1)[0]
+        if path.endswith((".html", ".js", ".css")) or path.endswith("/"):
             self.send_header("Cache-Control", "no-store")
         super().end_headers()
 
@@ -261,6 +273,19 @@ class Handler(SimpleHTTPRequestHandler):
             data, ctype = result
             return self.send_bytes(data, ctype, cache="max-age=86400")
 
+        if path == "/api/theme":
+            return self.send_json(
+                {
+                    "ok": True,
+                    "theme": theme.load(),
+                    "defaults": theme.DEFAULTS,
+                    "fields": [
+                        {"token": tk, "label": lb, "group": gr, "hint": hi}
+                        for tk, lb, gr, hi in theme.COLOR_FIELDS
+                    ],
+                }
+            )
+
         if path == "/api/git/status":
             return self.send_json({"ok": True, **git_status()})
 
@@ -289,31 +314,59 @@ class Handler(SimpleHTTPRequestHandler):
         return folder
 
     def api_project_create(self):
-        data = self.read_json()
-        name = store.safe_name((data.get("name") or "").strip())
-        if not name:
-            return self.send_json({"ok": False, "error": "Chưa nhập tên project"}, 400)
+        """
+        Tạo một hoặc nhiều project cùng lúc.
 
-        folder = store.PROJECT_DIR / name
-        if folder.exists():
-            return self.send_json({"ok": False, "error": "Thư mục này đã tồn tại"}, 400)
+        Trang portfolio xếp theo nhịp lặp "2 thẻ lớn + 3 thẻ nhỏ", nên tạo
+        trọn một khối 5 cái là bố cục không bị lệch nhịp.
+        """
+        data = self.read_json()
+
+        items = data.get("items")
+        if not items:
+            items = [
+                {
+                    "name": data.get("name"),
+                    "title": data.get("title"),
+                    "category": data.get("category"),
+                    "description": data.get("description"),
+                }
+            ]
 
         existing = store.scan()  # phải quét TRƯỚC khi tạo, để tính số thứ tự cuối
-        folder.mkdir(parents=True)
+        next_order = max([p["order"] for p in existing], default=0) + 1
 
-        meta = dict(store.DEFAULT_META)
-        meta.update(
-            {
-                "id": data.get("id") or store.slugify(name),
-                "title": data.get("title") or name,
-                "category": data.get("category") or "",
-                "description": data.get("description") or "",
-                "wide": bool(data.get("wide")),
-                "order": max([p["order"] for p in existing], default=0) + 1,
-            }
-        )
-        store.write_meta(folder, meta)
-        self.send_json({"ok": True, "id": meta["id"], "folder": name})
+        created, errors = [], []
+        for offset, item in enumerate(items):
+            name = store.safe_name((item.get("name") or "").strip())
+            if not name:
+                errors.append("Có dòng chưa nhập tên thư mục")
+                continue
+
+            folder = store.PROJECT_DIR / name
+            if folder.exists():
+                errors.append(f"“{name}” đã tồn tại")
+                continue
+
+            folder.mkdir(parents=True)
+            meta = dict(store.DEFAULT_META)
+            meta.update(
+                {
+                    "id": item.get("id") or store.slugify(name),
+                    "title": (item.get("title") or name).strip(),
+                    "category": (item.get("category") or "").strip(),
+                    "description": (item.get("description") or "").strip(),
+                    "wide": bool(item.get("wide")),
+                    "order": next_order + offset,
+                }
+            )
+            store.write_meta(folder, meta)
+            created.append({"id": meta["id"], "folder": name})
+
+        if not created:
+            return self.send_json({"ok": False, "error": " · ".join(errors) or "Không tạo được"}, 400)
+
+        self.send_json({"ok": True, "created": created, "errors": errors})
 
     def api_project_save(self):
         data = self.read_json()
@@ -506,6 +559,18 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_json({"ok": True})
 
     # ---- tiện ích hệ thống --------------------------------------------
+
+    def api_theme_save(self):
+        cfg = theme.save(self.read_json().get("theme") or {})
+        theme.build()
+        store.build()  # bố cục 2 lớn + 3 nhỏ có thể vừa bật/tắt
+        self.send_json({"ok": True, "theme": cfg})
+
+    def api_theme_reset(self):
+        cfg = theme.save(theme.DEFAULTS)
+        theme.build()
+        store.build()
+        self.send_json({"ok": True, "theme": cfg})
 
     def api_quit(self):
         self.send_json({"ok": True})

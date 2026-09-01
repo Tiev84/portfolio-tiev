@@ -15,7 +15,7 @@ footer {
   z-index: 1;
 
   width: 100%;
-  background: #111;
+  background: var(--footer-bg);
 
   padding: 72px 0 25px;
 
@@ -36,7 +36,7 @@ footer {
 .footer-inner h3 {
   margin: 0 0 20px;
 
-  color: #ffda24;
+  color: var(--accent);
 
   font-size: 17px;
   font-weight: 700;
@@ -52,7 +52,7 @@ footer {
 .email {
   display: inline-block;
 
-  color: #fff;
+  color: var(--text-strong);
 
   font-size: 20px;
   font-weight: 700;
@@ -84,7 +84,7 @@ footer {
 .socials a {
   display: block;
 
-  color: #969696;
+  color: var(--text-muted);
 
   font-size: 16px;
   font-weight: 700;
@@ -99,7 +99,7 @@ footer {
 }
 
 .socials a:hover {
-  color: #fff;
+  color: var(--text-strong);
 }
 
 /* =========================================
@@ -113,9 +113,9 @@ footer {
 
   padding-top: 22px;
 
-  border-top: 1px solid #555;
+  border-top: 1px solid var(--border-soft);
 
-  color: #f7f7f7;
+  color: var(--text);
 
   font-size: 13px;
   font-weight: 600;
@@ -189,7 +189,7 @@ footer {
 
     margin: 0 auto 18px;
 
-    color: #ffda24;
+    color: var(--accent);
 
     font-size: 14px;
     font-weight: 700;
@@ -311,10 +311,10 @@ footer {
 
   padding: 0;
 
-  background: #ffda24;
-  color: #151515;
+  background: var(--accent);
+  color: var(--on-accent);
 
-  border: 1px solid #ffda24;
+  border: 1px solid var(--accent);
   border-radius: 50%;
 
   cursor: pointer;
@@ -355,9 +355,9 @@ footer {
 /* Desktop */
 @media (hover: hover) {
   .back-to-top:hover {
-    background: #ffffff;
-    color: #151515;
-    border-color: #ffffff;
+    background: var(--surface-light);
+    color: var(--on-accent);
+    border-color: var(--surface-light);
     transform: translateY(-3px);
   }
 }

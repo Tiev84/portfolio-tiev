@@ -16,6 +16,8 @@ import time
 import unicodedata
 from pathlib import Path
 
+import theme
+
 REPO = Path(__file__).resolve().parent.parent
 PROJECT_DIR = REPO / "assets" / "project"
 TRASH_DIR = REPO / "admin" / "_trash"
@@ -230,6 +232,19 @@ def scan(persist: bool = True) -> list[dict]:
         )
 
     projects.sort(key=lambda p: (p["order"], natural_key(p["folder"])))
+
+    # Bố cục lặp "2 thẻ lớn + 3 thẻ nhỏ": kích thước thẻ suy ra từ vị trí,
+    # không lấy theo ô tick thủ công — như vậy kéo thả đổi thứ tự xong là
+    # nhịp bố cục vẫn khớp.
+    cfg = theme.load()
+    if cfg["grid"]["auto_pattern"]:
+        for index, project in enumerate(projects):
+            project["wide"] = theme.is_wide(index, cfg)
+            project["auto_wide"] = True
+    else:
+        for project in projects:
+            project["auto_wide"] = False
+
     return projects
 
 
@@ -321,7 +336,8 @@ def _matching_div_close(html: str, start: int) -> int:
 
 
 def build() -> dict:
-    """Ghi js/projects-data.js và cập nhật lưới project trong portfolio.html."""
+    """Ghi css/theme.css, js/projects-data.js và lưới project trong portfolio.html."""
+    theme.build()
     projects = scan()
 
     data_file = REPO / "js" / "projects-data.js"
@@ -347,5 +363,5 @@ def build() -> dict:
     return {
         "projects": len(projects),
         "images": sum(len(p["images"]) for p in projects),
-        "files": ["js/projects-data.js", "portfolio.html"],
+        "files": ["css/theme.css", "js/projects-data.js", "portfolio.html"],
     }

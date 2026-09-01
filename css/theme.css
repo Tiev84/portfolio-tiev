@@ -1,0 +1,43 @@
+/* =========================================================
+   File này được TẠO TỰ ĐỘNG bởi admin app (admin/theme.py).
+   Đừng sửa tay — mở app, vào mục Giao diện rồi bấm lưu.
+
+   Nạp đầu tiên trong mọi trang, nên sửa ở đây là cả web đổi.
+   ========================================================= */
+
+:root {
+
+  --bg: #1b1b1b;
+  --footer-bg: #111111;
+  --surface-light: #ffffff;
+
+  --accent: #ffda24;
+  --accent-hover: #e1bd00;
+  --accent-dim: #d5b600;
+  --on-accent: #151515;
+
+  --text: #f7f7f7;
+  --text-strong: #ffffff;
+  --text-soft: #dddddd;
+  --text-body: #d1d1d1;
+  --text-quiet: #c9c9c9;
+  --text-dim: #aaaaaa;
+  --text-muted: #969696;
+
+  --border: #666666;
+  --border-soft: #555555;
+  --border-strong: #333333;
+
+  --font-main: "Montserrat", Arial, sans-serif;
+
+  --container: 850px;
+  --radius: 8px;
+  --card-radius: 7px;
+  --grid-col-gap: 18px;
+  --grid-row-gap: 31px;
+  --card-ratio: 1 / 1;
+  --card-ratio-wide: 1.6 / 1;
+
+  /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */
+  --yellow: var(--accent);
+}
