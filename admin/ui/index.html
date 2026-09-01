@@ -26,6 +26,7 @@
 
       <nav class="bar-tabs">
         <button class="tab is-on" id="tab-projects" type="button">Project</button>
+        <button class="tab" id="tab-home" type="button">Trang chủ</button>
         <button class="tab" id="tab-theme" type="button">Giao diện</button>
       </nav>
 
@@ -122,6 +123,100 @@
             </div>
 
             <input id="file-input" type="file" multiple accept="image/*,video/*" hidden />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ================= NỘI DUNG TRANG CHỦ ================= -->
+    <main id="view-home" class="view hidden">
+      <div class="container home-wrap">
+        <div class="page-head">
+          <div>
+            <h1>Trang chủ</h1>
+            <p class="hint">
+              Chữ và ảnh của trang <code>index.html</code>. Ảnh nằm trong
+              <code>assets/home/</code>, tổ chức theo thư mục giống project.
+            </p>
+          </div>
+          <div class="edit-head-actions">
+            <a class="btn ghost" href="/index.html" target="_blank">Xem thử</a>
+            <button class="btn danger ghost" id="btn-home-reset">Về mặc định</button>
+            <button class="btn primary" id="btn-home-save">Lưu trang chủ</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Thứ tự các khối</h2>
+          <p class="hint">Kéo thả để đổi thứ tự. Bỏ tick là ẩn khối đó khỏi trang.</p>
+          <div class="section-list" id="section-list"></div>
+        </div>
+
+        <div class="home-grid">
+          <!-- Hero -->
+          <div class="card">
+            <h2>Tên &amp; nghề</h2>
+            <label>Tên lớn</label>
+            <input id="h-title" type="text" />
+            <div class="row2">
+              <div>
+                <label>Dòng nhỏ, vế trái</label>
+                <input id="h-sub-left" type="text" />
+              </div>
+              <div>
+                <label>Vế phải</label>
+                <input id="h-sub-right" type="text" />
+              </div>
+            </div>
+            <label>Chữ trên nút</label>
+            <input id="h-btn-text" type="text" />
+            <label>Nút dẫn tới</label>
+            <input id="h-btn-href" type="text" />
+          </div>
+
+          <!-- Giới thiệu -->
+          <div class="card">
+            <h2>Giới thiệu</h2>
+            <label>Tiêu đề</label>
+            <input id="a-heading" type="text" />
+            <label>Đoạn giới thiệu</label>
+            <textarea id="a-text" rows="8"></textarea>
+            <div class="row2">
+              <div>
+                <label>Chữ trên nút</label>
+                <input id="a-btn-text" type="text" />
+              </div>
+              <div>
+                <label>Nút dẫn tới</label>
+                <input id="a-btn-href" type="text" />
+              </div>
+            </div>
+            <label>Mô tả ảnh (cho công cụ đọc màn hình)</label>
+            <input id="a-img-alt" type="text" />
+            <div class="slot" data-slot="portrait"></div>
+          </div>
+
+          <!-- Khách hàng -->
+          <div class="card">
+            <h2>Doanh nghiệp &amp; khách hàng</h2>
+            <label>Tiêu đề (xuống dòng = ngắt dòng trên web)</label>
+            <textarea id="c-heading" rows="3"></textarea>
+            <label>Đoạn mô tả</label>
+            <textarea id="c-text" rows="8"></textarea>
+            <label>Mô tả ảnh</label>
+            <input id="c-img-alt" type="text" />
+            <div class="slot" data-slot="clients"></div>
+          </div>
+
+          <!-- Kỹ năng -->
+          <div class="card">
+            <div class="card-head">
+              <h2>Kỹ năng <span class="count" id="skill-count"></span></h2>
+              <button class="btn ghost small" id="btn-add-skill">+ Thêm dòng</button>
+            </div>
+            <label>Tiêu đề</label>
+            <input id="s-heading" type="text" />
+            <div class="skill-rows" id="skill-rows"></div>
           </div>
         </div>
       </div>

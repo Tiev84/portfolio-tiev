@@ -1134,3 +1134,390 @@ $("#btn-theme-reset").onclick = () =>
       toast("Đã về mặc định", "ok");
     }
   );
+
+/* =========================================================
+   MÀN TRANG CHỦ — chữ và ảnh của index.html
+   ========================================================= */
+
+let HOME = null;
+let HOME_SLOTS = [];
+let HOME_ICONS = [];
+let HOME_LABELS = {};
+
+const H = {
+  title: "#h-title",
+  subLeft: "#h-sub-left",
+  subRight: "#h-sub-right",
+  btnText: "#h-btn-text",
+  btnHref: "#h-btn-href",
+  aHeading: "#a-heading",
+  aText: "#a-text",
+  aBtnText: "#a-btn-text",
+  aBtnHref: "#a-btn-href",
+  aImgAlt: "#a-img-alt",
+  cHeading: "#c-heading",
+  cText: "#c-text",
+  cImgAlt: "#c-img-alt",
+  sHeading: "#s-heading",
+};
+
+function showHome() {
+  ["#view-list", "#view-edit", "#view-theme"].forEach((v) => $(v).classList.add("hidden"));
+  $("#view-home").classList.remove("hidden");
+  ["#tab-projects", "#tab-theme"].forEach((t) => $(t).classList.remove("is-on"));
+  $("#tab-home").classList.add("is-on");
+  window.scrollTo(0, 0);
+  if (!HOME) loadHome();
+}
+
+// Ba tab loại trừ nhau — hai màn kia phải tắt màn trang chủ khi bật lên
+const _showTheme = showTheme;
+const _showProjects = showProjects;
+
+function hideHome() {
+  $("#view-home").classList.add("hidden");
+  $("#tab-home").classList.remove("is-on");
+}
+
+$("#tab-home").onclick = showHome;
+$("#tab-theme").onclick = () => {
+  hideHome();
+  _showTheme();
+};
+$("#tab-projects").onclick = () => {
+  hideHome();
+  _showProjects();
+};
+
+/* ---- nạp ---- */
+
+async function loadHome() {
+  const data = await guard("Đang tải trang chủ…", () => api("/api/home"));
+  HOME = data.home;
+  HOME_SLOTS = data.slots;
+  HOME_ICONS = data.icons;
+  HOME_LABELS = data.labels;
+  fillHomeForm();
+  renderSections();
+  renderSkills();
+  renderSlots();
+}
+
+function fillHomeForm() {
+  $(H.title).value = HOME.hero.title;
+  $(H.subLeft).value = HOME.hero.subtitle_left;
+  $(H.subRight).value = HOME.hero.subtitle_right;
+  $(H.btnText).value = HOME.hero.button_text;
+  $(H.btnHref).value = HOME.hero.button_href;
+
+  $(H.aHeading).value = HOME.about.heading;
+  $(H.aText).value = HOME.about.text;
+  $(H.aBtnText).value = HOME.about.button_text;
+  $(H.aBtnHref).value = HOME.about.button_href;
+  $(H.aImgAlt).value = HOME.about.image_alt;
+
+  $(H.cHeading).value = HOME.clients.heading;
+  $(H.cText).value = HOME.clients.text;
+  $(H.cImgAlt).value = HOME.clients.image_alt;
+
+  $(H.sHeading).value = HOME.skills.heading;
+}
+
+function readHomeForm() {
+  HOME.hero = {
+    title: $(H.title).value,
+    subtitle_left: $(H.subLeft).value,
+    subtitle_right: $(H.subRight).value,
+    button_text: $(H.btnText).value,
+    button_href: $(H.btnHref).value,
+  };
+  HOME.about = {
+    heading: $(H.aHeading).value,
+    text: $(H.aText).value,
+    button_text: $(H.aBtnText).value,
+    button_href: $(H.aBtnHref).value,
+    image_alt: $(H.aImgAlt).value,
+  };
+  HOME.clients = {
+    heading: $(H.cHeading).value,
+    text: $(H.cText).value,
+    image_alt: $(H.cImgAlt).value,
+  };
+  HOME.skills = {
+    heading: $(H.sHeading).value,
+    items: [...document.querySelectorAll("#skill-rows .skill-row")].map((row) => ({
+      icon: row.querySelector("select").value,
+      text: row.querySelector('input[type="text"]').value,
+    })),
+  };
+  HOME.sections = [...document.querySelectorAll("#section-list .section-item")].map(
+    (item) => item.dataset.key
+  );
+  HOME.hidden = [...document.querySelectorAll("#section-list .section-item")]
+    .filter((item) => !item.querySelector("input").checked)
+    .map((item) => item.dataset.key);
+}
+
+/* ---- thứ tự & ẩn hiện các khối ---- */
+
+function renderSections() {
+  const host = $("#section-list");
+  host.innerHTML = "";
+
+  HOME.sections.forEach((key) => {
+    const off = HOME.hidden.includes(key);
+    const item = el("div", "section-item" + (off ? " off" : ""));
+    item.dataset.key = key;
+    item.draggable = true;
+
+    const check = el("input");
+    check.type = "checkbox";
+    check.checked = !off;
+    check.onchange = () => item.classList.toggle("off", !check.checked);
+
+    item.append(
+      el("span", "grip", "⠿"),
+      check,
+      el("span", null, escapeHtml(HOME_LABELS[key] || key))
+    );
+    host.appendChild(item);
+  });
+
+  let dragged = null;
+  host.querySelectorAll(".section-item").forEach((item) => {
+    item.addEventListener("dragstart", () => {
+      dragged = item;
+      item.classList.add("dragging");
+    });
+    item.addEventListener("dragend", () => {
+      item.classList.remove("dragging");
+      host.querySelectorAll(".drop-target").forEach((n) => n.classList.remove("drop-target"));
+      dragged = null;
+    });
+    item.addEventListener("dragover", (e) => {
+      if (!dragged || dragged === item) return;
+      e.preventDefault();
+      item.classList.add("drop-target");
+    });
+    item.addEventListener("dragleave", () => item.classList.remove("drop-target"));
+    item.addEventListener("drop", (e) => {
+      e.preventDefault();
+      item.classList.remove("drop-target");
+      if (!dragged || dragged === item) return;
+      const all = [...host.querySelectorAll(".section-item")];
+      const from = all.indexOf(dragged);
+      const to = all.indexOf(item);
+      host.insertBefore(dragged, from < to ? item.nextSibling : item);
+    });
+  });
+}
+
+/* ---- danh sách kỹ năng ---- */
+
+function countSkills() {
+  $("#skill-count").textContent =
+    "(" + document.querySelectorAll("#skill-rows .skill-row").length + ")";
+}
+
+function renderSkills() {
+  const host = $("#skill-rows");
+  host.innerHTML = "";
+  HOME.skills.items.forEach((item) => host.appendChild(skillRow(item)));
+  countSkills();
+}
+
+function skillRow(item) {
+  const row = el("div", "skill-row");
+
+  const preview = el("img");
+  preview.src = "/assets/icons/" + item.icon;
+  preview.alt = "";
+
+  const select = el("select");
+  HOME_ICONS.forEach((name) => {
+    const opt = el("option", null, name.replace(".svg", ""));
+    opt.value = name;
+    if (name === item.icon) opt.selected = true;
+    select.appendChild(opt);
+  });
+  select.onchange = () => {
+    preview.src = "/assets/icons/" + select.value;
+  };
+
+  const text = el("input");
+  text.type = "text";
+  text.value = item.text;
+
+  const remove = el("button", "rm", "✕");
+  remove.title = "Bỏ dòng này";
+  remove.onclick = () => {
+    row.remove();
+    countSkills();
+  };
+
+  row.append(preview, select, text, remove);
+  return row;
+}
+
+$("#btn-add-skill").onclick = () => {
+  $("#skill-rows").appendChild(skillRow({ icon: HOME_ICONS[0] || "ps.svg", text: "" }));
+  countSkills();
+};
+
+/* ---- hai khung ảnh ---- */
+
+function renderSlots() {
+  document.querySelectorAll(".slot[data-slot]").forEach((host) => {
+    const slot = HOME_SLOTS.find((s) => s.key === host.dataset.slot);
+    if (!slot) return;
+
+    host.innerHTML = "";
+    const box = el("div", "slot-box");
+
+    const head = el("div", "slot-head");
+    head.appendChild(
+      el(
+        "div",
+        null,
+        "<strong>" +
+          escapeHtml(slot.label) +
+          "</strong><small>📁 assets/home/" +
+          escapeHtml(slot.folder) +
+          "/ · " +
+          escapeHtml(slot.where) +
+          "</small>"
+      )
+    );
+
+    const tools = el("div");
+    const add = el("button", "btn ghost small", "+ Thêm ảnh");
+    const picker = el("input");
+    picker.type = "file";
+    picker.accept = "image/*";
+    picker.hidden = true;
+    picker.onchange = async (e) => {
+      await uploadSlot(slot.key, e.target.files[0]);
+      e.target.value = "";
+    };
+    add.onclick = () => picker.click();
+
+    const openBtn = el("button", "btn ghost small", "Thư mục");
+    openBtn.onclick = () =>
+      post("/api/home/open-folder", { key: slot.key }).catch((err) => toast(err.message, "err"));
+
+    tools.append(add, openBtn, picker);
+    head.appendChild(tools);
+    box.appendChild(head);
+
+    if (!slot.images.length) {
+      box.appendChild(
+        el(
+          "p",
+          "slot-empty",
+          "Thư mục chưa có ảnh — web đang dùng tạm <code>" +
+            escapeHtml(slot.fallback) +
+            "</code>."
+        )
+      );
+    } else {
+      const grid = el("div", "slot-images");
+      slot.images.forEach((img) => {
+        const cell = el("div", "slot-pic" + (img.name === slot.active ? " on" : ""));
+        cell.title = img.name + " — bấm để dùng ảnh này";
+
+        const pic = el("img");
+        pic.src = thumb(img.url, 260);
+        pic.alt = img.name;
+        pic.loading = "lazy";
+        cell.appendChild(pic);
+
+        if (img.name === slot.active) cell.appendChild(el("div", "tick", "✓"));
+
+        const rm = el("button", "rm", "Xóa");
+        rm.onclick = (e) => {
+          e.stopPropagation();
+          confirmBox(
+            "Xóa ảnh?",
+            "“" + img.name + "” sẽ được chuyển vào admin/_trash/ (vẫn lấy lại được).",
+            "Xóa ảnh",
+            async () => {
+              const res = await guard("Đang xóa…", () =>
+                post("/api/home/slot-delete", { key: slot.key, name: img.name })
+              );
+              HOME_SLOTS = res.slots;
+              renderSlots();
+              toast("Đã xóa ảnh", "ok");
+            }
+          );
+        };
+        cell.appendChild(rm);
+
+        cell.onclick = async () => {
+          if (img.name === slot.active) return;
+          const res = await guard("Đang đổi ảnh…", () =>
+            post("/api/home/slot-active", { key: slot.key, name: img.name })
+          );
+          HOME_SLOTS = res.slots;
+          renderSlots();
+          toast("Đã đổi ảnh trên trang chủ", "ok");
+        };
+
+        grid.appendChild(cell);
+      });
+      box.appendChild(grid);
+    }
+
+    host.appendChild(box);
+  });
+}
+
+async function uploadSlot(key, file) {
+  if (!file) return;
+  busy("Đang thêm " + file.name + "…");
+  try {
+    const res = await fetch("/api/home/slot-upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/octet-stream",
+        "X-Slot": b64(key),
+        "X-Filename": b64(file.name),
+      },
+      body: file,
+    });
+    const data = await res.json().catch(() => ({ ok: false, error: "Lỗi không rõ" }));
+    if (!res.ok || data.ok === false) throw new Error(data.error);
+    HOME_SLOTS = data.slots;
+    renderSlots();
+    toast("Đã thêm ảnh và dùng luôn", "ok");
+  } catch (err) {
+    toast(err.message, "err");
+  } finally {
+    idle();
+  }
+}
+
+/* ---- lưu / đặt lại ---- */
+
+$("#btn-home-save").onclick = async () => {
+  readHomeForm();
+  await guard("Đang lưu trang chủ…", async () => {
+    await post("/api/home/save", { home: HOME });
+    await load();
+  });
+  toast("Đã lưu nội dung trang chủ", "ok");
+};
+
+$("#btn-home-reset").onclick = () =>
+  confirmBox(
+    "Về nội dung mặc định?",
+    "Toàn bộ chữ trên trang chủ quay lại như bản gốc. Ảnh trong thư mục không bị xóa.",
+    "Đặt lại",
+    async () => {
+      const res = await guard("Đang đặt lại…", () => post("/api/home/reset"));
+      HOME = res.home;
+      fillHomeForm();
+      renderSections();
+      renderSkills();
+      toast("Đã về mặc định", "ok");
+    }
+  );

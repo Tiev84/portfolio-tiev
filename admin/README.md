@@ -91,16 +91,45 @@ assets/project/
 - Xóa ảnh khỏi thư mục → ảnh tự rớt khỏi web ở lần quét sau.
 - Không sửa tay `_project.json` — app sẽ ghi đè.
 
-Từ dữ liệu đó, app tạo lại ba chỗ trên web:
+Từ dữ liệu đó, app tạo lại bốn chỗ trên web:
 
 | File | Nội dung |
 |---|---|
 | `css/theme.css` | màu sắc, phông, kích thước — dùng chung cho **cả 3 trang** |
+| `index.html` | nội dung trang chủ, phần giữa `HOME:START` và `HOME:END` |
 | `js/projects-data.js` | toàn bộ dữ liệu project |
 | `portfolio.html` | lưới project, phần giữa `PROJECTS:START` và `PROJECTS:END` |
 
-Cả ba đều **tạo tự động, đừng sửa tay**. Phần còn lại của các file .html
+Cả bốn đều **tạo tự động, đừng sửa tay**. Phần còn lại của các file .html
 (header, footer, script…) không bị đụng tới.
+
+---
+
+## Trang chủ
+
+Tab **Trang chủ** sửa được toàn bộ chữ và 2 tấm ảnh của `index.html`.
+
+**Hai khung ảnh** tổ chức theo thư mục y như project:
+
+```
+assets/home/
+  chan-dung/       <- ảnh phần Giới thiệu
+    _slot.json     <- ảnh nào đang dùng (app tự ghi)
+    avt.jpg
+  khach-hang/      <- ảnh phần Doanh nghiệp & khách hàng
+    client.jpg
+```
+
+Bỏ nhiều ảnh vào một thư mục rồi **bấm vào ảnh nào là web dùng ảnh đó** — đổi
+qua đổi lại thoải mái, không mất ảnh cũ. Ảnh mới tải lên được dùng luôn.
+
+**Chữ** sửa được: tên lớn, dòng nghề nghiệp, tiêu đề và đoạn giới thiệu, chữ
+trên các nút và link của chúng, danh sách kỹ năng (thêm/bớt dòng, đổi icon),
+tiêu đề và mô tả phần khách hàng.
+
+**Thứ tự các khối**: kéo thả để đổi, bỏ tick để ẩn hẳn một khối khỏi trang.
+
+Trong ô nhập nhiều dòng, xuống dòng sẽ thành ngắt dòng trên web.
 
 ---
 

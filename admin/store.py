@@ -16,6 +16,7 @@ import time
 import unicodedata
 from pathlib import Path
 
+import home
 import theme
 
 REPO = Path(__file__).resolve().parent.parent
@@ -338,6 +339,7 @@ def _matching_div_close(html: str, start: int) -> int:
 def build() -> dict:
     """Ghi css/theme.css, js/projects-data.js và lưới project trong portfolio.html."""
     theme.build()
+    home.build()
     projects = scan()
 
     data_file = REPO / "js" / "projects-data.js"
@@ -363,5 +365,5 @@ def build() -> dict:
     return {
         "projects": len(projects),
         "images": sum(len(p["images"]) for p in projects),
-        "files": ["css/theme.css", "js/projects-data.js", "portfolio.html"],
+        "files": ["css/theme.css", "index.html", "js/projects-data.js", "portfolio.html"],
     }

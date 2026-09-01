@@ -1017,3 +1017,211 @@ label.check input {
 .slot-row .slot.big {
   color: var(--yellow);
 }
+
+/* ================= MÀN TRANG CHỦ ================= */
+
+.home-wrap {
+  padding: 0 0 90px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .home-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- thứ tự khối --- */
+
+.section-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.section-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #1c1c1c;
+  cursor: grab;
+  font-size: 13.5px;
+}
+
+.section-item.dragging {
+  opacity: 0.35;
+}
+
+.section-item.drop-target {
+  border-color: var(--yellow);
+}
+
+.section-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--yellow);
+}
+
+.section-item .grip {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.section-item.off {
+  opacity: 0.45;
+}
+
+/* --- khung ảnh trang chủ --- */
+
+.slot-box {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+
+.slot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.slot-head strong {
+  font-size: 12.5px;
+}
+
+.slot-head small {
+  display: block;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.slot-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  gap: 10px;
+}
+
+.slot-pic {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  background: #101010;
+  cursor: pointer;
+}
+
+.slot-pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slot-pic.on {
+  border-color: var(--yellow);
+}
+
+.slot-pic .tick {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: #1b1b1b;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.slot-pic .rm {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 3px 7px;
+  border: 0;
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.15s;
+}
+
+.slot-pic:hover .rm {
+  opacity: 1;
+}
+
+.slot-pic .rm:hover {
+  background: var(--red);
+}
+
+.slot-empty {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* --- dòng kỹ năng --- */
+
+.skill-rows {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 34px 118px 1fr 30px;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-row img {
+  width: 22px;
+  height: 22px;
+  justify-self: center;
+}
+
+.skill-row select,
+.skill-row input {
+  padding: 7px 9px;
+  font-size: 12.5px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.skill-row .rm {
+  padding: 6px 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.skill-row .rm:hover {
+  color: var(--red);
+}
