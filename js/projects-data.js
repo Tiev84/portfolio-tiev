@@ -117,6 +117,48 @@ window.PROJECTS = {
     images: [
     ],
   },
+  "project-moi-1": {
+    category: "",
+    title: "Gala Đại hội năm Droppii 2024 - 2025",
+    description: "",
+    images: [
+    ],
+  },
+  "1": {
+    category: "SOCIAL MEDIA",
+    title: "Series Khoảnh khắc vô giá Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "yen-sao": {
+    category: "Travel",
+    title: "KV Droppii Travel",
+    description: "",
+    images: [
+    ],
+  },
+  "vitaleaf": {
+    category: "SOCIAL MEDIA",
+    title: "Lá gan nguồn sống - Vitaleaf x Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "3": {
+    category: "SOCIAL MEDIA",
+    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
+    description: "",
+    images: [
+    ],
+  },
+  "2": {
+    category: "",
+    title: "Tết đến gần Droppii",
+    description: "",
+    images: [
+    ],
+  },
   "ooh": {
     category: "SOCIAL MEDIA | PRINTING",
     title: "Chay Nhân Duyên - Tệp khách Hoa",
@@ -180,51 +222,16 @@ window.PROJECTS = {
       "assets/project/LOGOFOLIO/tang nen thom social.png",
     ],
   },
-  "yen-sao": {
-    category: "Travel",
-    title: "KV Droppii Travel",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-1": {
-    category: "",
-    title: "PROJECT MOI 1",
-    description: "",
-    images: [
-    ],
-  },
-  "vitaleaf": {
-    category: "SOCIAL MEDIA",
-    title: "Lá gan nguồn sống - Vitaleaf x Droppii",
+  "project-moi-2": {
+    category: "SOCIAL MEDIA | POSM",
+    title: "KING JADES",
     description: "",
     images: [
     ],
   },
   "project-moi-4": {
     category: "",
-    title: "PROJECT MOI 4",
-    description: "",
-    images: [
-    ],
-  },
-  "1": {
-    category: "SOCIAL MEDIA",
-    title: "Series Khoảnh khắc vô giá Droppii",
-    description: "",
-    images: [
-    ],
-  },
-  "2": {
-    category: "",
-    title: "Tết đến gần Droppii",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-2": {
-    category: "",
-    title: "PROJECT MOI 2",
+    title: "OOH - PANO",
     description: "",
     images: [
     ],
@@ -245,16 +252,44 @@ window.PROJECTS = {
       "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
     ],
   },
-  "3": {
-    category: "SOCIAL MEDIA",
-    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
+  "project-moi-5": {
+    category: "",
+    title: "NƯỚC ION KỀM FUJIWA",
     description: "",
     images: [
     ],
   },
-  "project-moi-5": {
+  "project-moi-6": {
     category: "",
-    title: "PROJECT MOI 5",
+    title: "DUNG DỊCH VỆ SINH LADU LENCO",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-7": {
+    category: "SOCIAL MEDIA | PRINTING",
+    title: "GOODDY BAR - ĐỨC",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-8": {
+    category: "SOCIAL MEDIA | EVENT",
+    title: "CHƯƠNG TRÌNH ĐÀO TẠO CEO - VCCI",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-9": {
+    category: "Course",
+    title: "ART DIRECTION - DẤU ẤN DI SẢN BITIS",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-10": {
+    category: "BRANDING",
+    title: "LOGOFOLIO - NHIỀU THƯƠNG HIỆU",
     description: "",
     images: [
     ],
