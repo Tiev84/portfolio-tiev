@@ -1,10 +1,10 @@
 {
   "id": "project-moi-3",
-  "title": "PROJECT MOI 3",
+  "title": "Event Đại hội năm 2024 Droppii",
   "category": "",
   "description": "",
-  "wide": false,
-  "order": 15,
+  "wide": true,
+  "order": 12,
   "cover": "",
   "images": [],
   "hidden": []

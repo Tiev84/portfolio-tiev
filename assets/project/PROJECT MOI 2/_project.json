@@ -1,10 +1,10 @@
 {
   "id": "project-moi-2",
-  "title": "PROJECT MOI 2",
-  "category": "",
+  "title": "Event Đại hội năm 2026 Droppii",
+  "category": "SOCIAL MEDIA",
   "description": "",
-  "wide": false,
-  "order": 14,
+  "wide": true,
+  "order": 11,
   "cover": "",
   "images": [],
   "hidden": []

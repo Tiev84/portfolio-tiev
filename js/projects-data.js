@@ -91,14 +91,49 @@ window.PROJECTS = {
   },
   "sale-campaign-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Sale campaign Nhà hàng Chay Nhân Duyên",
+    title: "EXPO Đại hội năm Droppii 2026",
     description: "",
     images: [
     ],
   },
   "vu-lan-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
-    title: "Campaign Vu Lan Nhà hàng Chay Nhân Duyên",
+    title: "Tháng phụ nữ Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "king-jades-83": {
+    category: "SOCIAL MEDIA",
+    title: "Series APPROVER Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "fnb-menu": {
+    category: "SOCIAL MEDIA",
+    title: "Sale Event 1.6 Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-1": {
+    category: "Travel",
+    title: "KV Company trip Droppii 2025",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-2": {
+    category: "SOCIAL MEDIA",
+    title: "Event Đại hội năm 2026 Droppii",
+    description: "",
+    images: [
+    ],
+  },
+  "project-moi-3": {
+    category: "",
+    title: "Event Đại hội năm 2024 Droppii",
     description: "",
     images: [
     ],
@@ -112,16 +147,16 @@ window.PROJECTS = {
       "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
     ],
   },
-  "king-jades-83": {
+  "project-moi-4": {
     category: "SOCIAL MEDIA",
-    title: "Campaign 8.3 King Jades",
+    title: "Lá gan nguồn sống - Vitaleaf x Droppii",
     description: "",
     images: [
     ],
   },
-  "fnb-menu": {
-    category: "PRINTING",
-    title: "FnB Menu design",
+  "project-moi-5": {
+    category: "SOCIAL MEDIA",
+    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
     description: "",
     images: [
     ],
@@ -187,41 +222,6 @@ window.PROJECTS = {
       "assets/project/OOH - PANO - BACKDROP/album mon moi.png",
       "assets/project/OOH - PANO - BACKDROP/an chay tich phuoc.png",
       "assets/project/OOH - PANO - BACKDROP/via quan cong.png",
-    ],
-  },
-  "project-moi-1": {
-    category: "",
-    title: "PROJECT MOI 1",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-2": {
-    category: "",
-    title: "PROJECT MOI 2",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-3": {
-    category: "",
-    title: "PROJECT MOI 3",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-4": {
-    category: "",
-    title: "PROJECT MOI 4",
-    description: "",
-    images: [
-    ],
-  },
-  "project-moi-5": {
-    category: "",
-    title: "PROJECT MOI 5",
-    description: "",
-    images: [
     ],
   },
 };
