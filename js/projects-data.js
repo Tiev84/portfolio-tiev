@@ -260,7 +260,7 @@ window.PROJECTS = {
     ],
   },
   "project-moi-6": {
-    category: "",
+    category: "SOCIAL MEDIA",
     title: "DUNG DỊCH VỆ SINH LADU LENCO",
     description: "",
     images: [
@@ -274,10 +274,19 @@ window.PROJECTS = {
     ],
   },
   "project-moi-8": {
-    category: "SOCIAL MEDIA | EVENT",
+    category: "EVENT  | PRESENTATION",
     title: "CHƯƠNG TRÌNH ĐÀO TẠO CEO - VCCI",
-    description: "",
+    description: "Chương trình Đào tạo CEO 2023 do VCCI (Liên đoàn Thương mại và Công nghiệp Việt Nam) tổ chức là khóa huấn luyện cao cấp nhằm nâng tầm năng lực quản trị cho các nhà lãnh đạo doanh nghiệp. Đồng hành cùng sự kiện quy mô này, Tiến trực tiếp thực hiện trọn bộ thiết kế thị giác—từ standee điện tử, backdrop điện tử, ấn phẩm OOH ngoài trời cho đến hệ thống màn hình thuyết trình sân khấu. Sự đồng bộ, sang trọng và chỉn chu trong từng chi tiết thiết kế đã góp phần tôn vinh tính chuyên nghiệp và vị thế cấp cao của chương trình.",
     images: [
+      "assets/project/PROJECT MOI 8/thumb vcci (1).jpg",
+      "assets/project/PROJECT MOI 8/ooh.jpg",
+      "assets/project/PROJECT MOI 8/bg 2.jpg",
+      "assets/project/PROJECT MOI 8/bg 1.jpg",
+      "assets/project/PROJECT MOI 8/STANDEE VCCI.jpg",
+      "assets/project/PROJECT MOI 8/bg mockup.png",
+      "assets/project/PROJECT MOI 8/D2200345.JPG",
+      "assets/project/PROJECT MOI 8/82f1bb178328701.64e6145af0b3f.jpg",
+      "assets/project/PROJECT MOI 8/65edd0178328701.64e6145af1aa2.png",
     ],
   },
   "project-moi-9": {
