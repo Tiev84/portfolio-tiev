@@ -155,6 +155,43 @@ def write_meta(folder: Path, meta: dict) -> None:
 # ----------------------------------------------------------------------
 
 
+def unique_id(base: str, taken: set[str]) -> str:
+    """Trả về id chưa ai dùng, dựa trên base (thêm -2, -3... nếu cần)."""
+    base = base or "project"
+    candidate = base
+    counter = 2
+    while candidate in taken:
+        candidate = f"{base}-{counter}"
+        counter += 1
+    return candidate
+
+
+def resolve_ids(pairs: list[tuple[Path, dict]], persist: bool) -> None:
+    """
+    Bảo đảm mỗi project một id riêng.
+
+    Chép một thư mục project trong Explorer sẽ chép luôn _project.json, nên hai
+    thư mục mang cùng id. Lúc đó mọi thao tác tra theo id (đổi thứ tự, sửa,
+    xóa) đều rơi vào nhầm thư mục. Ở đây phát hiện và cấp id mới cho bản sao.
+
+    Ai giữ được id cũ? Thư mục có tên khớp với id — tức bản gốc.
+    """
+    taken: set[str] = set()
+    priority = sorted(
+        pairs, key=lambda fm: 0 if slugify(fm[0].name) == fm[1]["id"] else 1
+    )
+
+    for folder, meta in priority:
+        if meta["id"] not in taken:
+            taken.add(meta["id"])
+            continue
+
+        meta["id"] = unique_id(slugify(folder.name), taken)
+        taken.add(meta["id"])
+        if persist:
+            write_meta(folder, meta)
+
+
 def folder_of(project_id: str) -> Path | None:
     for folder in PROJECT_DIR.iterdir():
         if not folder.is_dir() or folder.name.startswith(("_", ".")):
@@ -174,11 +211,16 @@ def scan(persist: bool = True) -> list[dict]:
     PROJECT_DIR.mkdir(parents=True, exist_ok=True)
     projects: list[dict] = []
 
-    for folder in sorted(PROJECT_DIR.iterdir(), key=lambda p: natural_key(p.name)):
-        if not folder.is_dir() or folder.name.startswith(("_", ".")):
-            continue
+    folders = [
+        f
+        for f in sorted(PROJECT_DIR.iterdir(), key=lambda p: natural_key(p.name))
+        if f.is_dir() and not f.name.startswith(("_", "."))
+    ]
 
-        meta = read_meta(folder)
+    pairs = [(f, read_meta(f)) for f in folders]
+    resolve_ids(pairs, persist)
+
+    for folder, meta in pairs:
         on_disk = {f.name for f in folder.iterdir() if f.is_file() and is_media(f.name)}
 
         images = [n for n in meta["images"] if n in on_disk]
@@ -191,7 +233,8 @@ def scan(persist: bool = True) -> list[dict]:
         cover = meta["cover"] if meta["cover"] in images else (images[0] if images else "")
 
         changed = (
-            images != meta["images"]
+            meta["id"] != read_meta(folder)["id"]
+            or images != meta["images"]
             or hidden != meta["hidden"]
             or cover != meta["cover"]
             or not (folder / META_NAME).exists()
@@ -233,6 +276,17 @@ def scan(persist: bool = True) -> list[dict]:
         )
 
     projects.sort(key=lambda p: (p["order"], natural_key(p["folder"])))
+
+    # Số thứ tự phải là 1..N liền mạch. Trùng số hoặc thủng số làm việc sắp xếp
+    # thành hên xui, kéo thả xong thẻ lại nhảy về chỗ cũ.
+    if [p["order"] for p in projects] != list(range(1, len(projects) + 1)):
+        for index, project in enumerate(projects, start=1):
+            project["order"] = index
+            if persist:
+                folder = PROJECT_DIR / project["folder"]
+                meta = read_meta(folder)
+                meta.update({"id": project["id"], "order": index})
+                write_meta(folder, meta)
 
     # Bố cục lặp "2 thẻ lớn + 3 thẻ nhỏ": kích thước thẻ suy ra từ vị trí,
     # không lấy theo ô tick thủ công — như vậy kéo thả đổi thứ tự xong là

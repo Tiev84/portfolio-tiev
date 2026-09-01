@@ -660,10 +660,24 @@ $("#btn-new").onclick = async () => {
     )
   );
 
+  // Tên gợi ý phải né những thư mục đã có, không thì tạo lần hai là báo
+  // "đã tồn tại" và không tạo được gì cả.
+  const dangCo = new Set(PROJECTS.map((p) => p.folder.toLowerCase()));
+  let soThuTu = 0;
+  const tenConTrong = () => {
+    let ten;
+    do {
+      soThuTu += 1;
+      ten = `PROJECT MOI ${soThuTu}`;
+    } while (dangCo.has(ten.toLowerCase()));
+    dangCo.add(ten.toLowerCase());
+    return ten;
+  };
+
   const rows = slots.map((slot, i) => {
     const input = el("input");
     input.type = "text";
-    input.placeholder = `PROJECT MOI ${i + 1}`;
+    input.placeholder = tenConTrong();
     const wrap = el("div", "slot-row");
     wrap.appendChild(
       el("label", slot.big ? "slot big" : "slot", `#${slot.stt} · ${slot.label}`)

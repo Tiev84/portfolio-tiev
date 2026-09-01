@@ -180,7 +180,7 @@ window.PROJECTS = {
       "assets/project/LOGOFOLIO/tang nen thom social.png",
     ],
   },
-  "project-moi-1": {
+  "yen-sao": {
     category: "Travel",
     title: "KV Droppii Travel",
     description: "",
@@ -194,7 +194,7 @@ window.PROJECTS = {
     images: [
     ],
   },
-  "project-moi-4": {
+  "vitaleaf": {
     category: "SOCIAL MEDIA",
     title: "Lá gan nguồn sống - Vitaleaf x Droppii",
     description: "",
@@ -208,14 +208,14 @@ window.PROJECTS = {
     images: [
     ],
   },
-  "project-moi-2": {
+  "1": {
     category: "SOCIAL MEDIA",
     title: "Series Khoảnh khắc vô giá Droppii",
     description: "",
     images: [
     ],
   },
-  "project-moi-3": {
+  "2": {
     category: "",
     title: "Tết đến gần Droppii",
     description: "",
@@ -245,7 +245,7 @@ window.PROJECTS = {
       "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
     ],
   },
-  "project-moi-5": {
+  "3": {
     category: "SOCIAL MEDIA",
     title: "Tinh hoa Yến Việt - Droppii x Bestnest",
     description: "",

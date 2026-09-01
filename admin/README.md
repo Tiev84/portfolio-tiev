@@ -91,6 +91,11 @@ assets/project/
 - Xóa ảnh khỏi thư mục → ảnh tự rớt khỏi web ở lần quét sau.
 - Không sửa tay `_project.json` — app sẽ ghi đè.
 
+> **Muốn thêm project thì bấm "+ Project mới", đừng chép thư mục trong
+> Explorer.** Chép thư mục sẽ chép luôn `_project.json` bên trong, hai thư mục
+> mang cùng một mã định danh. App vẫn tự phát hiện và cấp mã mới cho bản sao,
+> nhưng địa chỉ web của nó sẽ đổi.
+
 Từ dữ liệu đó, app tạo lại bốn chỗ trên web:
 
 | File | Nội dung |
