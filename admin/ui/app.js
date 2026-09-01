@@ -779,6 +779,40 @@ function showLoginNeeded(data) {
   });
 }
 
+/* ---- Không nối được tới GitHub ---- */
+
+function showNetworkProblem(data) {
+  modal({
+    title: "Không nối được tới GitHub",
+    body: [
+      el(
+        "p",
+        "hint",
+        `Thay đổi đã <b>lưu an toàn trên máy</b> (${data.ahead || 1} lần lưu đang chờ) —
+         không mất gì cả. Chỉ là máy chưa gửi lên GitHub được.<br /><br />
+         <b>Thử theo thứ tự:</b><br />
+         1. Kiểm tra mạng, rồi bấm <b>Thử lại</b> bên dưới.<br />
+         2. Bật phát wifi từ điện thoại rồi nối máy tính vào — cách này hay ăn nhất,
+            vì nhiều khi mạng nhà bị chặn github.com.<br />
+         3. Chờ 15–30 phút rồi thử lại.<br /><br />
+         Cứ để đó cũng không sao — lần sau bấm "Đăng lên web" nó sẽ đẩy tiếp.`
+      ),
+      el("div", "log error", escapeHtml(data.error || "")),
+    ],
+    actions: [
+      { label: "Để sau", onClick: closeModal },
+      {
+        label: "Thử lại",
+        kind: "primary",
+        onClick: () => {
+          closeModal();
+          $("#btn-publish").click();
+        },
+      },
+    ],
+  });
+}
+
 /* ---- Đăng lên web ---- */
 
 $("#btn-publish").onclick = async () => {
@@ -880,6 +914,7 @@ $("#btn-publish").onclick = async () => {
             }
 
             if (data.auth) return showLoginNeeded(data);
+            if (data.network) return showNetworkProblem(data);
 
             const stepText =
               { add: "gom file", commit: "lưu thay đổi", push: "đẩy lên GitHub" }[data.step] ||

@@ -94,6 +94,32 @@ def looks_like_auth_error(text: str) -> bool:
     return any(hint in low for hint in AUTH_HINTS)
 
 
+# Không nối được tới GitHub: rớt mạng, nhà mạng chặn, tường lửa, GitHub sập...
+# Khác hẳn lỗi đăng nhập nên phải báo khác, kèm nút thử lại.
+NETWORK_HINTS = (
+    "could not connect to server",
+    "failed to connect",
+    "could not resolve host",
+    "couldn't resolve host",
+    "connection timed out",
+    "operation timed out",
+    "connection reset",
+    "network is unreachable",
+    "recv failure",
+    "send failure",
+    "ssl_error",
+    "gnutls_handshake",
+    "unable to access",
+)
+
+
+def looks_like_network_error(text: str) -> bool:
+    low = text.lower()
+    if looks_like_auth_error(text):
+        return False
+    return any(hint in low for hint in NETWORK_HINTS)
+
+
 def unpushed_count() -> int:
     """Số commit đã lưu ở máy nhưng chưa đẩy lên GitHub."""
     code, out = git("rev-list", "--count", "@{u}..HEAD", timeout=30)
@@ -539,6 +565,7 @@ class Handler(SimpleHTTPRequestHandler):
                     "committed": True,
                     "ahead": ahead,
                     "auth": looks_like_auth_error(push_out),
+                    "network": looks_like_network_error(push_out),
                 },
                 500,
             )
