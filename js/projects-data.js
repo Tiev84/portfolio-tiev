@@ -127,9 +127,9 @@ window.PROJECTS = {
     ],
   },
   "logofolio": {
-    category: "SOCIAL MEDIA",
+    category: "SOCIAL MEDIA | PRINTING",
     title: "Chay Nhân Duyên - Tệp khách Việt",
-    description: "",
+    description: "Nhà hàng chay Nhân Duyên là điểm đến quen thuộc dành cho những ai tìm kiếm không gian ẩm thực thanh tịnh cùng các món chay thực dưỡng, trọn vị và lành lành. Đồng hành cùng hình ảnh của nhà hàng, Tiến đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts chỉn chu, thu hút trên Fanpage đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee truyền thông và poster A5 để bàn. Sự đồng bộ từ không gian mạng đến điểm chạm tại nhà hàng đã góp phần mang hình ảnh Nhân Duyên đến gần hơn với thực khách, nhẹ nhàng nhưng đầy ấn tượng.",
     images: [
       "assets/project/LOGOFOLIO/thumb nhan duyen.jpg",
       "assets/project/LOGOFOLIO/gio vang.jpg",
