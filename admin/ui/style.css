@@ -223,8 +223,8 @@ code {
 .project-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  column-gap: 18px;
-  row-gap: 34px;
+  column-gap: var(--grid-col-gap, 18px);
+  row-gap: calc(var(--grid-row-gap, 31px) + 3px);
 }
 
 .project-card {
@@ -250,15 +250,15 @@ code {
 .project-image {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: var(--card-ratio, 1 / 1);
   overflow: hidden;
   background: #101010;
-  border-radius: 7px;
+  border-radius: var(--card-radius, 7px);
   cursor: pointer;
 }
 
 .project-wide .project-image {
-  aspect-ratio: 1.6 / 1;
+  aspect-ratio: var(--card-ratio-wide, 1.6 / 1);
 }
 
 .project-image img {

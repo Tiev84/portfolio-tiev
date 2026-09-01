@@ -219,7 +219,23 @@ function renderList() {
     grid.appendChild(card);
   });
 
+  applyGridTokens();
   enableCardDrag(grid);
+}
+
+/**
+ * Lưới trong app phải hiện y như web thật — nên lấy thẳng tỉ lệ, bo góc và
+ * khoảng cách từ cấu hình giao diện, thay vì để số cứng trong css của app.
+ */
+function applyGridTokens() {
+  const grid = $("#project-grid");
+  if (!grid || typeof THEME === "undefined" || !THEME) return;
+  const l = THEME.layout;
+  grid.style.setProperty("--card-ratio", l.card_ratio);
+  grid.style.setProperty("--card-ratio-wide", l.card_ratio_wide);
+  grid.style.setProperty("--card-radius", l.card_radius + "px");
+  grid.style.setProperty("--grid-col-gap", l.grid_col_gap + "px");
+  grid.style.setProperty("--grid-row-gap", l.grid_row_gap + "px");
 }
 
 function escapeHtml(text) {
@@ -892,6 +908,16 @@ let THEME = null;
 let THEME_FIELDS = [];
 let THEME_DEFAULTS = null;
 
+// Nạp sớm để lưới project trong app hiện đúng tỉ lệ ngay từ lần mở đầu tiên
+api("/api/theme")
+  .then((data) => {
+    THEME = data.theme;
+    THEME_FIELDS = data.fields;
+    THEME_DEFAULTS = data.defaults;
+    applyGridTokens();
+  })
+  .catch(() => {});
+
 const T = {
   auto: "#t-auto-pattern",
   wide: "#t-wide",
@@ -1082,6 +1108,7 @@ function applyPreviewTheme() {
     doc.head.appendChild(tag);
   }
   tag.textContent = themeCss();
+  applyGridTokens();
 }
 
 let previewPage = "index.html";
