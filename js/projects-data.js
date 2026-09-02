@@ -111,6 +111,7 @@ window.PROJECTS = {
     images: [
       "assets/project/SALE CAMPAIGN NHAN DUYEN/thumb dhn expo.jpg",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/TEASER EXPO 2026.png",
+      "assets/project/SALE CAMPAIGN NHAN DUYEN/5 ly do.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/7 ngay.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/tong hop gian hang.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/LAYOUT.png",
