@@ -1,11 +1,19 @@
 {
   "id": "2",
-  "title": "Tết đến gần Droppii",
-  "category": "",
-  "description": "",
-  "wide": true,
+  "title": "TẾT ĐẾN GẦN DROPPII",
+  "category": "SOCIAL MEDIA | UI - UX DESIGN",
+  "description": "Sale Event “Tết Đến Gần” (30.01.2026) của Droppii là chiến dịch kích cầu mua sắm trọng điểm giai đoạn cận Tết, mang không khí rộn ràng cùng chuỗi ưu đãi lớn đến cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế trọn bộ Social Media Posts sôi nổi trên Fanpage đến việc xây dựng giao diện Landing Page tối ưu trải nghiệm người dùng. Sự kết hợp hài hòa giữa màu sắc Tết truyền thống và nét thiết kế hiện đại đã tạo nên điểm chạm thị giác ấn tượng, góp phần thúc đẩy tỷ lệ chuyển đổi và lan tỏa sức nóng cho sự kiện.",
+  "wide": false,
   "order": 15,
-  "cover": "",
-  "images": [],
+  "cover": "thumb tet den gan.jpg",
+  "images": [
+    "thumb tet den gan.jpg",
+    "BIA KM (5).png",
+    "POSTER (1).png",
+    "BANNER LIVE (3).png",
+    "FREESHIP.png",
+    "NHAN LICH (1).png",
+    "LP (1).png"
+  ],
   "hidden": []
 }
