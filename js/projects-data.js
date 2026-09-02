@@ -250,7 +250,7 @@ window.PROJECTS = {
   },
   "3": {
     category: "SOCIAL MEDIA",
-    title: "Tinh hoa Yến Việt - Droppii x Bestnest",
+    title: "DROPPII X MIDU",
     description: "",
     images: [
     ],
