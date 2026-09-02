@@ -164,9 +164,16 @@ window.PROJECTS = {
   },
   "fnb-menu": {
     category: "SOCIAL MEDIA",
-    title: "Sale Event 1.6 Droppii",
-    description: "",
+    title: "SALE EVENT 1.6 DROPPII",
+    description: "Sale Event 1.6 Droppii – Phá Đảo Thế Giới Deal là chiến dịch mua sắm bùng nổ nhân dịp Lễ Thiếu nhi, mang đến chuỗi ưu đãi lớn cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu thiết kế Social Media Posts trên Fanpage, sáng tạo Key Visual lấy ý tưởng từ thế giới Game Mario kinh điển. Bằng cách lồng ghép khéo léo các yếu tố đồ họa Pixel/3D vui nhộn, năng động cùng bố cục hình ảnh bắt mắt, bộ thiết kế đã truyền tải trọn vẹn tinh thần \"phá đảo\" đầy hứng khởi, thu hút tương tác mạnh mẽ và tạo điểm nhấn độc đáo cho chiến dịch.",
     images: [
+      "assets/project/FNB MENU/THUMB 16.jpg",
+      "assets/project/FNB MENU/PHA DAO THE GIOI DEAL.png",
+      "assets/project/FNB MENU/teaser 2.png",
+      "assets/project/FNB MENU/BANNER LIVE biz.png",
+      "assets/project/FNB MENU/bia km (4).png",
+      "assets/project/FNB MENU/goi y qua 16.png",
+      "assets/project/FNB MENU/chuc 1_6.png",
     ],
   },
   "project-moi-1": {
