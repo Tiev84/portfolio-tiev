@@ -76,7 +76,23 @@ def git(*args: str, timeout: int = 900) -> tuple[int, str]:
     )
     # Chỉ cắt khoảng trắng cuối: `git status --porcelain` dùng khoảng trắng
     # ĐẦU dòng làm mã trạng thái, cắt đi là mất ký tự đầu của tên file.
-    return proc.returncode, ((proc.stdout or "") + (proc.stderr or "")).rstrip()
+    out = ((proc.stdout or "") + (proc.stderr or "")).rstrip()
+
+    # Có lúc git chết mà không in ra chữ nào (bị tường lửa/sandbox chặn, hết
+    # quyền...). Im lặng như vậy thì phía trên không biết đường nào mà lần,
+    # nên tự dựng lấy một câu mô tả.
+    if proc.returncode != 0 and not out.strip():
+        out = "\n".join(
+            [
+                f"Lệnh `git {' '.join(args)}` thất bại với mã lỗi "
+                f"{proc.returncode} nhưng không báo lý do.",
+                "Thường là do git bị chặn, hoặc app đang chạy trong môi trường",
+                "hạn chế quyền.",
+                "Thử tắt app rồi mở lại bằng icon Portfolio Manager.",
+            ]
+        )
+
+    return proc.returncode, out
 
 
 AUTH_HINTS = (
@@ -328,7 +344,9 @@ class Handler(SimpleHTTPRequestHandler):
             )
 
         if path == "/api/git/status":
-            return self.send_json({"ok": True, **git_status()})
+            # git_status() tự trả "ok" đúng/sai — đừng bọc thêm {"ok": True}
+            # rồi để spread ghi đè, dễ ra trạng thái mâu thuẫn.
+            return self.send_json(git_status())
 
         return self.send_error(HTTPStatus.NOT_FOUND)
 

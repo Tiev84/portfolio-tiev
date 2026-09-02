@@ -1,11 +1,16 @@
 {
   "id": "yen-sao",
-  "title": "KV Droppii Travel",
-  "category": "Travel",
+  "title": "KV DROPPII TRAVEL - COMPANY TRIP",
+  "category": "KEY VISUAL | TRAVEL",
   "description": "",
-  "wide": false,
+  "wide": true,
   "order": 12,
-  "cover": "",
-  "images": [],
+  "cover": "THUMB travel.jpg",
+  "images": [
+    "THUMB travel.jpg",
+    "kv bali.png",
+    "KV CHAMPION.png",
+    "KV NHA TRANG 2.png"
+  ],
   "hidden": []
 }

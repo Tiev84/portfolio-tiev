@@ -179,10 +179,14 @@ window.PROJECTS = {
     ],
   },
   "yen-sao": {
-    category: "Travel",
-    title: "KV Droppii Travel",
+    category: "KEY VISUAL | TRAVEL",
+    title: "KV DROPPII TRAVEL - COMPANY TRIP",
     description: "",
     images: [
+      "assets/project/YEN SAO/THUMB travel.jpg",
+      "assets/project/YEN SAO/kv bali.png",
+      "assets/project/YEN SAO/KV CHAMPION.png",
+      "assets/project/YEN SAO/KV NHA TRANG 2.png",
     ],
   },
   "vitaleaf": {

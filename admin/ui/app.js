@@ -26,7 +26,15 @@ async function api(path, options = {}) {
   } catch {
     throw new Error(`Máy chủ trả về lỗi ${res.status}`);
   }
-  if (!res.ok || data.ok === false) throw new Error(data.error || `Lỗi ${res.status}`);
+  if (!res.ok || data.ok === false) {
+    // data.error rỗng thì tuyệt đối đừng in "Lỗi 200" — 200 là mã THÀNH CÔNG,
+    // đọc lên vô nghĩa. Nói thẳng là máy chủ không cho biết lý do.
+    throw new Error(
+      data.error ||
+        `Máy chủ báo thất bại nhưng không cho biết lý do (mã HTTP ${res.status}).` +
+          " Thử tắt app rồi mở lại bằng icon Portfolio Manager."
+    );
+  }
   return data;
 }
 
