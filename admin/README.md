@@ -168,6 +168,11 @@ bên phải — xem được cả 3 trang và 3 cỡ màn hình, chưa lưu thì
 nên hiện nguyên khung không mất phần nào. Thẻ lớn dùng chung một tỉ lệ ở mọi
 khổ màn hình; thẻ nhỏ có ô riêng cho điện thoại.
 
+**Bề ngang ảnh trong project** quyết định độ rộng của mọi ảnh trong trang chi
+tiết. Mọi ảnh dùng chung một số nên mép trái - phải luôn thẳng hàng từ trên
+xuống, bất kể ảnh ngang, vuông hay dọc. Để 100% là dùng trọn bề ngang; giảm
+xuống 80% chẳng hạn thì cả cột ảnh thu vào nhưng vẫn thẳng hàng.
+
 Bấm **Lưu giao diện** để ghi ra `css/theme.css`, hoặc **Về mặc định** để quay
 lại bản gốc. Ảnh và project không bị ảnh hưởng.
 

@@ -981,6 +981,7 @@ const T = {
   ratio: "#t-ratio",
   ratioWide: "#t-ratio-wide",
   ratioMobile: "#t-ratio-mobile",
+  galleryWidth: "#t-gallery-width",
 };
 
 /* ---- chuyển màn ---- */
@@ -1095,6 +1096,7 @@ function fillThemeForm() {
   $(T.ratio).value = THEME.layout.card_ratio;
   $(T.ratioWide).value = THEME.layout.card_ratio_wide;
   $(T.ratioMobile).value = THEME.layout.card_ratio_mobile;
+  $(T.galleryWidth).value = THEME.layout.gallery_width;
 }
 
 function readThemeForm() {
@@ -1115,6 +1117,7 @@ function readThemeForm() {
   THEME.layout.card_ratio = $(T.ratio).value.trim() || "1 / 1";
   THEME.layout.card_ratio_wide = $(T.ratioWide).value.trim() || "4500 / 3519";
   THEME.layout.card_ratio_mobile = $(T.ratioMobile).value.trim() || "1.55 / 1";
+  THEME.layout.gallery_width = num(T.galleryWidth, 100);
 }
 
 Object.values(T).forEach((sel) => {
@@ -1141,6 +1144,7 @@ function themeCss() {
   decls.push(`--card-ratio:${l.card_ratio};`);
   decls.push(`--card-ratio-wide:${l.card_ratio_wide};`);
   decls.push(`--card-ratio-mobile:${l.card_ratio_mobile};`);
+  decls.push(`--gallery-width:${l.gallery_width}%;`);
   decls.push("--yellow:var(--accent);");
   return `:root{${decls.join("")}}`;
 }

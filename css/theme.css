@@ -38,6 +38,7 @@
   --card-ratio: 1 / 1;
   --card-ratio-wide: 4500 / 3519;
   --card-ratio-mobile: 1.55 / 1;
+  --gallery-width: 100%;
 
   /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */
   --yellow: var(--accent);

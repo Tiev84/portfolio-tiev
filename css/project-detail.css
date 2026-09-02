@@ -276,36 +276,23 @@ a {
   background: transparent;
 }
 
-/* Ảnh & Video */
+/*
+  Ảnh & Video — TẤT CẢ dùng chung một bề ngang.
+
+  Trước đây ảnh ngang để 100% còn ảnh vuông/dọc để 90%, nên mép trái - phải
+  so le nhau, nhìn lộn xộn. Giờ mọi ảnh cùng bề ngang nên thẳng hàng từ trên
+  xuống. Ảnh dọc vì thế sẽ cao hơn — đúng bản chất của nó, không bị cắt xén.
+*/
 .gallery-item img,
 .gallery-item video {
   display: block;
 
-  width: auto;
+  width: var(--gallery-width);
   height: auto;
 
   max-width: 100%;
 
-  border-radius: 8px;
-}
-
-.gallery-item video {
-  width: 100%;
-}
-
-/* Ảnh ngang */
-.gallery-item.landscape img {
-  width: 100%;
-}
-
-/* Ảnh vuông */
-.gallery-item.square img {
-  width: 90%;
-}
-
-/* Ảnh dọc */
-.gallery-item.portrait img {
-  width: 90%;
+  border-radius: var(--radius);
 }
 .lightbox {
   position: fixed;
@@ -504,24 +491,14 @@ a {
     gap: 20px;
   }
 
-  .project-gallery {
-    gap: 20px;
-  }
-
   .gallery-item {
     width: 100%;
   }
 
-  .gallery-item.landscape img {
+  /* Màn hẹp thì dùng trọn bề ngang, khỏi phí chỗ */
+  .gallery-item img,
+  .gallery-item video {
     width: 100%;
-  }
-
-  .gallery-item.square img {
-    width: 90%;
-  }
-
-  .gallery-item.portrait img {
-    width: 90%;
   }
 
   /* ================= FOOTER ================= */

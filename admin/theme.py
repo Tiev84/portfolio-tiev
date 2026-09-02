@@ -74,6 +74,9 @@ DEFAULTS = {
         # Thẻ lớn: đúng tỉ lệ file gốc 4500x3519 để ảnh không bị cắt
         "card_ratio_wide": "4500 / 3519",
         "card_ratio_mobile": "1.55 / 1",  # thẻ nhỏ khi xem trên điện thoại
+        # Bề ngang ảnh trong trang chi tiết (%). Mọi ảnh dùng chung số này
+        # nên mép trái - phải luôn thẳng hàng.
+        "gallery_width": 100,
     },
     "grid": {
         # Bố cục lặp: mỗi khối gồm 2 thẻ lớn rồi 3 thẻ nhỏ.
@@ -161,6 +164,7 @@ def render(cfg: dict | None = None) -> str:
         f"  --card-ratio: {layout['card_ratio']};",
         f"  --card-ratio-wide: {layout['card_ratio_wide']};",
         f"  --card-ratio-mobile: {layout['card_ratio_mobile']};",
+        f"  --gallery-width: {layout['gallery_width']}%;",
         "",
         "  /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */",
         "  --yellow: var(--accent);",
