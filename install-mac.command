@@ -374,7 +374,15 @@ if [ -z "$(git -C "$REPO" config user.email 2>/dev/null || true)" ]; then
 else
   ok "Đã có tên người commit: $(git -C "$REPO" config user.name 2>/dev/null)"
 fi
-warn 'Lần đầu bấm "Đăng lên web", GitHub sẽ hỏi đăng nhập trong Terminal hoặc trình duyệt.'
+# macOS không có sẵn trình nhớ mật khẩu cho git. Không đặt cái này thì lần
+# nào đẩy lên GitHub cũng bị hỏi lại, mà app chạy nền nên không hỏi được.
+if git -C "$REPO" config credential.helper osxkeychain 2>/dev/null; then
+  ok "Đã bật ghi nhớ đăng nhập GitHub (Keychain)"
+else
+  warn "Không bật được ghi nhớ đăng nhập — mỗi lần đăng sẽ phải nhập lại."
+fi
+
+warn 'Lần đầu bấm "Đăng lên web", app sẽ mở Terminal để bạn đăng nhập GitHub một lần.'
 
 printf '\n\033[1m============================================================\033[0m\n'
 printf '\033[1m  XONG\033[0m\n'

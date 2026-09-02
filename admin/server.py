@@ -58,9 +58,23 @@ except Exception:  # thiếu Pillow, hoặc Pillow cài hỏng/sai kiến trúc 
 BLOCKS_LOGIN_PROMPT = ("GCM_INTERACTIVE", "GIT_ASKPASS", "SSH_ASKPASS")
 
 
-def git_env() -> dict:
+def git_env(allow_prompt: bool = False) -> dict:
+    """
+    Môi trường cho các lệnh git.
+
+    allow_prompt=False (mặc định, dùng cho mọi lệnh chạy nền):
+        Cấm git tự hỏi mật khẩu trên terminal. Rất quan trọng — app chạy trong
+        một cửa sổ Terminal mà người dùng KHÔNG nhìn vào; nếu git ngồi hỏi
+        "Username for github.com:" ở đó thì trình duyệt quay vòng vĩnh viễn,
+        không ai biết chuyện gì. Thà thất bại nhanh rồi hiện bảng hướng dẫn.
+
+        Trên Windows điều này không cản Git Credential Manager: nó là trình
+        phụ trợ riêng, tự hiện cửa sổ đăng nhập, không dùng đến terminal.
+
+    allow_prompt=True: chỉ dành cho cửa sổ Terminal mở ra cho người dùng thấy.
+    """
     env = {k: v for k, v in os.environ.items() if k not in BLOCKS_LOGIN_PROMPT}
-    env["GIT_TERMINAL_PROMPT"] = "1"
+    env["GIT_TERMINAL_PROMPT"] = "1" if allow_prompt else "0"
     return env
 
 
@@ -595,7 +609,9 @@ class Handler(SimpleHTTPRequestHandler):
                 {"ok": True, "nothing": True, "message": "Không có gì thay đổi để đăng.", **result}
             )
 
-        code, push_out = git("push")
+        # 5 phút là quá đủ; lâu hơn nữa thì chắc chắn có gì đó sai, đừng bắt
+        # người dùng ngồi nhìn vòng quay.
+        code, push_out = git("push", timeout=300)
         if code != 0:
             print("\n--- git push thất bại ---\n" + push_out + "\n-------------------------\n")
             return self.send_json(
@@ -606,7 +622,7 @@ class Handler(SimpleHTTPRequestHandler):
                     "committed": True,
                     "ahead": ahead,
                     "auth": looks_like_auth_error(push_out),
-                    "network": looks_like_network_error(push_out),
+                    "network": looks_like_network_error(push_out) or code == 124,
                 },
                 500,
             )
@@ -681,7 +697,7 @@ class Handler(SimpleHTTPRequestHandler):
         Cần thiết vì lần đầu push, GitHub phải hỏi đăng nhập — mà app chạy nền
         thì không hiện được ô đăng nhập đó.
         """
-        env = git_env()
+        env = git_env(allow_prompt=True)
 
         if sys.platform == "win32":
             subprocess.Popen(

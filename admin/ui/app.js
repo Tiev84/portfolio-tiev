@@ -916,12 +916,32 @@ $("#btn-publish").onclick = async () => {
           closeModal();
           busy("Đang đẩy lên GitHub… (ảnh nặng có thể mất vài phút)");
           try {
-            const res = await fetch("/api/git/publish", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ message: message.value }),
-            });
-            const data = await res.json();
+            // Lớp chặn cuối: dù máy chủ có kẹt vì lý do gì, vòng quay cũng
+            // phải dừng sau 6 phút chứ không quay mãi.
+            const boGio = new AbortController();
+            const hetGio = setTimeout(() => boGio.abort(), 360000);
+
+            let res, data;
+            try {
+              res = await fetch("/api/git/publish", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ message: message.value }),
+                signal: boGio.signal,
+              });
+              data = await res.json();
+            } catch (loi) {
+              idle();
+              clearTimeout(hetGio);
+              return showNetworkProblem({
+                ahead: 1,
+                error:
+                  loi.name === "AbortError"
+                    ? "Chờ quá 6 phút mà máy chủ chưa trả lời. Nhiều khả năng không nối được tới GitHub."
+                    : String(loi.message || loi),
+              });
+            }
+            clearTimeout(hetGio);
             idle();
 
             if (data.ok && data.nothing) return toast(data.message, "ok");
