@@ -411,6 +411,12 @@ window.PROJECTS = {
     title: "DUNG DỊCH VỆ SINH LADU LENCO",
     description: "",
     images: [
+      "assets/project/PROJECT MOI 6/bot ve sinh nam.png",
+      "assets/project/PROJECT MOI 6/ddvs nam 1.png",
+      "assets/project/PROJECT MOI 6/ddvs nam 2.png",
+      "assets/project/PROJECT MOI 6/ddvs nam 3.png",
+      "assets/project/PROJECT MOI 6/ddvs nam 4.png",
+      "assets/project/PROJECT MOI 6/ddvs nam 5.png",
     ],
   },
   "project-moi-7": {

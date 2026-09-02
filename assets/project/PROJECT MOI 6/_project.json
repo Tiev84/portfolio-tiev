@@ -5,7 +5,14 @@
   "description": "",
   "wide": false,
   "order": 23,
-  "cover": "",
-  "images": [],
+  "cover": "bot ve sinh nam.png",
+  "images": [
+    "bot ve sinh nam.png",
+    "ddvs nam 1.png",
+    "ddvs nam 2.png",
+    "ddvs nam 3.png",
+    "ddvs nam 4.png",
+    "ddvs nam 5.png"
+  ],
   "hidden": []
 }
