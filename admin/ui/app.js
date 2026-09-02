@@ -804,14 +804,67 @@ function showLoginNeeded(data) {
         onClick: async () => {
           closeModal();
           try {
-            await post("/api/git/terminal");
+            const r = await post("/api/git/terminal");
             toast("Đã mở cửa sổ đăng nhập — làm theo hướng dẫn trong đó", "ok");
+            // Cửa sổ có thể bị hệ điều hành chặn hoặc nấp sau cửa sổ khác.
+            // Đưa sẵn lệnh chạy tay để không rơi vào ngõ cụt.
+            setTimeout(() => showManualLogin(r.manual), 4000);
           } catch (err) {
-            toast(err.message, "err");
+            showManualLogin(null, err.message);
           }
         },
       },
     ],
+  });
+}
+
+/** Phương án chạy tay khi cửa sổ đăng nhập không tự mở lên được. */
+function showManualLogin(repoPath, loi) {
+  const lenh = repoPath ? `cd "${repoPath}" && git push` : "git push";
+  const body = [];
+
+  if (loi) body.push(el("div", "log error", escapeHtml(loi)));
+
+  body.push(
+    el(
+      "p",
+      "hint",
+      `Nếu <b>không thấy cửa sổ nào mở ra</b> (bị hệ điều hành chặn, hoặc nó
+       nấp sau cửa sổ khác), bạn mở <b>Terminal</b> trên máy rồi dán lệnh này:`
+    )
+  );
+
+  const box = el("div", "log");
+  box.textContent = lenh;
+  body.push(box);
+
+  body.push(
+    el(
+      "p",
+      "hint",
+      `Git sẽ hỏi:<br />
+       • <b>Username</b> — tên đăng nhập GitHub của bạn<br />
+       • <b>Password</b> — <b>không phải mật khẩu GitHub</b>. GitHub đã bỏ cách
+         đó. Phải dán <b>Personal Access Token</b>, tạo tại
+         <code>github.com/settings/tokens</code> (chọn quyền <code>repo</code>).<br /><br />
+       Nhập xong một lần là máy nhớ luôn. Quay lại đây bấm “Đăng lên web”.`
+    )
+  );
+
+  const copy = {
+    label: "Sao chép lệnh",
+    onClick: () => {
+      navigator.clipboard
+        .writeText(lenh)
+        .then(() => toast("Đã sao chép — dán vào Terminal", "ok"))
+        .catch(() => toast("Không sao chép được, bạn tự bôi đen rồi copy nhé", "err"));
+    },
+  };
+
+  modal({
+    title: "Nếu cửa sổ không mở lên",
+    body,
+    actions: [copy, { label: "Đóng", kind: "primary", onClick: closeModal }],
   });
 }
 

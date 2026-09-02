@@ -15,6 +15,7 @@ import hashlib
 import io
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -35,6 +36,10 @@ import theme  # noqa: E402
 REPO = store.REPO
 UI_DIR = Path(__file__).resolve().parent / "ui"
 CACHE_DIR = Path(__file__).resolve().parent / "_cache"
+# File tạm để mở cửa sổ đăng nhập GitHub (xem api_git_terminal)
+HELPER_SCRIPT = Path(__file__).resolve().parent / (
+    "_dang-nhap-github.bat" if sys.platform == "win32" else "_dang-nhap-github.command"
+)
 PORT = int(os.environ.get("PORTFOLIO_ADMIN_PORT", "4321"))
 
 MAX_UPLOAD = 200 * 1024 * 1024  # 200 MB / file
@@ -692,113 +697,88 @@ class Handler(SimpleHTTPRequestHandler):
 
     def api_git_terminal(self):
         """
-        Mở một cửa sổ dòng lệnh thật rồi chạy `git push` trong đó.
+        Mở một cửa sổ dòng lệnh THẬT rồi chạy `git push` trong đó.
 
         Cần thiết vì lần đầu push, GitHub phải hỏi đăng nhập — mà app chạy nền
-        thì không hiện được ô đăng nhập đó.
+        thì ô nhập đó không ai thấy.
+
+        Cách làm: ghi ra một file script rồi bảo hệ điều hành mở nó. Không
+        dùng AppleScript `tell application "Terminal"` nữa vì hai lý do: nó
+        đòi quyền điều khiển ứng dụng (macOS hỏi một lần, từ chối là hỏng), và
+        nhét đường dẫn vào giữa chuỗi AppleScript rất dễ vỡ vì dấu nháy.
         """
-        env = git_env(allow_prompt=True)
+        helper = HELPER_SCRIPT
+        repo = str(REPO)
 
-        if sys.platform == "win32":
-            subprocess.Popen(
-                ["cmd", "/c", "start", "", "cmd", "/k", "git push & echo. & pause"],
-                cwd=str(REPO),
-                env=env,
-                creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0),
+        try:
+            if sys.platform == "win32":
+                helper.write_text(
+                    "\r\n".join(
+                        [
+                            "@echo off",
+                            "chcp 65001 >nul",
+                            "title Dang nhap GitHub",
+                            f'cd /d "{repo}"',
+                            "echo Dang day len GitHub...",
+                            "echo Neu duoc hoi, nhap ten dang nhap GitHub va Personal Access Token.",
+                            "echo.",
+                            "git push",
+                            "echo.",
+                            "pause",
+                        ]
+                    ),
+                    encoding="utf-8",
+                )
+                proc = subprocess.run(
+                    ["cmd", "/c", "start", "", str(helper)], timeout=20
+                )
+
+            elif sys.platform == "darwin":
+                helper.write_text(
+                    "\n".join(
+                        [
+                            "#!/bin/bash",
+                            f"cd {shlex.quote(repo)} || exit 1",
+                            'echo "Đang đẩy lên GitHub..."',
+                            'echo "Nếu được hỏi:"',
+                            'echo "   Username = tên đăng nhập GitHub của bạn"',
+                            'echo "   Password = Personal Access Token"',
+                            'echo "              (tạo ở github.com/settings/tokens, chọn quyền repo)"',
+                            "echo",
+                            "git push",
+                            "echo",
+                            'read -r -p "Xong. Nhấn Enter để đóng cửa sổ này..." _',
+                        ]
+                    ),
+                    encoding="utf-8",
+                )
+                helper.chmod(0o755)
+                # `open -a Terminal <file>` không cần xin quyền điều khiển
+                proc = subprocess.run(
+                    ["open", "-a", "Terminal", str(helper)], timeout=20
+                )
+
+            else:
+                return self.send_json(
+                    {"ok": False, "error": "Hệ điều hành này chưa hỗ trợ"}, 400
+                )
+
+        except Exception as exc:
+            return self.send_json(
+                {"ok": False, "error": f"{type(exc).__name__}: {exc}", "manual": repo}, 500
             )
-        elif sys.platform == "darwin":
-            script = (
-                f'tell application "Terminal" to do script '
-                f'"cd {json.dumps(str(REPO))} && git push"\n'
-                'tell application "Terminal" to activate'
+
+        if proc.returncode != 0:
+            return self.send_json(
+                {
+                    "ok": False,
+                    "error": f"Không mở được cửa sổ dòng lệnh (mã lỗi {proc.returncode}).",
+                    "manual": repo,
+                },
+                500,
             )
-            subprocess.Popen(["osascript", "-e", script], env=env)
-        else:
-            return self.send_json({"ok": False, "error": "Hệ điều hành chưa hỗ trợ"}, 400)
 
-        self.send_json({"ok": True})
-
-    # ---- tiện ích hệ thống --------------------------------------------
-
-    def api_home_save(self):
-        cfg = home.save(self.read_json().get("home") or {})
-        home.build()
-        self.send_json({"ok": True, "home": cfg})
-
-    def api_home_reset(self):
-        cfg = home.save(home.DEFAULTS)
-        home.build()
-        self.send_json({"ok": True, "home": cfg})
-
-    def api_home_slot_active(self):
-        data = self.read_json()
-        home.write_slot(data["key"], store.safe_name(data.get("name") or ""))
-        home.build()
-        self.send_json({"ok": True, "slots": home.slots()})
-
-    def api_home_slot_upload(self):
-        key = base64.b64decode(self.headers["X-Slot"]).decode("utf-8")
-        filename = base64.b64decode(self.headers["X-Filename"]).decode("utf-8")
-        folder = home.slot_dir(key)
-        folder.mkdir(parents=True, exist_ok=True)
-
-        name = store.safe_name(filename)
-        if not store.is_media(name):
-            return self.send_json({"ok": False, "error": f"“{name}” không phải ảnh"}, 400)
-
-        length = int(self.headers.get("Content-Length") or 0)
-        if length <= 0 or length > MAX_UPLOAD:
-            return self.send_json({"ok": False, "error": "File rỗng hoặc quá lớn"}, 400)
-
-        target = store.unique_path(folder, name)
-        with open(target, "wb") as fh:
-            remaining = length
-            while remaining > 0:
-                chunk = self.rfile.read(min(1 << 20, remaining))
-                if not chunk:
-                    break
-                fh.write(chunk)
-                remaining -= len(chunk)
-
-        # Ảnh mới tải lên thì dùng luôn — đó là điều người ta mong đợi
-        home.write_slot(key, target.name)
-        home.build()
-        self.send_json({"ok": True, "name": target.name, "slots": home.slots()})
-
-    def api_home_slot_delete(self):
-        data = self.read_json()
-        folder = home.slot_dir(data["key"])
-        target = folder / store.safe_name(data.get("name") or "")
-        if not target.is_file():
-            return self.send_json({"ok": False, "error": "Không tìm thấy file"}, 404)
-        store.to_trash(target)
-        remain = home.read_slot(next(s for s in home.SLOTS if s["key"] == data["key"]))
-        home.write_slot(data["key"], remain["active"])
-        home.build()
-        self.send_json({"ok": True, "slots": home.slots()})
-
-    def api_home_open_folder(self):
-        target = home.slot_dir(self.read_json()["key"])
-        target.mkdir(parents=True, exist_ok=True)
-        if sys.platform == "win32":
-            os.startfile(str(target))  # noqa: S606
-        elif sys.platform == "darwin":
-            subprocess.Popen(["open", str(target)])
-        else:
-            subprocess.Popen(["xdg-open", str(target)])
-        self.send_json({"ok": True})
-
-    def api_theme_save(self):
-        cfg = theme.save(self.read_json().get("theme") or {})
-        theme.build()
-        store.build()  # bố cục 2 lớn + 3 nhỏ có thể vừa bật/tắt
-        self.send_json({"ok": True, "theme": cfg})
-
-    def api_theme_reset(self):
-        cfg = theme.save(theme.DEFAULTS)
-        theme.build()
-        store.build()
-        self.send_json({"ok": True, "theme": cfg})
+        self.send_json({"ok": True, "manual": repo})
 
     def api_quit(self):
         self.send_json({"ok": True})
