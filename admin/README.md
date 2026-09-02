@@ -200,6 +200,28 @@ lại bản gốc. Ảnh và project không bị ảnh hưởng.
 
 ---
 
+## Icon
+
+App và website dùng **chung một icon**, dựng từ `assets/icons/logo.svg`:
+
+| File | Dùng ở đâu |
+|---|---|
+| `admin/ui/icon.png` | icon app (macOS) và ảnh trong app |
+| `admin/ui/app.ico` | shortcut trên Desktop Windows |
+| `assets/icons/favicon.ico` | tab trình duyệt (16/32/48 px) |
+| `assets/icons/favicon-192.png` | trình duyệt đời mới |
+| `assets/icons/apple-touch-icon.png` | lưu web ra màn hình iPhone |
+
+Đổi logo thì thay `assets/icons/logo.svg` rồi chạy:
+
+```bash
+py -3 admin/make_icon.py
+```
+
+Cả 5 file trên được dựng lại cùng lúc, app và web cùng đổi theo.
+
+---
+
 ## Xóa nhầm thì sao
 
 Mọi thứ bị xóa đều nằm trong `admin/_trash/<ngày-giờ>/`.
@@ -222,7 +244,7 @@ App sẽ hiện nguyên văn lỗi của git. Trường hợp hay gặp:
 ```bash
 py -3 admin/server.py          # Windows: mở app
 admin/.venv/bin/python3 admin/server.py   # macOS: mở app
-py -3 admin/make_icon.py       # dựng lại icon
+py -3 admin/make_icon.py       # dựng lại icon (app + tab trình duyệt)
 py -3 admin/migrate.py         # xem trước việc gom ảnh vào thư mục (đã chạy 1 lần)
 ```
 

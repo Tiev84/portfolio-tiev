@@ -3,8 +3,14 @@
 make_icon.py — tạo icon cho app từ logo trong assets/icons/.
 
 Sinh ra:
-    admin/ui/icon.png   1024x1024, nguồn chung cho mọi hệ điều hành
-    admin/ui/app.ico    icon cho shortcut trên Windows
+    admin/ui/icon.png              1024x1024, nguồn chung cho mọi hệ điều hành
+    admin/ui/app.ico               icon cho shortcut trên Windows
+    assets/icons/favicon.ico       icon trên tab trình duyệt (16/32/48)
+    assets/icons/favicon-192.png   icon cho trình duyệt đời mới
+    assets/icons/apple-touch-icon.png  icon khi lưu web ra màn hình iPhone
+
+App và website dùng CHUNG một icon — sửa logo thì chạy lại file này là cả hai
+cùng đổi theo.
 
 Trên macOS, install-mac.command sẽ tự đổi icon.png thành .icns.
 
@@ -25,6 +31,11 @@ SVG = REPO / "assets" / "icons" / "logo.svg"
 PNG = REPO / "assets" / "icons" / "logo.png"
 OUT_PNG = HERE / "ui" / "icon.png"
 OUT_ICO = HERE / "ui" / "app.ico"
+
+WEB_ICONS = REPO / "assets" / "icons"
+OUT_FAVICON = WEB_ICONS / "favicon.ico"
+OUT_FAVICON_PNG = WEB_ICONS / "favicon-192.png"
+OUT_APPLE = WEB_ICONS / "apple-touch-icon.png"
 
 SIZE = 1024
 BG = (27, 27, 27, 255)  # #1b1b1b, nền tối giống website
@@ -84,8 +95,21 @@ def main() -> None:
         sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)],
     )
 
-    print(f"OK  {OUT_PNG.relative_to(REPO)}")
-    print(f"OK  {OUT_ICO.relative_to(REPO)}")
+    # ---- Icon cho tab trình duyệt, cùng một hình với app ----
+    WEB_ICONS.mkdir(parents=True, exist_ok=True)
+
+    canvas.save(
+        OUT_FAVICON, "ICO", sizes=[(16, 16), (32, 32), (48, 48)]
+    )
+    canvas.resize((192, 192), Image.LANCZOS).save(OUT_FAVICON_PNG, "PNG")
+
+    # iOS bo góc giúp rồi nên nền phải kín, không để trong suốt ở góc
+    apple = Image.new("RGB", (SIZE, SIZE), BG[:3])
+    apple.paste(canvas, (0, 0), canvas)
+    apple.resize((180, 180), Image.LANCZOS).save(OUT_APPLE, "PNG")
+
+    for path in (OUT_PNG, OUT_ICO, OUT_FAVICON, OUT_FAVICON_PNG, OUT_APPLE):
+        print(f"OK  {path.relative_to(REPO)}")
 
 
 if __name__ == "__main__":
