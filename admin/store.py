@@ -72,6 +72,49 @@ def natural_key(name: str):
     return [int(p) if p.isdigit() else p.lower() for p in _NUM_RE.split(name)]
 
 
+# GitHub Pages và Vercel KHÔNG đọc được Git LFS: file nào đi qua LFS thì web
+# chỉ nhận được cái "phiếu gửi" vài trăm byte, không phải nội dung thật.
+# Video vì thế hiện khung phát rồi đứng im. Phải cảnh báo ngay trong app.
+GITHUB_FILE_LIMIT = 100 * 1024 * 1024  # GitHub từ chối file thường quá 100 MB
+
+
+def lfs_extensions() -> set[str]:
+    """Đuôi file đang bị .gitattributes đẩy qua Git LFS."""
+    path = REPO / ".gitattributes"
+    if not path.exists():
+        return set()
+
+    found = set()
+    try:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "filter=lfs" not in line:
+                continue
+            pattern = line.split()[0]
+            if pattern.startswith("*."):
+                found.add(pattern[1:].lower())
+    except OSError:
+        pass
+    return found
+
+
+def media_warning(name: str, size: int, lfs_exts: set[str]) -> str:
+    """Câu cảnh báo nếu file này lên web sẽ không chạy. Rỗng nghĩa là ổn."""
+    suffix = Path(name).suffix.lower()
+
+    if suffix in lfs_exts:
+        return (
+            "File này đi qua Git LFS nên KHÔNG chạy được trên web — "
+            "GitHub Pages và Vercel chỉ trả về phiếu gửi vài trăm byte."
+        )
+    if size > GITHUB_FILE_LIMIT:
+        return (
+            f"File nặng {size / 1024 / 1024:.0f} MB, vượt mức 100 MB của GitHub "
+            "nên sẽ không đăng lên được."
+        )
+    return ""
+
+
 def is_media(name: str) -> bool:
     return Path(name).suffix.lower() in MEDIA_EXT
 
@@ -245,6 +288,19 @@ def scan(persist: bool = True) -> list[dict]:
             write_meta(folder, meta)
 
         rel = f"assets/project/{folder.name}"
+        lfs_exts = lfs_extensions()
+
+        def item(name: str, hidden: bool) -> dict:
+            size = (folder / name).stat().st_size
+            return {
+                "name": name,
+                "url": f"{rel}/{name}",
+                "video": is_video(name),
+                "hidden": hidden,
+                "size": size,
+                "warning": media_warning(name, size, lfs_exts),
+            }
+
         projects.append(
             {
                 **meta,
@@ -252,26 +308,8 @@ def scan(persist: bool = True) -> list[dict]:
                 "folder_abs": str(folder),
                 "new_count": len(new_files),
                 "cover_url": f"{rel}/{cover}" if cover else PLACEHOLDER_COVER,
-                "items": [
-                    {
-                        "name": n,
-                        "url": f"{rel}/{n}",
-                        "video": is_video(n),
-                        "hidden": False,
-                        "size": (folder / n).stat().st_size,
-                    }
-                    for n in images
-                ]
-                + [
-                    {
-                        "name": n,
-                        "url": f"{rel}/{n}",
-                        "video": is_video(n),
-                        "hidden": True,
-                        "size": (folder / n).stat().st_size,
-                    }
-                    for n in hidden
-                ],
+                "items": [item(n, False) for n in images]
+                + [item(n, True) for n in hidden],
             }
         )
 

@@ -1225,3 +1225,42 @@ label.check input {
 .skill-row .rm:hover {
   color: var(--red);
 }
+
+/* ================= CẢNH BÁO FILE KHÔNG LÊN WEB ĐƯỢC ================= */
+
+.warn-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid #5a4a1e;
+  border-left-width: 3px;
+  border-left-color: var(--yellow);
+  border-radius: 8px;
+  background: #2a2415;
+  color: #f0e0b0;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.tile.has-warn {
+  border-color: var(--yellow);
+}
+
+.tile .warn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: #1b1b1b;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: help;
+}
+
+.tile .star + .warn {
+  right: 30px;
+}

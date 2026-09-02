@@ -331,6 +331,17 @@ function renderImages() {
 
   const visible = current.items.filter((i) => !i.hidden);
   const hidden = current.items.filter((i) => i.hidden);
+
+  const loi = current.items.filter((i) => i.warning);
+  const oCanhBao = $("#img-warning");
+  if (loi.length) {
+    oCanhBao.classList.remove("hidden");
+    oCanhBao.innerHTML =
+      `<b>${loi.length} file sẽ không hiện được trên web:</b><br />` +
+      loi.map((i) => `• ${escapeHtml(i.name)} — ${escapeHtml(i.warning)}`).join("<br />");
+  } else {
+    oCanhBao.classList.add("hidden");
+  }
   $("#img-count").textContent =
     `(${visible.length} hiện${hidden.length ? ` · ${hidden.length} ẩn` : ""})`;
 
@@ -356,6 +367,15 @@ function renderImages() {
       tile.appendChild(el("div", "idx", String(index)));
     }
     if (item.name === current.cover) tile.appendChild(el("div", "star", "⭐"));
+
+    // File không lên web được thì phải nói ngay, đừng để phát hiện lúc
+    // khách vào xem mới thấy khung video đứng im.
+    if (item.warning) {
+      const canhBao = el("div", "warn", "!");
+      canhBao.title = item.warning;
+      tile.appendChild(canhBao);
+      tile.classList.add("has-warn");
+    }
 
     tile.appendChild(el("div", "name", escapeHtml(item.name)));
 

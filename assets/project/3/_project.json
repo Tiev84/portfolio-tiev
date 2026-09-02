@@ -1,11 +1,21 @@
 {
   "id": "3",
-  "title": "DROPPII X MIDU",
+  "title": "BẬT ĐÀ TIỀM NĂNG - DROPPII X MIDU",
   "category": "SOCIAL MEDIA",
-  "description": "",
+  "description": "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
   "wide": false,
   "order": 14,
-  "cover": "",
-  "images": [],
+  "cover": "thumb midu.jpg",
+  "images": [
+    "thumb midu.jpg",
+    "teaser (1).png",
+    "post midu.png",
+    "Banner live (2).png",
+    "Giải thưởng.png",
+    "ebook.png",
+    "REMIND (2).png",
+    "X2 MUNG 1.png",
+    "x2 mung 10.png"
+  ],
   "hidden": []
 }
