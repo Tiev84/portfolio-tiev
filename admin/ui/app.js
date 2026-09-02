@@ -244,6 +244,13 @@ function applyGridTokens() {
   grid.style.setProperty("--card-radius", l.card_radius + "px");
   grid.style.setProperty("--grid-col-gap", l.grid_col_gap + "px");
   grid.style.setProperty("--grid-row-gap", l.grid_row_gap + "px");
+  grid.style.setProperty("--card-title-size", l.card_title_size + "px");
+  grid.style.setProperty("--card-category-size", l.card_category_size + "px");
+
+  // Màu chữ cũng phải lấy từ web, không thì app hiện màu của riêng nó
+  const c = THEME.colors;
+  grid.style.setProperty("--card-title-color", c["text-strong"]);
+  grid.style.setProperty("--card-category-color", c["text-body"]);
 }
 
 function escapeHtml(text) {
@@ -1010,6 +1017,8 @@ const T = {
   ratioWide: "#t-ratio-wide",
   ratioMobile: "#t-ratio-mobile",
   galleryWidth: "#t-gallery-width",
+  titleSize: "#t-title-size",
+  categorySize: "#t-category-size",
 };
 
 /* ---- chuyển màn ---- */
@@ -1125,6 +1134,8 @@ function fillThemeForm() {
   $(T.ratioWide).value = THEME.layout.card_ratio_wide;
   $(T.ratioMobile).value = THEME.layout.card_ratio_mobile;
   $(T.galleryWidth).value = THEME.layout.gallery_width;
+  $(T.titleSize).value = THEME.layout.card_title_size;
+  $(T.categorySize).value = THEME.layout.card_category_size;
 }
 
 function readThemeForm() {
@@ -1146,6 +1157,8 @@ function readThemeForm() {
   THEME.layout.card_ratio_wide = $(T.ratioWide).value.trim() || "4500 / 3519";
   THEME.layout.card_ratio_mobile = $(T.ratioMobile).value.trim() || "1.55 / 1";
   THEME.layout.gallery_width = num(T.galleryWidth, 100);
+  THEME.layout.card_title_size = num(T.titleSize, 16);
+  THEME.layout.card_category_size = num(T.categorySize, 10);
 }
 
 Object.values(T).forEach((sel) => {
@@ -1173,6 +1186,8 @@ function themeCss() {
   decls.push(`--card-ratio-wide:${l.card_ratio_wide};`);
   decls.push(`--card-ratio-mobile:${l.card_ratio_mobile};`);
   decls.push(`--gallery-width:${l.gallery_width}%;`);
+  decls.push(`--card-title-size:${l.card_title_size}px;`);
+  decls.push(`--card-category-size:${l.card_category_size}px;`);
   decls.push("--yellow:var(--accent);");
   return `:root{${decls.join("")}}`;
 }

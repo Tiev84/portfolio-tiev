@@ -328,14 +328,20 @@ code {
 }
 
 .project-info {
-  padding-top: 14px;
+  padding-top: 15px;
   text-align: center;
 }
 
+/*
+  Ba khối dưới đây phải giống HỆT css/portfolio.css của web thật, nếu không
+  lưới trong app hiện một kiểu mà web hiện một kiểu. Số nào chỉnh được thì
+  lấy từ token giao diện, số nào cố định thì chép đúng nguyên văn.
+*/
 .project-category {
   margin: 0 0 6px;
-  color: var(--text-soft);
-  font-size: 10px;
+  color: var(--card-category-color, #d1d1d1);
+  font-size: var(--card-category-size, 10px);
+  line-height: 1.4;
   font-weight: 650;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -343,7 +349,8 @@ code {
 
 .project-info h2 {
   margin: 0;
-  font-size: 15px;
+  color: var(--card-title-color, #ffffff);
+  font-size: var(--card-title-size, 16px);
   line-height: 1.3;
   font-weight: 700;
 }

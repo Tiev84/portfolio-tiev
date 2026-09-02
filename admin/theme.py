@@ -77,6 +77,8 @@ DEFAULTS = {
         # Bề ngang ảnh trong trang chi tiết (%). Mọi ảnh dùng chung số này
         # nên mép trái - phải luôn thẳng hàng.
         "gallery_width": 100,
+        "card_title_size": 16,  # cỡ chữ tên project dưới thẻ (px)
+        "card_category_size": 10,  # cỡ chữ dòng danh mục (px)
     },
     "grid": {
         # Bố cục lặp: mỗi khối gồm 2 thẻ lớn rồi 3 thẻ nhỏ.
@@ -165,6 +167,8 @@ def render(cfg: dict | None = None) -> str:
         f"  --card-ratio-wide: {layout['card_ratio_wide']};",
         f"  --card-ratio-mobile: {layout['card_ratio_mobile']};",
         f"  --gallery-width: {layout['gallery_width']}%;",
+        f"  --card-title-size: {layout['card_title_size']}px;",
+        f"  --card-category-size: {layout['card_category_size']}px;",
         "",
         "  /* Tên cũ, giữ lại cho css sẵn có khỏi gãy */",
         "  --yellow: var(--accent);",
