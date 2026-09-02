@@ -153,6 +153,7 @@ async function refreshPublishBadge() {
     button.title = waiting
       ? `${waiting} lần lưu đang chờ đẩy lên GitHub`
       : "Lưu và đẩy thay đổi lên GitHub";
+    refreshSyncBadge(status);
   } catch {
     /* không lấy được trạng thái git thì cứ để nút như cũ */
   }
@@ -1648,3 +1649,118 @@ $("#btn-home-reset").onclick = () =>
       toast("Đã về mặc định", "ok");
     }
   );
+
+/* =========================================================
+   ĐỒNG BỘ — lấy bản mới từ GitHub về máy này
+   Dùng khi làm việc trên hai máy: máy kia đăng lên, máy này lấy về.
+   ========================================================= */
+
+/** Nút Đồng bộ sáng lên khi GitHub có bản mới hơn máy này. */
+function refreshSyncBadge(status) {
+  const button = $("#btn-sync");
+  if (!button) return;
+  const behind = status?.behind || 0;
+  button.textContent = behind ? `Đồng bộ · ${behind} mới` : "Đồng bộ";
+  button.classList.toggle("has-new", behind > 0);
+  button.title = behind
+    ? `GitHub đang có ${behind} thay đổi mà máy này chưa lấy về`
+    : "Lấy bản mới từ GitHub về máy này";
+}
+
+$("#btn-sync").onclick = async () => {
+  const res = await guard("Đang hỏi GitHub…", async () => {
+    const r = await fetch("/api/git/sync", { method: "POST" });
+    return { http: r.status, data: await r.json().catch(() => ({})) };
+  });
+
+  const d = res.data;
+
+  if (d.ok && d.nothing) {
+    toast(d.message, "ok");
+    return;
+  }
+
+  if (d.ok) {
+    await load();
+    return modal({
+      title: "Đã đồng bộ xong",
+      body: [
+        el(
+          "p",
+          "hint",
+          `Đã lấy về <b>${d.pulled}</b> thay đổi từ GitHub.
+           Giờ máy này có <b>${d.projects}</b> project, <b>${d.images}</b> ảnh —
+           khớp với máy kia.`
+        ),
+        el("div", "log", escapeHtml(d.log || "")),
+      ],
+      actions: [{ label: "Xong", kind: "primary", onClick: closeModal }],
+    });
+  }
+
+  // ---- các kiểu thất bại ----
+
+  if (d.network) {
+    return modal({
+      title: "Không nối được tới GitHub",
+      body: [
+        el(
+          "p",
+          "hint",
+          `Máy này không hỏi được GitHub nên chưa lấy bản mới về được.
+           Dữ liệu đang có vẫn nguyên, không mất gì.<br /><br />
+           <b>Thử theo thứ tự:</b><br />
+           1. Bật phát wifi từ điện thoại rồi nối máy vào — cách này hay ăn nhất,
+              vì nhiều mạng nhà chặn github.com.<br />
+           2. Chờ 15–30 phút rồi bấm <b>Đồng bộ</b> lại.`
+        ),
+        el("div", "log error", escapeHtml(d.error || "")),
+      ],
+      actions: [
+        { label: "Để sau", onClick: closeModal },
+        {
+          label: "Thử lại",
+          kind: "primary",
+          onClick: () => {
+            closeModal();
+            $("#btn-sync").click();
+          },
+        },
+      ],
+    });
+  }
+
+  if (d.step === "dirty") {
+    return modal({
+      title: "Cần đăng lên trước",
+      body: el(
+        "p",
+        "hint",
+        `GitHub đang có <b>${d.behind}</b> thay đổi mới, nhưng máy này cũng có
+         việc chưa đăng lên.<br /><br />
+         Bấm <b>Đăng lên web</b> trước, rồi bấm <b>Đồng bộ</b> lại.
+         Làm vậy để không đè mất việc bạn vừa làm.`
+      ),
+      actions: [
+        { label: "Để sau", onClick: closeModal },
+        {
+          label: "Đăng lên web ngay",
+          kind: "primary",
+          onClick: () => {
+            closeModal();
+            $("#btn-publish").click();
+          },
+        },
+      ],
+    });
+  }
+
+  modal({
+    title: "Không đồng bộ được",
+    body: [
+      el("p", "hint", "Dữ liệu trên máy vẫn nguyên, không mất gì. Nội dung lỗi:"),
+      el("div", "log error", escapeHtml(d.error || `Lỗi HTTP ${res.http}`)),
+    ],
+    actions: [{ label: "Đóng", kind: "primary", onClick: closeModal }],
+  });
+};

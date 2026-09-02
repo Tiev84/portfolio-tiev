@@ -48,10 +48,15 @@ document.querySelectorAll('a[href*="project-detail.html"]').forEach((link) => {
       if (!projId || prefetchedProjects.has(projId)) return;
       prefetchedProjects.add(projId);
 
-      if (projId === "event-droppii") {
+      // Tải trước video của project đang rê chuột, để bấm vào là chạy ngay.
+      // Đọc từ dữ liệu thật thay vì ghi cứng đường dẫn — đổi tên file video
+      // là đường dẫn cứng chết ngay, để lại lỗi 404 âm thầm trên web.
+      const files = window.PROJECTS?.[projId]?.images || [];
+      const video = files.find((f) => /\.(mp4|webm|mov|ogg)$/i.test(f));
+      if (video) {
         const linkEl = document.createElement("link");
         linkEl.rel = "prefetch";
-        linkEl.href = "assets/project/GALA/video.mp4";
+        linkEl.href = video;
         document.head.appendChild(linkEl);
       }
     } catch (e) {}

@@ -65,15 +65,22 @@ def git_env() -> dict:
 
 
 def git(*args: str, timeout: int = 900) -> tuple[int, str]:
-    proc = subprocess.run(
-        ["git", "-C", str(REPO), *args],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=timeout,
-        env=git_env(),
-    )
+    try:
+        proc = subprocess.run(
+            ["git", "-C", str(REPO), *args],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=timeout,
+            env=git_env(),
+        )
+    except subprocess.TimeoutExpired:
+        # Mạng bị chặn thì git ngồi chờ mãi. Thà báo lỗi còn hơn treo app.
+        return 124, (
+            f"Lệnh `git {' '.join(args)}` chờ quá {timeout} giây mà chưa xong.\n"
+            "Thường là không kết nối được tới GitHub."
+        )
     # Chỉ cắt khoảng trắng cuối: `git status --porcelain` dùng khoảng trắng
     # ĐẦU dòng làm mã trạng thái, cắt đi là mất ký tự đầu của tên file.
     out = ((proc.stdout or "") + (proc.stderr or "")).rstrip()
@@ -143,6 +150,13 @@ def unpushed_count() -> int:
     return int(out) if code == 0 and out.isdigit() else 0
 
 
+def unpulled_count() -> int:
+    """Số commit GitHub đang có mà máy này chưa lấy về."""
+    code, out = git("rev-list", "--count", "HEAD..@{u}", timeout=30)
+    out = out.strip()
+    return int(out) if code == 0 and out.isdigit() else 0
+
+
 def git_status() -> dict:
     code, out = git("status", "--porcelain")
     if code != 0:
@@ -154,7 +168,13 @@ def git_status() -> dict:
             changes.append({"state": line[:2].strip() or "?", "path": line[3:].strip().strip('"')})
     _, branch = git("rev-parse", "--abbrev-ref", "HEAD")
     branch = branch.strip()
-    return {"ok": True, "branch": branch, "changes": changes, "ahead": unpushed_count()}
+    return {
+        "ok": True,
+        "branch": branch,
+        "changes": changes,
+        "ahead": unpushed_count(),
+        "behind": unpulled_count(),
+    }
 
 
 # ----------------------------------------------------------------------
@@ -560,7 +580,10 @@ class Handler(SimpleHTTPRequestHandler):
         # Có thay đổi mới thì lưu lại. Không có cũng không sao — có thể lần
         # trước đã lưu rồi mà push hỏng, giờ chỉ cần push tiếp.
         commit_out = ""
-        _, dirty = git("status", "--porcelain")
+        # Chỉ chặn khi có file ĐÃ THEO DÕI bị sửa — đó mới là việc chưa đăng
+        # lên, đè mất là mất thật. File lạ chưa theo dõi thì git tự lo được,
+        # chặn vì chúng là khắt khe vô ích.
+        _, dirty = git("status", "--porcelain", "--untracked-files=no")
         if dirty.strip():
             code, commit_out = git("commit", "-m", message)
             if code != 0:
@@ -589,6 +612,67 @@ class Handler(SimpleHTTPRequestHandler):
             )
 
         self.send_json({"ok": True, "log": f"{commit_out}\n\n{push_out}".strip(), **result})
+
+    def api_git_sync(self):
+        """
+        Kéo bản mới từ GitHub về máy này.
+
+        Dùng khi làm việc trên hai máy: máy kia đăng lên, máy này lấy về.
+        Chỉ nhận trường hợp "chạy thẳng" (fast-forward) — nếu hai bên cùng
+        sửa thì dừng lại báo người dùng, không tự ý trộn.
+        """
+        code, out = git("fetch", "--prune", timeout=120)
+        if code != 0:
+            return self.send_json(
+                {
+                    "ok": False,
+                    "step": "fetch",
+                    "error": out,
+                    "network": looks_like_network_error(out) or code == 124,
+                    "auth": looks_like_auth_error(out),
+                },
+                500,
+            )
+
+        behind = unpulled_count()
+        if behind == 0:
+            return self.send_json(
+                {"ok": True, "nothing": True, "message": "Máy này đã là bản mới nhất."}
+            )
+
+        _, dirty = git("status", "--porcelain")
+        if dirty.strip():
+            return self.send_json(
+                {
+                    "ok": False,
+                    "step": "dirty",
+                    "behind": behind,
+                    "error": (
+                        "Máy này đang có thay đổi chưa đăng lên. Bấm “Đăng lên web” "
+                        "trước, rồi đồng bộ lại — làm vậy để không đè mất việc bạn "
+                        "vừa làm."
+                    ),
+                },
+                409,
+            )
+
+        code, merge_out = git("merge", "--ff-only", "@{u}", timeout=120)
+        if code != 0:
+            return self.send_json(
+                {
+                    "ok": False,
+                    "step": "merge",
+                    "error": (
+                        merge_out
+                        + "\n\nHai máy cùng sửa nên không ghép thẳng được. "
+                        "Nhắn cho người hỗ trợ để gỡ, đừng tự xoá thư mục."
+                    ),
+                },
+                500,
+            )
+
+        result = store.build()
+        self.send_json({"ok": True, "pulled": behind, "log": merge_out, **result})
 
     def api_git_terminal(self):
         """

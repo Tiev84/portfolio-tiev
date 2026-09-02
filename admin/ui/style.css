@@ -1271,3 +1271,10 @@ label.check input {
 .tile .star + .warn {
   right: 30px;
 }
+
+/* Nút Đồng bộ sáng lên khi GitHub có bản mới */
+.btn.has-new {
+  color: var(--yellow);
+  border-color: #5a4a1e;
+  background: #2a2415;
+}
