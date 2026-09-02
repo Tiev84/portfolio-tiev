@@ -147,10 +147,22 @@ window.PROJECTS = {
     ],
   },
   "project-moi-1": {
-    category: "",
-    title: "Gala Đại hội năm Droppii 2024 - 2025",
-    description: "",
+    category: "SOCIAL MEDIA | EVENT",
+    title: "GALA ĐẠI HỘI NĂM DROPPII 2024 - 2025",
+    description: "Gala Đại hội năm Droppii (với các chủ đề “Vượt Sóng Ra Khơi” năm 2024 và “Theo Ánh Mặt Trời” năm 2025) là đêm hội tôn vinh và bùng nổ cảm xúc quan trọng nhất trong năm của thương hiệu. Đồng hành cùng hai mùa Gala, Tiến đảm nhiệm khâu triển khai hình ảnh truyền thông trên Fanpage—từ việc phát triển các bộ Social Media Posts dựa trên Key Visual (KV) sẵn có cho đến việc xử lý tỉ mỉ hình ảnh các nghệ sĩ khách mời. Sự khéo léo trong bố cục và chuẩn xác về nhận diện đã giúp truyền tải trọn vẹn tinh thần chủ đạo của đêm tiệc, tạo sức hút truyền thông mạnh mẽ cho sự kiện.",
     images: [
+      "assets/project/PROJECT MOI 1/thumb dhn 2.jpg",
+      "assets/project/PROJECT MOI 1/agenda gala.png",
+      "assets/project/PROJECT MOI 1/thumbnail recap dhn.png",
+      "assets/project/PROJECT MOI 1/remind gala 23.png",
+      "assets/project/PROJECT MOI 1/Hướng dẫn line check in (Gala).png",
+      "assets/project/PROJECT MOI 1/hang muc.png",
+      "assets/project/PROJECT MOI 1/vuong rewind 222.png",
+      "assets/project/PROJECT MOI 1/banner app DHN.png",
+      "assets/project/PROJECT MOI 1/banner live TAMT.png",
+      "assets/project/PROJECT MOI 1/nhin lai 2024.png",
+      "assets/project/PROJECT MOI 1/MINIGAME DHN.png",
+      "assets/project/PROJECT MOI 1/alb quote.png",
     ],
   },
   "1": {
@@ -272,8 +284,8 @@ window.PROJECTS = {
     ],
   },
   "project-moi-3": {
-    category: "",
-    title: "PROJECT MOI 3",
+    category: "PRINTING",
+    title: "FNB MENU DESIGN",
     description: "",
     images: [
     ],
