@@ -359,6 +359,11 @@ window.PROJECTS = {
     title: "KING JADES",
     description: "",
     images: [
+      "assets/project/PROJECT MOI 2/ava page.png",
+      "assets/project/PROJECT MOI 2/banner zalo black friday.png",
+      "assets/project/PROJECT MOI 2/banner zalo kich hoat tai loc.png",
+      "assets/project/PROJECT MOI 2/Siêu sale cuối năm.png",
+      "assets/project/PROJECT MOI 2/UU DAI TET.png",
     ],
   },
   "project-moi-4": {
@@ -476,6 +481,7 @@ window.PROJECTS = {
     title: "LOGOFOLIO - NHIỀU THƯƠNG HIỆU",
     description: "",
     images: [
+      "assets/project/PROJECT MOI 10/1784980741146_2299389257586383672_7062042480160280272_69c2a9cf05e87346a59c273c590cfc59.jpg",
     ],
   },
 };

@@ -5,7 +5,13 @@
   "description": "",
   "wide": false,
   "order": 18,
-  "cover": "",
-  "images": [],
+  "cover": "ava page.png",
+  "images": [
+    "ava page.png",
+    "banner zalo black friday.png",
+    "banner zalo kich hoat tai loc.png",
+    "Siêu sale cuối năm.png",
+    "UU DAI TET.png"
+  ],
   "hidden": []
 }
