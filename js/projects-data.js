@@ -244,8 +244,21 @@ window.PROJECTS = {
   "vitaleaf": {
     category: "SOCIAL MEDIA",
     title: "LÁ GAN NGUỒN SỐNG - VITALEAF X DROPPII",
-    description: "",
+    description: "Chương trình “Lá Gan Nguồn Sống” (07/2025) là dự án hợp tác chiến lược giữa Droppii và Vitaleaf—với vai trò Vitaleaf là Nhà tài trợ đồng hành cùng chiến dịch 90 Ngày Tốc Chiến 2025 nhằm nâng cao nhận thức chăm sóc sức khỏe chủ động cho cộng đồng. Trong dự án này, Tiến đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng tư duy thị giác hiện đại, sự kết hợp hài hòa giữa nhận diện thương hiệu Vitaleaf và tinh thần năng động của Droppii, các thiết kế không chỉ truyền tải trọn vẹn thông điệp sức khỏe giá trị mà còn góp phần gia tăng tương tác, thu hút sự chú ý mạnh mẽ trong mùa tốc chiến.",
     images: [
+      "assets/project/VITALEAF/thumb lgns.jpg",
+      "assets/project/VITALEAF/la gan.png",
+      "assets/project/VITALEAF/post gan.jpg",
+      "assets/project/VITALEAF/hv 6.png",
+      "assets/project/VITALEAF/banner matching m3.png",
+      "assets/project/VITALEAF/NGAY HOI VITA LEAF APP.png",
+      "assets/project/VITALEAF/BANNER XU HUONG VITA LEAF SUA.png",
+      "assets/project/VITALEAF/BANNER XU HUONG VITA LEAF 2.png",
+      "assets/project/VITALEAF/CHAO SAN VITA LEAF 2.png",
+      "assets/project/VITALEAF/MIEN KY QUY T7.png",
+      "assets/project/VITALEAF/lo trinh.jpg",
+      "assets/project/VITALEAF/MINIGAME VITA.png",
+      "assets/project/VITALEAF/FREESHIP VITA LEAF 169.png",
     ],
   },
   "3": {
