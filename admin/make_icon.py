@@ -14,7 +14,12 @@ cùng đổi theo.
 
 Trên macOS, install-mac.command sẽ tự đổi icon.png thành .icns.
 
-    py -3 admin/make_icon.py
+    py -3 admin/make_icon.py                 # dựng lại tất cả
+    py -3 admin/make_icon.py --if-missing    # chỉ dựng file còn thiếu
+
+Trình cài đặt dùng --if-missing: icon đã nằm sẵn trong repo thì để yên. Dựng
+lại vô cớ sẽ ra file khác byte (do khác phiên bản Pillow) và làm repo bẩn
+ngay sau khi cài xong.
 """
 
 from __future__ import annotations
@@ -43,6 +48,15 @@ RADIUS = int(SIZE * 0.22)  # bo góc kiểu icon macOS
 LOGO_WIDTH_RATIO = 0.58
 
 
+def use_utf8_output() -> None:
+    """Console Windows mặc định là cp1252 — in tiếng Việt là chết ngay."""
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
+
+
 def load_logo():
     """
     logo.svg chỉ là một ảnh bitmap 2550px nhúng base64 — lấy nó ra thì icon
@@ -65,7 +79,14 @@ def load_logo():
     sys.exit(f"Không thấy logo ở {SVG} hoặc {PNG}")
 
 
-def main() -> None:
+def main(only_missing: bool = False) -> None:
+    use_utf8_output()
+
+    targets = (OUT_PNG, OUT_ICO, OUT_FAVICON, OUT_FAVICON_PNG, OUT_APPLE)
+    if only_missing and all(f.is_file() for f in targets):
+        print("Icon đã có đủ, không dựng lại.")
+        return
+
     try:
         from PIL import Image, ImageDraw
     except ImportError:
@@ -113,4 +134,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(only_missing="--if-missing" in sys.argv)

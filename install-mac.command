@@ -138,7 +138,9 @@ fi
 # ------------------------------------------------------------
 say "[4/6] Tạo icon"
 
-"$VENV/bin/python3" "$REPO/admin/make_icon.py" >/dev/null 2>&1 || warn "Không dựng lại được icon.png, dùng bản có sẵn."
+# --if-missing: icon đã có trong repo thì để nguyên, tránh làm repo bẩn
+"$VENV/bin/python3" "$REPO/admin/make_icon.py" --if-missing >/dev/null 2>&1 ||
+  warn "Không dựng lại được icon.png, dùng bản có sẵn."
 
 ICON_PNG="$REPO/admin/ui/icon.png"
 ICNS="$REPO/admin/ui/icon.icns"
