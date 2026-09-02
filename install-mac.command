@@ -30,6 +30,27 @@ ask() {
   printf '%s' "${__reply:-$__default}"
 }
 
+# Chạy một lệnh nhưng không cho nó treo quá lâu.
+# macOS không có sẵn lệnh `timeout`, nên phải tự canh: chạy nền, đếm giây,
+# quá hạn thì giết. Không có cái này thì một lệnh git gặp mạng bị chặn sẽ
+# ngồi im hàng phút, người dùng nhìn màn hình đứng chẳng biết chuyện gì.
+run_limited() {
+  __limit="$1"; shift
+  "$@" >/dev/null 2>&1 &
+  __pid=$!
+  __waited=0
+  while kill -0 "$__pid" 2>/dev/null; do
+    sleep 1
+    __waited=$((__waited + 1))
+    if [ "$__waited" -ge "$__limit" ]; then
+      kill -9 "$__pid" 2>/dev/null
+      wait "$__pid" 2>/dev/null
+      return 124
+    fi
+  done
+  wait "$__pid"
+}
+
 printf '\n\033[1m============================================================\033[0m\n'
 printf '\033[1m  CÀI ĐẶT PORTFOLIO MANAGER (macOS)\033[0m\n'
 printf '\033[1m============================================================\033[0m\n'
@@ -97,9 +118,18 @@ else
   fi
 fi
 
-# Lấy bản mới nhất. Bỏ qua nếu đang có thay đổi chưa lưu — không giẫm lên chúng.
+# Lấy bản mới nhất. Đây là bước KHÔNG bắt buộc: mạng chặn github.com thì bỏ
+# qua, cài tiếp bằng bản đang có trên máy. GIT_TERMINAL_PROMPT=0 để git khỏi
+# ngồi chờ mật khẩu mà không hiện ô nhập.
 if [ -z "$(git -C "$REPO" status --porcelain 2>/dev/null)" ]; then
-  git $LFS_OFF -C "$REPO" pull --ff-only >/dev/null 2>&1 && ok "Đã cập nhật bản mới nhất"
+  printf '    đang hỏi GitHub xem có bản mới không (tối đa 25 giây)...\n'
+  if GIT_TERMINAL_PROMPT=0 run_limited 25 git $LFS_OFF -C "$REPO" pull --ff-only; then
+    ok "Đã cập nhật bản mới nhất"
+  else
+    warn "Không hỏi được GitHub (mạng chậm hoặc bị chặn) — dùng bản đang có."
+  fi
+else
+  warn "Thư mục có thay đổi chưa lưu — bỏ qua bước cập nhật."
 fi
 
 # Cứu trường hợp lần trước clone xong nhưng checkout dở dang (thiếu git-lfs).
@@ -114,13 +144,22 @@ Xoá thư mục đó đi rồi chạy lại file này:
 
 # Có git-lfs thì kéo nội dung video thật về (thay cho file con trỏ).
 if command -v git-lfs >/dev/null 2>&1; then
-  git -C "$REPO" lfs pull >/dev/null 2>&1 && ok "Đã tải file video" || warn "Không tải được file video (bỏ qua)"
+  # Video 138 MB, mạng chậm tải lâu là bình thường — để rộng tay, đừng cắt
+  # nhầm lúc nó đang tải thật.
+  printf '    đang tải file video, có thể lâu (tối đa 5 phút)...\n'
+  if GIT_TERMINAL_PROMPT=0 run_limited 300 git -C "$REPO" lfs pull; then
+    ok "Đã tải file video"
+  else
+    warn "Không tải được file video (bỏ qua) — phần còn lại vẫn đủ."
+  fi
 fi
 
 # ------------------------------------------------------------
 # 3. Môi trường Python riêng
 # ------------------------------------------------------------
 say "[3/6] Cài thư viện"
+
+printf '    lần đầu cài hơi lâu, khoảng 1-2 phút...\n'
 
 VENV="$REPO/admin/.venv"
 if [ ! -x "$VENV/bin/python3" ]; then
@@ -170,7 +209,8 @@ mkdir -p "$HOME/Library/Logs" 2>/dev/null || true
 # App được dựng bằng osacompile — công cụ có sẵn của macOS. Bundle do Apple
 # sinh ra thì Finder/Gatekeeper luôn chấp nhận, chắc ăn hơn tự tạo thư mục
 # .app bằng tay (cách cũ có máy bấm vào không chạy).
-SCRIPT_SRC="$(mktemp -t portfoliomgr).applescript"
+# mktemp -t <prefix> chỉ chạy trên macOS; mktemp -d thì hệ nào cũng hiểu
+SCRIPT_SRC="$(mktemp -d)/portfoliomgr.applescript"
 
 cat > "$SCRIPT_SRC" <<'APPLESCRIPT'
 -- Portfolio Manager — do install-mac.command tạo tự động.
