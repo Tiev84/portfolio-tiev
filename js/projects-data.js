@@ -420,10 +420,14 @@ window.PROJECTS = {
     ],
   },
   "project-moi-7": {
-    category: "SOCIAL MEDIA | PRINTING",
+    category: "LOGO | SOCIAL MEDIA | PRINTING",
     title: "GOODDY BAR - ĐỨC",
-    description: "",
+    description: "GOODDY Restaurant & Bar là một góc ẩm thực và giải trí ấm cúng tại Hamburg, Đức, nổi bật với không gian nhỏ xinh, mang tinh thần phóng khoáng nhưng vẫn rất gần gũi. Đồng hành cùng dự án từ những ngày đầu, Tiến trực tiếp sáng tạo Logo nhận diện và Poster khai trương cho quán. Thiết kế tập trung vào sự tinh tế, cô đọng, vừa lột tả trọn vẹn cái \"vibe\" ấm áp, chill chill của một không gian bar thu nhỏ, vừa tạo điểm nhấn ấn tượng để thu hút thực khách ngay từ ngày đầu mở cửa.",
     images: [
+      "assets/project/PROJECT MOI 7/526419275_122118541322932701_3827701155108702371_n.png",
+      "assets/project/PROJECT MOI 7/GOODY LOGO PNG.png",
+      "assets/project/PROJECT MOI 7/528327068_122119895948932701_6307129062458487922_n.jpg",
+      "assets/project/PROJECT MOI 7/poster bar.png",
     ],
   },
   "project-moi-8": {
