@@ -8,7 +8,6 @@
   "cover": "thumb dhn.jpg",
   "images": [
     "thumb dhn.jpg",
-    "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/recap.mp4",
     "3.jpg",
     "4.jpg",
     "5.jpg",
@@ -30,7 +29,8 @@
     "21.jpg",
     "22.jpg",
     "23.jpg",
-    "24.jpg"
+    "24.jpg",
+    "recap.mp4"
   ],
   "hidden": [
     "12h.png",
