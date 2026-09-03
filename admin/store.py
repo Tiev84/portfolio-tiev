@@ -385,7 +385,8 @@ def render_grid(projects: list[dict]) -> str:
             f'            <a href="project-detail.html?project={p["id"]}" class="project-link">'
         )
         out.append('              <div class="project-image">')
-        out.append(f'                <img src="{p["cover_url"]}" alt="{_attr(p["title"])}" />')
+        loading_attr = 'loading="eager" fetchpriority="high" decoding="async"' if index <= 2 else 'loading="lazy" decoding="async"'
+        out.append(f'                <img src="{p["cover_url"]}" alt="{_attr(p["title"])}" {loading_attr} />')
         out.append("              </div>")
         out.append('              <div class="project-info">')
         out.append(f'                <p class="project-category">{_attr(p["category"])}</p>')
