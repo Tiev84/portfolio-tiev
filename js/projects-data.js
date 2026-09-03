@@ -429,7 +429,6 @@ window.PROJECTS = {
     title: "DUNG DỊCH VỆ SINH LADU LENCO",
     description: "Ladu Lenco là thương hiệu chăm sóc cá nhân nam giới hiện đại, ra mắt thị trường với dòng sản phẩm dung dịch vệ sinh nam cao cấp nhằm mang đến giải pháp tự tin và toàn diện cho phái mạnh. Trong chiến dịch ra mắt sản phẩm, Tiến trực tiếp đảm nhiệm khâu thiết kế chuỗi Social Posts giới thiệu trên nền tảng số. Bằng tư duy thị giác nam tính, tối giản nhưng vô cùng cuốn hút, các thiết kế không chỉ làm nổi bật đặc tính và phong cách của sản phẩm mà còn tạo ấn tượng thị giác mạnh mẽ, góp phần thu hút sự chú ý của khách hàng ngay trong giai đoạn chào sân.",
     images: [
-      "assets/project/PROJECT MOI 6/THUMB LADU LENCO.png",
       "assets/project/PROJECT MOI 6/bot ve sinh nam.png",
       "assets/project/PROJECT MOI 6/ddvs nam 1.png",
       "assets/project/PROJECT MOI 6/ddvs nam 2.png",
