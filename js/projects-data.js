@@ -11,7 +11,7 @@ window.PROJECTS = {
       "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
     images: [
       "assets/project/GALA/thumb dhn.jpg",
-      "assets/project/GALA/recap.mp4",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/recap.mp4",
       "assets/project/GALA/3.jpg",
       "assets/project/GALA/4.jpg",
       "assets/project/GALA/5.jpg",
