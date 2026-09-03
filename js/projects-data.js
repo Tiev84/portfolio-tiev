@@ -7,10 +7,11 @@ window.PROJECTS = {
   "event-droppii": {
     category: "SOCIAL MEDIA | EVENT",
     title: "GALA ĐẠI HỘI NĂM 2026 DROPPII",
-    description: "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
+    description:
+      "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
     images: [
       "assets/project/GALA/thumb dhn.jpg",
-      "assets/project/GALA/RECAP CHUỖI SỰ KIỆN ĐẠI HỘI NĂM 2026 - DROPPII BUSINESS (1080p, h264).mp4",
+      "assets/project/GALA/recap.mp4",
       "assets/project/GALA/3.jpg",
       "assets/project/GALA/4.jpg",
       "assets/project/GALA/5.jpg",
@@ -38,7 +39,8 @@ window.PROJECTS = {
   "digital-advertising-droppii": {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
     title: "DIGITAL ADVERTISING DROPPII",
-    description: "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
+    description:
+      "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
     images: [
       "assets/project/DIGITAL ADVERTISING DROPPII/thumb ads (1).png",
       "assets/project/DIGITAL ADVERTISING DROPPII/153 OPT2.png",
@@ -58,7 +60,8 @@ window.PROJECTS = {
   "expo-hang-moi-droppii": {
     category: "SOCIAL MEDIA | POSM",
     title: "EXPO LÊN KỆ TẾT 2026 DROPPII",
-    description: "Expo Lên Kệ Quà Tết 2026 – Droppii là sự kiện giao thương trọng điểm, khởi động chiến dịch kinh doanh mùa lễ hội lớn nhất trong năm của Droppii nhằm kết nối các Nhà phát triển sản phẩm (PDP) với hàng nghìn đối tác kinh doanh. Đồng hành cùng chương trình, Tiến đảm nhiệm toàn bộ khâu thiết kế—từ việc thiết kế các bộ Social Media Post truyền thông sôi nổi trên Fanpage đến việc sản xuất hệ thống POSM in ấn đồng bộ tại sự kiện như standee, backdrop và tờ rơi quảng bá. Sự chỉn chu và không khí Tết rực rỡ trong từng thiết kế đã góp phần tạo nên một không gian triển lãm chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối cho sự kiện.",
+    description:
+      "Expo Lên Kệ Quà Tết 2026 – Droppii là sự kiện giao thương trọng điểm, khởi động chiến dịch kinh doanh mùa lễ hội lớn nhất trong năm của Droppii nhằm kết nối các Nhà phát triển sản phẩm (PDP) với hàng nghìn đối tác kinh doanh. Đồng hành cùng chương trình, Tiến đảm nhiệm toàn bộ khâu thiết kế—từ việc thiết kế các bộ Social Media Post truyền thông sôi nổi trên Fanpage đến việc sản xuất hệ thống POSM in ấn đồng bộ tại sự kiện như standee, backdrop và tờ rơi quảng bá. Sự chỉn chu và không khí Tết rực rỡ trong từng thiết kế đã góp phần tạo nên một không gian triển lãm chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối cho sự kiện.",
     images: [
       "assets/project/EXPO HANG MOI DROPPII/THUMB LEN KE TET.jpg",
       "assets/project/EXPO HANG MOI DROPPII/TEASER LEN KE TET.png",
@@ -107,7 +110,8 @@ window.PROJECTS = {
   "sale-campaign-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
     title: "EXPO ĐẠI HỘI NĂM DROPPII 2026",
-    description: "EXPO Đại hội năm Droppii 2026 là không gian triển lãm kết nối thương mại quy mô lớn nhất trong năm của Droppii, nơi quy tụ hàng nghìn đối tác kinh doanh cùng các Nhà phát triển sản phẩm (PDP) trên toàn quốc. Trong sự kiện này, Tiến đảm nhiệm toàn bộ quy trình thiết kế thị giác—từ việc sáng tạo chuỗi Social Media Posts truyền thông sôi nổi trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM in ấn tại khu vực triển lãm như standee, backdrop và tờ rơi giới thiệu. Sự chỉn chu, hiện đại và đồng nhất trong từng điểm chạm thiết kế đã góp phần tạo nên một không gian EXPO vô cùng chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối thương hiệu.",
+    description:
+      "EXPO Đại hội năm Droppii 2026 là không gian triển lãm kết nối thương mại quy mô lớn nhất trong năm của Droppii, nơi quy tụ hàng nghìn đối tác kinh doanh cùng các Nhà phát triển sản phẩm (PDP) trên toàn quốc. Trong sự kiện này, Tiến đảm nhiệm toàn bộ quy trình thiết kế thị giác—từ việc sáng tạo chuỗi Social Media Posts truyền thông sôi nổi trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM in ấn tại khu vực triển lãm như standee, backdrop và tờ rơi giới thiệu. Sự chỉn chu, hiện đại và đồng nhất trong từng điểm chạm thiết kế đã góp phần tạo nên một không gian EXPO vô cùng chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối thương hiệu.",
     images: [
       "assets/project/SALE CAMPAIGN NHAN DUYEN/thumb dhn expo.jpg",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/TEASER EXPO 2026.png",
@@ -137,7 +141,8 @@ window.PROJECTS = {
   "vu-lan-nhan-duyen": {
     category: "SOCIAL MEDIA | POSM",
     title: "THÁNG PHỤ NỮ DROPPII",
-    description: "Trong khuôn khổ chuỗi hoạt động Tháng Phụ Nữ (10/2025) của Droppii—với các chương trình sale ưu đãi cùng không gian EXPO mua sắm ấm cúng, Tiến đảm nhiệm toàn bộ khâu thiết kế thị giác cho chiến dịch. Từ các bộ Social Media Posts bắt mắt trên Fanpage đến hệ thống POSM in ấn gọn gàng tại khu vực trưng bày như standee, backdrop và tờ rơi, từng thiết kế đều được chăm chút chỉn chu, mang tinh thần tôn vinh phái đẹp và tạo điểm nhấn thu hút khách ghé thăm.",
+    description:
+      "Trong khuôn khổ chuỗi hoạt động Tháng Phụ Nữ (10/2025) của Droppii—với các chương trình sale ưu đãi cùng không gian EXPO mua sắm ấm cúng, Tiến đảm nhiệm toàn bộ khâu thiết kế thị giác cho chiến dịch. Từ các bộ Social Media Posts bắt mắt trên Fanpage đến hệ thống POSM in ấn gọn gàng tại khu vực trưng bày như standee, backdrop và tờ rơi, từng thiết kế đều được chăm chút chỉn chu, mang tinh thần tôn vinh phái đẹp và tạo điểm nhấn thu hút khách ghé thăm.",
     images: [
       "assets/project/VU LAN NHAN DUYEN/THUMB phu nu.jpg",
       "assets/project/VU LAN NHAN DUYEN/chuc 2010.png",
@@ -158,7 +163,8 @@ window.PROJECTS = {
   "king-jades-83": {
     category: "SOCIAL MEDIA",
     title: "3 MÀN LỌC DROPPII - SERIES THE APPROVER",
-    description: "Chính sách “3 màng lọc” của Droppii là cam kết chiến lược nhằm nâng cao uy tín hàng hóa, được lan tỏa xuyên suốt qua chuỗi tọa đàm livestream The Approver gồm 4 tập phát sóng trong 4 tháng. Trong chiến dịch dài hơi này, Tiến giữ vai trò định hình thị giác chủ đạo khi sáng tạo toàn bộ Key Visual (KV), bộ bài đăng Social Media truyền thông cho 3 màng lọc và trọn bộ thiết kế phục vụ phát sóng cho Tập 1 khởi động. Sau khi hoàn thiện khung thiết kế chuẩn, Tiến trực tiếp hướng dẫn và dẫn dắt các bạn Intern thực hiện adapt hình ảnh cho 3 tập tiếp theo, đảm bảo tính đồng bộ nhận diện thương hiệu cũng như tối ưu hiệu suất làm việc nhóm.",
+    description:
+      "Chính sách “3 màng lọc” của Droppii là cam kết chiến lược nhằm nâng cao uy tín hàng hóa, được lan tỏa xuyên suốt qua chuỗi tọa đàm livestream The Approver gồm 4 tập phát sóng trong 4 tháng. Trong chiến dịch dài hơi này, Tiến giữ vai trò định hình thị giác chủ đạo khi sáng tạo toàn bộ Key Visual (KV), bộ bài đăng Social Media truyền thông cho 3 màng lọc và trọn bộ thiết kế phục vụ phát sóng cho Tập 1 khởi động. Sau khi hoàn thiện khung thiết kế chuẩn, Tiến trực tiếp hướng dẫn và dẫn dắt các bạn Intern thực hiện adapt hình ảnh cho 3 tập tiếp theo, đảm bảo tính đồng bộ nhận diện thương hiệu cũng như tối ưu hiệu suất làm việc nhóm.",
     images: [
       "assets/project/KING JADES 8.3/THUMB approver.jpg",
       "assets/project/KING JADES 8.3/3 LOP.png",
@@ -187,7 +193,8 @@ window.PROJECTS = {
   "fnb-menu": {
     category: "SOCIAL MEDIA",
     title: "SALE EVENT 1.6 DROPPII",
-    description: "Sale Event 1.6 Droppii – Phá Đảo Thế Giới Deal là chiến dịch mua sắm bùng nổ nhân dịp Lễ Thiếu nhi, mang đến chuỗi ưu đãi lớn cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu thiết kế Social Media Posts trên Fanpage, sáng tạo Key Visual lấy ý tưởng từ thế giới Game Mario kinh điển. Bằng cách lồng ghép khéo léo các yếu tố đồ họa Pixel/3D vui nhộn, năng động cùng bố cục hình ảnh bắt mắt, bộ thiết kế đã truyền tải trọn vẹn tinh thần \"phá đảo\" đầy hứng khởi, thu hút tương tác mạnh mẽ và tạo điểm nhấn độc đáo cho chiến dịch.",
+    description:
+      'Sale Event 1.6 Droppii – Phá Đảo Thế Giới Deal là chiến dịch mua sắm bùng nổ nhân dịp Lễ Thiếu nhi, mang đến chuỗi ưu đãi lớn cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu thiết kế Social Media Posts trên Fanpage, sáng tạo Key Visual lấy ý tưởng từ thế giới Game Mario kinh điển. Bằng cách lồng ghép khéo léo các yếu tố đồ họa Pixel/3D vui nhộn, năng động cùng bố cục hình ảnh bắt mắt, bộ thiết kế đã truyền tải trọn vẹn tinh thần "phá đảo" đầy hứng khởi, thu hút tương tác mạnh mẽ và tạo điểm nhấn độc đáo cho chiến dịch.',
     images: [
       "assets/project/FNB MENU/THUMB 16.jpg",
       "assets/project/FNB MENU/PHA DAO THE GIOI DEAL.png",
@@ -201,7 +208,8 @@ window.PROJECTS = {
   "project-moi-1": {
     category: "SOCIAL MEDIA | EVENT",
     title: "GALA ĐẠI HỘI NĂM DROPPII 2024 - 2025",
-    description: "Gala Đại hội năm Droppii (với các chủ đề “Vượt Sóng Ra Khơi” năm 2024 và “Theo Ánh Mặt Trời” năm 2025) là đêm hội tôn vinh và bùng nổ cảm xúc quan trọng nhất trong năm của thương hiệu. Đồng hành cùng hai mùa Gala, Tiến đảm nhiệm khâu triển khai hình ảnh truyền thông trên Fanpage—từ việc phát triển các bộ Social Media Posts dựa trên Key Visual (KV) sẵn có cho đến việc xử lý tỉ mỉ hình ảnh các nghệ sĩ khách mời. Sự khéo léo trong bố cục và chuẩn xác về nhận diện đã giúp truyền tải trọn vẹn tinh thần chủ đạo của đêm tiệc, tạo sức hút truyền thông mạnh mẽ cho sự kiện.",
+    description:
+      "Gala Đại hội năm Droppii (với các chủ đề “Vượt Sóng Ra Khơi” năm 2024 và “Theo Ánh Mặt Trời” năm 2025) là đêm hội tôn vinh và bùng nổ cảm xúc quan trọng nhất trong năm của thương hiệu. Đồng hành cùng hai mùa Gala, Tiến đảm nhiệm khâu triển khai hình ảnh truyền thông trên Fanpage—từ việc phát triển các bộ Social Media Posts dựa trên Key Visual (KV) sẵn có cho đến việc xử lý tỉ mỉ hình ảnh các nghệ sĩ khách mời. Sự khéo léo trong bố cục và chuẩn xác về nhận diện đã giúp truyền tải trọn vẹn tinh thần chủ đạo của đêm tiệc, tạo sức hút truyền thông mạnh mẽ cho sự kiện.",
     images: [
       "assets/project/PROJECT MOI 1/thumb dhn 2.jpg",
       "assets/project/PROJECT MOI 1/agenda gala.png",
@@ -217,10 +225,11 @@ window.PROJECTS = {
       "assets/project/PROJECT MOI 1/alb quote.png",
     ],
   },
-  "1": {
+  1: {
     category: "SOCIAL MEDIA",
     title: "SERIES KHOẢNH KHẮC VÔ GIÁ DROPPII",
-    description: "Series bài viết “Khoảnh Khắc Vô Giá” trên Fanpage Droppii là không gian lắng đọng để ghi dấu và tôn vinh hành trình nỗ lực của các đối tác kinh doanh thông qua những chuyến du lịch tưởng thưởng hàng năm. Đồng hành cùng chiến dịch, Tiến trực tiếp thiết kế toàn bộ các bài đăng Social Media, tập trung vào việc trau chuốt hình ảnh, khéo léo lồng ghép cảm xúc và duy trì tính đồng bộ với nhận diện thương hiệu. Từng thiết kế không chỉ tái hiện trọn vẹn những khoảnh khắc đáng nhớ mà còn tạo cảm hứng truyền động lực mạnh mẽ tới cộng đồng đối tác Droppii.",
+    description:
+      "Series bài viết “Khoảnh Khắc Vô Giá” trên Fanpage Droppii là không gian lắng đọng để ghi dấu và tôn vinh hành trình nỗ lực của các đối tác kinh doanh thông qua những chuyến du lịch tưởng thưởng hàng năm. Đồng hành cùng chiến dịch, Tiến trực tiếp thiết kế toàn bộ các bài đăng Social Media, tập trung vào việc trau chuốt hình ảnh, khéo léo lồng ghép cảm xúc và duy trì tính đồng bộ với nhận diện thương hiệu. Từng thiết kế không chỉ tái hiện trọn vẹn những khoảnh khắc đáng nhớ mà còn tạo cảm hứng truyền động lực mạnh mẽ tới cộng đồng đối tác Droppii.",
     images: [
       "assets/project/1/THUMB kkvg.jpg",
       "assets/project/1/khoanh khac 2.png",
@@ -233,7 +242,8 @@ window.PROJECTS = {
   "yen-sao": {
     category: "KEY VISUAL | TRAVEL",
     title: "KV DROPPII TRAVEL - COMPANY TRIP",
-    description: "Chương trình Droppii Travel (du lịch tưởng thưởng dành cho đối tác) và Company Trip (du lịch nội bộ) là những hoạt động thường niên trọng điểm, nhằm tôn vinh những cống hiến vượt bậc và gắn kết tinh thần tập thể. Trong các chiến dịch này, Tiến đóng vai trò cốt lõi khi sáng tạo và phát triển các bộ Key Visual (KV) chủ đạo—định hình phong cách thị giác và thông điệp cho toàn bộ chuyến đi. Tệp thiết kế này sau đó được chuyển giao để các đơn vị agency du lịch adapt thành hệ thống ấn phẩm in ấn thực tế (backdrop, standee, banner, quà tặng...), đảm bảo tính đồng bộ, chỉn chu và trải nghiệm trọn vẹn cho người tham gia.",
+    description:
+      "Chương trình Droppii Travel (du lịch tưởng thưởng dành cho đối tác) và Company Trip (du lịch nội bộ) là những hoạt động thường niên trọng điểm, nhằm tôn vinh những cống hiến vượt bậc và gắn kết tinh thần tập thể. Trong các chiến dịch này, Tiến đóng vai trò cốt lõi khi sáng tạo và phát triển các bộ Key Visual (KV) chủ đạo—định hình phong cách thị giác và thông điệp cho toàn bộ chuyến đi. Tệp thiết kế này sau đó được chuyển giao để các đơn vị agency du lịch adapt thành hệ thống ấn phẩm in ấn thực tế (backdrop, standee, banner, quà tặng...), đảm bảo tính đồng bộ, chỉn chu và trải nghiệm trọn vẹn cho người tham gia.",
     images: [
       "assets/project/YEN SAO/THUMB travel.jpg",
       "assets/project/YEN SAO/kv bali.png",
@@ -241,10 +251,11 @@ window.PROJECTS = {
       "assets/project/YEN SAO/KV NHA TRANG 2.png",
     ],
   },
-  "vitaleaf": {
+  vitaleaf: {
     category: "SOCIAL MEDIA",
     title: "LÁ GAN NGUỒN SỐNG - VITALEAF X DROPPII",
-    description: "Chương trình “Lá Gan Nguồn Sống” (07/2025) là dự án hợp tác chiến lược giữa Droppii và Vitaleaf—với vai trò Vitaleaf là Nhà tài trợ đồng hành cùng chiến dịch 90 Ngày Tốc Chiến 2025 nhằm nâng cao nhận thức chăm sóc sức khỏe chủ động cho cộng đồng. Trong dự án này, Tiến đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng tư duy thị giác hiện đại, sự kết hợp hài hòa giữa nhận diện thương hiệu Vitaleaf và tinh thần năng động của Droppii, các thiết kế không chỉ truyền tải trọn vẹn thông điệp sức khỏe giá trị mà còn góp phần gia tăng tương tác, thu hút sự chú ý mạnh mẽ trong mùa tốc chiến.",
+    description:
+      "Chương trình “Lá Gan Nguồn Sống” (07/2025) là dự án hợp tác chiến lược giữa Droppii và Vitaleaf—với vai trò Vitaleaf là Nhà tài trợ đồng hành cùng chiến dịch 90 Ngày Tốc Chiến 2025 nhằm nâng cao nhận thức chăm sóc sức khỏe chủ động cho cộng đồng. Trong dự án này, Tiến đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng tư duy thị giác hiện đại, sự kết hợp hài hòa giữa nhận diện thương hiệu Vitaleaf và tinh thần năng động của Droppii, các thiết kế không chỉ truyền tải trọn vẹn thông điệp sức khỏe giá trị mà còn góp phần gia tăng tương tác, thu hút sự chú ý mạnh mẽ trong mùa tốc chiến.",
     images: [
       "assets/project/VITALEAF/thumb lgns.jpg",
       "assets/project/VITALEAF/la gan.png",
@@ -261,10 +272,11 @@ window.PROJECTS = {
       "assets/project/VITALEAF/FREESHIP VITA LEAF 169.png",
     ],
   },
-  "3": {
+  3: {
     category: "SOCIAL MEDIA",
     title: "BẬT ĐÀ TIỀM NĂNG - DROPPII X MIDU",
-    description: "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
+    description:
+      "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
     images: [
       "assets/project/3/thumb midu.jpg",
       "assets/project/3/teaser (1).png",
@@ -277,10 +289,11 @@ window.PROJECTS = {
       "assets/project/3/x2 mung 10.png",
     ],
   },
-  "2": {
+  2: {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
     title: "TẾT ĐẾN GẦN DROPPII",
-    description: "Sale Event “Tết Đến Gần” (30.01.2026) của Droppii là chiến dịch kích cầu mua sắm trọng điểm giai đoạn cận Tết, mang không khí rộn ràng cùng chuỗi ưu đãi lớn đến cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế trọn bộ Social Media Posts sôi nổi trên Fanpage đến việc xây dựng giao diện Landing Page tối ưu trải nghiệm người dùng. Sự kết hợp hài hòa giữa màu sắc Tết truyền thống và nét thiết kế hiện đại đã tạo nên điểm chạm thị giác ấn tượng, góp phần thúc đẩy tỷ lệ chuyển đổi và lan tỏa sức nóng cho sự kiện.",
+    description:
+      "Sale Event “Tết Đến Gần” (30.01.2026) của Droppii là chiến dịch kích cầu mua sắm trọng điểm giai đoạn cận Tết, mang không khí rộn ràng cùng chuỗi ưu đãi lớn đến cho khách hàng và đối tác. Đồng hành cùng chiến dịch, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế trọn bộ Social Media Posts sôi nổi trên Fanpage đến việc xây dựng giao diện Landing Page tối ưu trải nghiệm người dùng. Sự kết hợp hài hòa giữa màu sắc Tết truyền thống và nét thiết kế hiện đại đã tạo nên điểm chạm thị giác ấn tượng, góp phần thúc đẩy tỷ lệ chuyển đổi và lan tỏa sức nóng cho sự kiện.",
     images: [
       "assets/project/2/thumb tet den gan.jpg",
       "assets/project/2/BIA KM (5).png",
@@ -291,10 +304,11 @@ window.PROJECTS = {
       "assets/project/2/LP (1).png",
     ],
   },
-  "ooh": {
+  ooh: {
     category: "SOCIAL MEDIA | PRINTING",
     title: "Chay Nhân Duyên - Tệp khách Hoa",
-    description: "Nhà hàng chay Nhân Duyên là điểm đến ẩm thực thanh tịnh, gói trọn hương vị thực dưỡng lành mạnh và rất được lòng cộng đồng người Hoa tại TP.HCM. Đồng hành cùng định hướng truyền thông của nhà hàng, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts bắt mắt, chuẩn phong cách văn hóa trên Fanpage cho đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee và poster A5 để bàn. Sự tinh tế trong từng đường nét thiết kế không chỉ tôn vinh nét đẹp ẩm thực chay mà còn tạo sự kết nối gần gũi, thu hút hiệu quả tệp thực khách người Hoa tại địa phương.",
+    description:
+      "Nhà hàng chay Nhân Duyên là điểm đến ẩm thực thanh tịnh, gói trọn hương vị thực dưỡng lành mạnh và rất được lòng cộng đồng người Hoa tại TP.HCM. Đồng hành cùng định hướng truyền thông của nhà hàng, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts bắt mắt, chuẩn phong cách văn hóa trên Fanpage cho đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee và poster A5 để bàn. Sự tinh tế trong từng đường nét thiết kế không chỉ tôn vinh nét đẹp ẩm thực chay mà còn tạo sự kết nối gần gũi, thu hút hiệu quả tệp thực khách người Hoa tại địa phương.",
     images: [
       "assets/project/OOH - PANO - BACKDROP/thumb nhan duyen hoa.jpg",
       "assets/project/OOH - PANO - BACKDROP/typo (1).png",
@@ -318,10 +332,11 @@ window.PROJECTS = {
       "assets/project/OOH - PANO - BACKDROP/via quan cong.png",
     ],
   },
-  "logofolio": {
+  logofolio: {
     category: "SOCIAL MEDIA | PRINTING",
     title: "Chay Nhân Duyên - Tệp khách Việt",
-    description: "Nhà hàng chay Nhân Duyên là điểm đến quen thuộc dành cho những ai tìm kiếm không gian ẩm thực thanh tịnh cùng các món chay thực dưỡng, trọn vị và lành lành. Đồng hành cùng hình ảnh của nhà hàng, Tiến đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts chỉn chu, thu hút trên Fanpage đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee truyền thông và poster A5 để bàn. Sự đồng bộ từ không gian mạng đến điểm chạm tại nhà hàng đã góp phần mang hình ảnh Nhân Duyên đến gần hơn với thực khách, nhẹ nhàng nhưng đầy ấn tượng.",
+    description:
+      "Nhà hàng chay Nhân Duyên là điểm đến quen thuộc dành cho những ai tìm kiếm không gian ẩm thực thanh tịnh cùng các món chay thực dưỡng, trọn vị và lành lành. Đồng hành cùng hình ảnh của nhà hàng, Tiến đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts chỉn chu, thu hút trên Fanpage đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee truyền thông và poster A5 để bàn. Sự đồng bộ từ không gian mạng đến điểm chạm tại nhà hàng đã góp phần mang hình ảnh Nhân Duyên đến gần hơn với thực khách, nhẹ nhàng nhưng đầy ấn tượng.",
     images: [
       "assets/project/LOGOFOLIO/thumb nhan duyen.jpg",
       "assets/project/LOGOFOLIO/gio vang.jpg",
@@ -383,9 +398,7 @@ window.PROJECTS = {
     category: "PRINTING",
     title: "FNB MENU DESIGN",
     description: "",
-    images: [
-      "assets/project/PROJECT MOI 3/Group 4 copy.png",
-    ],
+    images: ["assets/project/PROJECT MOI 3/Group 4 copy.png"],
   },
   "bingto-vlog": {
     category: "SOCIAL MEDIA",
@@ -434,7 +447,8 @@ window.PROJECTS = {
   "project-moi-7": {
     category: "LOGO | SOCIAL MEDIA | PRINTING",
     title: "GOODDY BAR - ĐỨC",
-    description: "GOODDY Restaurant & Bar là một góc ẩm thực và giải trí ấm cúng tại Hamburg, Đức, nổi bật với không gian nhỏ xinh, mang tinh thần phóng khoáng nhưng vẫn rất gần gũi. Đồng hành cùng dự án từ những ngày đầu, Tiến trực tiếp sáng tạo Logo nhận diện và Poster khai trương cho quán. Thiết kế tập trung vào sự tinh tế, cô đọng, vừa lột tả trọn vẹn cái \"vibe\" ấm áp, chill chill của một không gian bar thu nhỏ, vừa tạo điểm nhấn ấn tượng để thu hút thực khách ngay từ ngày đầu mở cửa.",
+    description:
+      'GOODDY Restaurant & Bar là một góc ẩm thực và giải trí ấm cúng tại Hamburg, Đức, nổi bật với không gian nhỏ xinh, mang tinh thần phóng khoáng nhưng vẫn rất gần gũi. Đồng hành cùng dự án từ những ngày đầu, Tiến trực tiếp sáng tạo Logo nhận diện và Poster khai trương cho quán. Thiết kế tập trung vào sự tinh tế, cô đọng, vừa lột tả trọn vẹn cái "vibe" ấm áp, chill chill của một không gian bar thu nhỏ, vừa tạo điểm nhấn ấn tượng để thu hút thực khách ngay từ ngày đầu mở cửa.',
     images: [
       "assets/project/PROJECT MOI 7/526419275_122118541322932701_3827701155108702371_n.png",
       "assets/project/PROJECT MOI 7/GOODY LOGO PNG.png",
@@ -445,7 +459,8 @@ window.PROJECTS = {
   "project-moi-8": {
     category: "EVENT  | PRESENTATION",
     title: "CHƯƠNG TRÌNH ĐÀO TẠO CEO - VCCI",
-    description: "Chương trình Đào tạo CEO 2023 do VCCI (Liên đoàn Thương mại và Công nghiệp Việt Nam) tổ chức là khóa huấn luyện cao cấp nhằm nâng tầm năng lực quản trị cho các nhà lãnh đạo doanh nghiệp. Đồng hành cùng sự kiện quy mô này, Tiến trực tiếp thực hiện trọn bộ thiết kế thị giác—từ standee điện tử, backdrop điện tử, ấn phẩm OOH ngoài trời cho đến hệ thống màn hình thuyết trình sân khấu. Sự đồng bộ, sang trọng và chỉn chu trong từng chi tiết thiết kế đã góp phần tôn vinh tính chuyên nghiệp và vị thế cấp cao của chương trình.",
+    description:
+      "Chương trình Đào tạo CEO 2023 do VCCI (Liên đoàn Thương mại và Công nghiệp Việt Nam) tổ chức là khóa huấn luyện cao cấp nhằm nâng tầm năng lực quản trị cho các nhà lãnh đạo doanh nghiệp. Đồng hành cùng sự kiện quy mô này, Tiến trực tiếp thực hiện trọn bộ thiết kế thị giác—từ standee điện tử, backdrop điện tử, ấn phẩm OOH ngoài trời cho đến hệ thống màn hình thuyết trình sân khấu. Sự đồng bộ, sang trọng và chỉn chu trong từng chi tiết thiết kế đã góp phần tôn vinh tính chuyên nghiệp và vị thế cấp cao của chương trình.",
     images: [
       "assets/project/PROJECT MOI 8/thumb vcci (1).jpg",
       "assets/project/PROJECT MOI 8/ooh.jpg",
@@ -461,7 +476,8 @@ window.PROJECTS = {
   "project-moi-9": {
     category: "Course assignment",
     title: "ART DIRECTION - DẤU ẤN DI SẢN BITIS",
-    description: "Đồ án “Art Direction – Dấu Ấn Di Sản Biti’s” là dự án sáng tạo thuộc khóa học Art Direction tại trung tâm BOLD, được thực hiện bởi nhóm 2 thành viên nhằm xây dựng định hướng nghệ thuật cho một dòng sản phẩm giày giả tưởng mang đậm chất liệu văn hóa Hát Bội của Biti's. Trong dự án này, Tiến trực tiếp đảm nhiệm toàn bộ khâu nghiên cứu, xây dựng Moodboard và phát triển Key Visual (KV) chủ đạo. Bằng cách chắt lọc tinh hoa từ màu sắc, đường nét mặt nạ tuồng cổ và kết hợp hài hòa với ngôn ngữ thiết kế hiện đại, các sản phẩm thị giác không chỉ tôn vinh giá trị di sản dân tộc mà còn mang lại diện mạo năng động, mới mẻ cho dòng sản phẩm.",
+    description:
+      "Đồ án “Art Direction – Dấu Ấn Di Sản Biti’s” là dự án sáng tạo thuộc khóa học Art Direction tại trung tâm BOLD, được thực hiện bởi nhóm 2 thành viên nhằm xây dựng định hướng nghệ thuật cho một dòng sản phẩm giày giả tưởng mang đậm chất liệu văn hóa Hát Bội của Biti's. Trong dự án này, Tiến trực tiếp đảm nhiệm toàn bộ khâu nghiên cứu, xây dựng Moodboard và phát triển Key Visual (KV) chủ đạo. Bằng cách chắt lọc tinh hoa từ màu sắc, đường nét mặt nạ tuồng cổ và kết hợp hài hòa với ngôn ngữ thiết kế hiện đại, các sản phẩm thị giác không chỉ tôn vinh giá trị di sản dân tộc mà còn mang lại diện mạo năng động, mới mẻ cho dòng sản phẩm.",
     images: [
       "assets/project/PROJECT MOI 9/dau an di san (1).png",
       "assets/project/PROJECT MOI 9/dau an di san slide 1 (1).png",
