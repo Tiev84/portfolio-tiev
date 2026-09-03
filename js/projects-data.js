@@ -10,6 +10,7 @@ window.PROJECTS = {
     description: "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
     images: [
       "assets/project/GALA/thumb dhn.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/recap.mp4",
       "assets/project/GALA/3.jpg",
       "assets/project/GALA/4.jpg",
       "assets/project/GALA/5.jpg",
@@ -32,7 +33,6 @@ window.PROJECTS = {
       "assets/project/GALA/22.jpg",
       "assets/project/GALA/23.jpg",
       "assets/project/GALA/24.jpg",
-      "assets/project/GALA/recap.mp4",
     ],
   },
   "digital-advertising-droppii": {
@@ -97,6 +97,7 @@ window.PROJECTS = {
     description: "Meta meta meta",
     images: [
       "assets/project/SALE EVENT DROPPII/thumb 28.png",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_720p.HD._782a.mp4",
       "assets/project/SALE EVENT DROPPII/teaser.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong 2.png",
@@ -110,6 +111,7 @@ window.PROJECTS = {
     description: "EXPO Đại hội năm Droppii 2026 là không gian triển lãm kết nối thương mại quy mô lớn nhất trong năm của Droppii, nơi quy tụ hàng nghìn đối tác kinh doanh cùng các Nhà phát triển sản phẩm (PDP) trên toàn quốc. Trong sự kiện này, Tiến đảm nhiệm toàn bộ quy trình thiết kế thị giác—từ việc sáng tạo chuỗi Social Media Posts truyền thông sôi nổi trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM in ấn tại khu vực triển lãm như standee, backdrop và tờ rơi giới thiệu. Sự chỉn chu, hiện đại và đồng nhất trong từng điểm chạm thiết kế đã góp phần tạo nên một không gian EXPO vô cùng chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối thương hiệu.",
     images: [
       "assets/project/SALE CAMPAIGN NHAN DUYEN/thumb dhn expo.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/droppii.expo",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/TEASER EXPO 2026.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/5 ly do.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/7 ngay.png",
@@ -267,6 +269,7 @@ window.PROJECTS = {
     description: "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
     images: [
       "assets/project/3/thumb midu.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_1080p_3ce5.mp4",
       "assets/project/3/teaser (1).png",
       "assets/project/3/post midu.png",
       "assets/project/3/Banner live (2).png",

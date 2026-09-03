@@ -120,7 +120,11 @@ def is_media(name: str) -> bool:
 
 
 def is_video(name: str) -> bool:
-    return Path(name).suffix.lower() in VIDEO_EXT
+    return Path(name).suffix.lower() in VIDEO_EXT or "releases/download" in name.lower()
+
+
+def is_remote(name: str) -> bool:
+    return bool(name and (name.startswith(("http://", "https://")) or "releases/download" in name.lower()))
 
 
 def safe_name(name: str) -> str:
@@ -266,8 +270,8 @@ def scan(persist: bool = True) -> list[dict]:
     for folder, meta in pairs:
         on_disk = {f.name for f in folder.iterdir() if f.is_file() and is_media(f.name)}
 
-        images = [n for n in meta["images"] if n in on_disk]
-        hidden = [n for n in meta["hidden"] if n in on_disk]
+        images = [n for n in meta["images"] if n in on_disk or is_remote(n)]
+        hidden = [n for n in meta["hidden"] if n in on_disk or is_remote(n)]
 
         known = set(images) | set(hidden)
         new_files = sorted(on_disk - known, key=natural_key)
@@ -291,6 +295,15 @@ def scan(persist: bool = True) -> list[dict]:
         lfs_exts = lfs_extensions()
 
         def item(name: str, hidden: bool) -> dict:
+            if is_remote(name):
+                return {
+                    "name": name,
+                    "url": name,
+                    "video": True,
+                    "hidden": hidden,
+                    "size": 0,
+                    "warning": "",
+                }
             size = (folder / name).stat().st_size
             return {
                 "name": name,
@@ -367,7 +380,8 @@ def render_projects_data(projects: list[dict]) -> str:
         lines.append(f"    description: {_js_string(p['description'])},")
         lines.append("    images: [")
         for name in p["images"]:
-            lines.append(f"      {_js_string(f'{rel}/{name}')},")
+            url_val = name if is_remote(name) else f"{rel}/{name}"
+            lines.append(f"      {_js_string(url_val)},")
         lines.append("    ],")
         lines.append("  },")
     lines.append("};")
