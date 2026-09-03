@@ -398,7 +398,7 @@ window.PROJECTS = {
     title: "BINGTO VLOG - ĐIỀN QUÂN NETWORK",
     description: "BingTo Vlog là series phim ngắn 5 tập siêu dễ thương của Điền Quân Network và đạo diễn Đỗ Nam, xoay quanh những câu chuyện dở khóc dở cười giữa bộ đôi thú cưng: bé khỉ BingBoong (“Cô 8”) lanh lợi và chú cún ToTo (“Chú 9”) ngây thơ. Trong dự án này, Tiến trực tiếp thiết kế Key Visual (KV) chủ đạo cho bộ phim. Với sắc màu tươi sáng và tạo hình nhân vật ngộ nghĩnh, thiết kế KV đã bắt trọn tinh thần lầy lội, đáng yêu của hai bạn nhỏ, tạo ấn tượng thị giác mạnh mẽ để thu hút khán giả theo dõi series trên YouTube DIEN QUAN Film.",
     images: [
-      "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
+      "assets/project/ĐIỀN QUÂN NETWORK/thumb bing to.png",
       "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
     ],
   },
