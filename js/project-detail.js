@@ -60,27 +60,54 @@ project.images.forEach((src, index) => {
   const item = document.createElement("div");
   item.className = "gallery-item";
 
-  const isVideo = src.match(/\.(mp4|webm|mov|ogg)$/i);
+  const isVideo =
+    src.match(/\.(mp4|webm|mov|ogg)($|\?)/i) ||
+    src.includes("/releases/download/");
 
   if (isVideo) {
     item.classList.add("landscape");
     const video = document.createElement("video");
-    video.controls = true;
-    video.autoplay = true;
+
+    // Thuộc tính bắt buộc cho trình duyệt mobile (iOS Safari & Android Chrome)
+    video.setAttribute("controls", "controls");
+    video.setAttribute("autoplay", "autoplay");
+    video.setAttribute("muted", "muted");
+    video.setAttribute("playsinline", "true");
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("preload", "metadata");
+
     video.muted = true;
+    video.defaultMuted = true;
+    video.autoplay = true;
     video.loop = true;
     video.playsInline = true;
 
-    // Dùng ảnh thumb làm poster để hiển thị tức thì
+    // Dùng ảnh thumb làm poster
     if (
       project.images[0] &&
-      !project.images[0].match(/\.(mp4|webm|mov|ogg)$/i)
+      !project.images[0].match(/\.(mp4|webm|mov|ogg)($|\?)/i) &&
+      !project.images[0].includes("/releases/download/")
     ) {
       video.poster = project.images[0];
     }
 
-    video.dataset.src = src;
-    lazyObserver.observe(video);
+    video.src = src;
+
+    // Tự động phát khi cuộn tới trên mobile
+    const videoObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+    videoObserver.observe(video);
+
     item.appendChild(video);
   } else {
     const img = document.createElement("img");
