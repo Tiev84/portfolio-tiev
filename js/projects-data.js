@@ -292,7 +292,7 @@ window.PROJECTS = {
   },
   "ooh": {
     category: "SOCIAL MEDIA | PRINTING",
-    title: "Chay Nhân Duyên - Tệp khách Hoa",
+    title: "CHAY NHÂN DUYÊN - TỆP KHÁCH HOA",
     description: "Nhà hàng chay Nhân Duyên là điểm đến ẩm thực thanh tịnh, gói trọn hương vị thực dưỡng lành mạnh và rất được lòng cộng đồng người Hoa tại TP.HCM. Đồng hành cùng định hướng truyền thông của nhà hàng, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts bắt mắt, chuẩn phong cách văn hóa trên Fanpage cho đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee và poster A5 để bàn. Sự tinh tế trong từng đường nét thiết kế không chỉ tôn vinh nét đẹp ẩm thực chay mà còn tạo sự kết nối gần gũi, thu hút hiệu quả tệp thực khách người Hoa tại địa phương.",
     images: [
       "assets/project/OOH - PANO - BACKDROP/thumb nhan duyen hoa.jpg",
@@ -319,7 +319,7 @@ window.PROJECTS = {
   },
   "logofolio": {
     category: "SOCIAL MEDIA | PRINTING",
-    title: "Chay Nhân Duyên - Tệp khách Việt",
+    title: "CHAY NHÂN DUYÊN - TỆP KHÁCH VIỆT",
     description: "Nhà hàng chay Nhân Duyên là điểm đến quen thuộc dành cho những ai tìm kiếm không gian ẩm thực thanh tịnh cùng các món chay thực dưỡng, trọn vị và lành lành. Đồng hành cùng hình ảnh của nhà hàng, Tiến đảm nhiệm toàn bộ khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Media Posts chỉn chu, thu hút trên Fanpage đến việc adapt linh hoạt sang hệ thống ấn phẩm in ấn thực tế như băng rôn, standee truyền thông và poster A5 để bàn. Sự đồng bộ từ không gian mạng đến điểm chạm tại nhà hàng đã góp phần mang hình ảnh Nhân Duyên đến gần hơn với thực khách, nhẹ nhàng nhưng đầy ấn tượng.",
     images: [
       "assets/project/LOGOFOLIO/thumb nhan duyen.jpg",
@@ -394,18 +394,18 @@ window.PROJECTS = {
     ],
   },
   "bingto-vlog": {
-    category: "SOCIAL MEDIA",
-    title: "Bingto Vlog - Điền Quân Network",
-    description: "Meta meta meta",
+    category: "KEY VISUAL  |  SOCIAL MEDIA",
+    title: "BINGTO VLOG - ĐIỀN QUÂN NETWORK",
+    description: "BingTo Vlog là series phim ngắn 5 tập siêu dễ thương của Điền Quân Network và đạo diễn Đỗ Nam, xoay quanh những câu chuyện dở khóc dở cười giữa bộ đôi thú cưng: bé khỉ BingBoong (“Cô 8”) lanh lợi và chú cún ToTo (“Chú 9”) ngây thơ. Trong dự án này, Tiến trực tiếp thiết kế Key Visual (KV) chủ đạo cho bộ phim. Với sắc màu tươi sáng và tạo hình nhân vật ngộ nghĩnh, thiết kế KV đã bắt trọn tinh thần lầy lội, đáng yêu của hai bạn nhỏ, tạo ấn tượng thị giác mạnh mẽ để thu hút khán giả theo dõi series trên YouTube DIEN QUAN Film.",
     images: [
       "assets/project/ĐIỀN QUÂN NETWORK/cbcbec8a-38d6-4b37-9fd6-b3ad05e4fda9.jpg",
       "assets/project/ĐIỀN QUÂN NETWORK/bingto vlog poster.png",
     ],
   },
   "project-moi-5": {
-    category: "",
+    category: "SOCIAL MEDIA",
     title: "NƯỚC ION KỀM FUJIWA",
-    description: "",
+    description: "Fujiwa là thương hiệu nước uống ion kiềm cao cấp hàng đầu, nổi tiếng với các sản phẩm chăm sóc sức khỏe chất lượng cao ứng dụng công nghệ hiện đại Nhật Bản. Đồng hành cùng sự phát triển hình ảnh của thương hiệu, Tiến trực tiếp đảm nhiệm khâu sáng tạo và sản xuất các bộ Social Posts đăng tải hàng ngày trên Fanpage. Bằng phong cách thiết kế hiện đại, chỉn chu cùng khả năng tối ưu hóa nhận diện thương hiệu, các sản phẩm thị giác không chỉ truyền tải rõ ràng thông điệp sống khỏe mà còn duy trì sự gắn kết và tương tác đều đặn với cộng đồng người tiêu dùng.",
     images: [
       "assets/project/PROJECT MOI 5/thumb fujiwa (1).png",
       "assets/project/PROJECT MOI 5/1eebbd176320869.64c28ed17b0f1.png",
