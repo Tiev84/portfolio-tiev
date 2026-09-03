@@ -384,6 +384,7 @@ window.PROJECTS = {
     title: "FNB MENU DESIGN",
     description: "",
     images: [
+      "assets/project/PROJECT MOI 3/Group 4 copy.png",
     ],
   },
   "bingto-vlog": {

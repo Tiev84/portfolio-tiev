@@ -5,7 +5,9 @@
   "description": "",
   "wide": false,
   "order": 20,
-  "cover": "",
-  "images": [],
+  "cover": "Group 4 copy.png",
+  "images": [
+    "Group 4 copy.png"
+  ],
   "hidden": []
 }
