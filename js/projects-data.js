@@ -100,6 +100,7 @@ window.PROJECTS = {
     description: "Meta meta meta",
     images: [
       "assets/project/SALE EVENT DROPPII/thumb 28.png",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_720p.HD._782a.mp4",
       "assets/project/SALE EVENT DROPPII/teaser.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong 2.png",
@@ -279,6 +280,7 @@ window.PROJECTS = {
       "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
     images: [
       "assets/project/3/thumb midu.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_1080p_3ce5.mp4",
       "assets/project/3/teaser (1).png",
       "assets/project/3/post midu.png",
       "assets/project/3/Banner live (2).png",
