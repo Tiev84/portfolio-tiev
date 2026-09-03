@@ -355,14 +355,17 @@ window.PROJECTS = {
   },
   "project-moi-2": {
     category: "SOCIAL MEDIA | POSM",
-    title: "KING JADES",
-    description: "",
+    title: "VÒNG NGỌC KING JADES",
+    description: "King Jades là thương hiệu vòng ngọc phong thủy cao cấp, nổi tiếng với những thiết kế trang sức ngọc thiên nhiên tinh xảo, mang lại may mắn và vẻ đẹp sang trọng cho người đeo. Đồng hành cùng định hướng hình ảnh của thương hiệu, Tiến trực tiếp đảm nhiệm khâu sáng tạo thị giác—từ việc thiết kế các bộ Social Posts chỉn chu, quý phái trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM thực tế như standee và poster A5 để bàn. Sự tỉ mỉ trong từng đường nét và màu sắc thiết kế đã góp phần tôn vinh giá trị đẳng cấp của sản phẩm, đồng thời tạo điểm chạm thị giác ấn tượng với khách hàng.",
     images: [
-      "assets/project/PROJECT MOI 2/ava page.png",
+      "assets/project/PROJECT MOI 2/thumb KINGJADE.png",
       "assets/project/PROJECT MOI 2/banner zalo black friday.png",
       "assets/project/PROJECT MOI 2/banner zalo kich hoat tai loc.png",
       "assets/project/PROJECT MOI 2/Siêu sale cuối năm.png",
+      "assets/project/PROJECT MOI 2/chuc mung nam moi opt 3.jpg",
+      "assets/project/PROJECT MOI 2/cover page.png",
       "assets/project/PROJECT MOI 2/UU DAI TET.png",
+      "assets/project/PROJECT MOI 2/ava page.png",
     ],
   },
   "project-moi-4": {
