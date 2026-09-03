@@ -115,6 +115,7 @@ window.PROJECTS = {
       "EXPO Đại hội năm Droppii 2026 là không gian triển lãm kết nối thương mại quy mô lớn nhất trong năm của Droppii, nơi quy tụ hàng nghìn đối tác kinh doanh cùng các Nhà phát triển sản phẩm (PDP) trên toàn quốc. Trong sự kiện này, Tiến đảm nhiệm toàn bộ quy trình thiết kế thị giác—từ việc sáng tạo chuỗi Social Media Posts truyền thông sôi nổi trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM in ấn tại khu vực triển lãm như standee, backdrop và tờ rơi giới thiệu. Sự chỉn chu, hiện đại và đồng nhất trong từng điểm chạm thiết kế đã góp phần tạo nên một không gian EXPO vô cùng chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối thương hiệu.",
     images: [
       "assets/project/SALE CAMPAIGN NHAN DUYEN/thumb dhn expo.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/droppii.expo",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/TEASER EXPO 2026.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/5 ly do.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/7 ngay.png",
