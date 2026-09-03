@@ -10,7 +10,6 @@ window.PROJECTS = {
     description: "Trong khuôn khổ Đại hội năm Droppii 2026, Tiến trực tiếp đảm nhiệm việc thực thi toàn bộ giải pháp hình ảnh cho sự kiện, từ các thiết kế Social Post truyền thông trước, trong và sau chương trình, hệ thống POSM in ấn đồng bộ (standee, backdrop, photobooth, thẻ đeo...) cho đến các ấn phẩm in ấn cỡ lớn và hiệu ứng màn hình LED trình chiếu trên sân khấu. Sự tỉ mỉ và đồng bộ trong từng nét vẽ đã góp phần tạo nên một không gian sự kiện chỉn chu, chuyên nghiệp và đầy cảm xúc.",
     images: [
       "assets/project/GALA/thumb dhn.jpg",
-      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/recap.mp4",
       "assets/project/GALA/3.jpg",
       "assets/project/GALA/4.jpg",
       "assets/project/GALA/5.jpg",
@@ -97,7 +96,6 @@ window.PROJECTS = {
     description: "Meta meta meta",
     images: [
       "assets/project/SALE EVENT DROPPII/thumb 28.png",
-      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_720p.HD._782a.mp4",
       "assets/project/SALE EVENT DROPPII/teaser.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong.png",
       "assets/project/SALE EVENT DROPPII/full rule 28 vuong 2.png",
@@ -111,7 +109,6 @@ window.PROJECTS = {
     description: "EXPO Đại hội năm Droppii 2026 là không gian triển lãm kết nối thương mại quy mô lớn nhất trong năm của Droppii, nơi quy tụ hàng nghìn đối tác kinh doanh cùng các Nhà phát triển sản phẩm (PDP) trên toàn quốc. Trong sự kiện này, Tiến đảm nhiệm toàn bộ quy trình thiết kế thị giác—từ việc sáng tạo chuỗi Social Media Posts truyền thông sôi nổi trên Fanpage đến việc sản xuất đồng bộ hệ thống POSM in ấn tại khu vực triển lãm như standee, backdrop và tờ rơi giới thiệu. Sự chỉn chu, hiện đại và đồng nhất trong từng điểm chạm thiết kế đã góp phần tạo nên một không gian EXPO vô cùng chuyên nghiệp, thu hút và tối ưu hiệu quả kết nối thương hiệu.",
     images: [
       "assets/project/SALE CAMPAIGN NHAN DUYEN/thumb dhn expo.jpg",
-      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/droppii.expo",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/TEASER EXPO 2026.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/5 ly do.png",
       "assets/project/SALE CAMPAIGN NHAN DUYEN/7 ngay.png",
@@ -269,7 +266,6 @@ window.PROJECTS = {
     description: "Chương trình “Bật Đà Tiềm Năng” (02/2026)—dự án hợp tác chiến lược giữa Droppii và thương hiệu Midu—được triển khai nhằm khai phá cơ hội bứt phá kinh doanh cho cộng đồng đối tác. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm toàn bộ khâu sáng tạo và triển khai thiết kế Social Media Posts trên Fanpage. Bằng việc kết hợp tinh tế giữa nhận diện riêng của hai thương hiệu, bố cục hình ảnh hiện đại cùng tinh thần truyền cảm hứng mạnh mẽ, các thiết kế đã tạo nên điểm chạm thị giác chuyên nghiệp, thu hút sự chú ý lớn và lan tỏa hiệu quả thông điệp của chương trình.",
     images: [
       "assets/project/3/thumb midu.jpg",
-      "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_1080p_3ce5.mp4",
       "assets/project/3/teaser (1).png",
       "assets/project/3/post midu.png",
       "assets/project/3/Banner live (2).png",
@@ -370,16 +366,20 @@ window.PROJECTS = {
     ],
   },
   "project-moi-4": {
-    category: "",
+    category: "LARGE SCLAE PRINTING",
     title: "OOH - PANO",
-    description: "",
+    description: "Với lợi thế tư duy thị giác cỡ lớn và khả năng xử lý bố cục chuẩn xác, Tiến đã từng trực tiếp triển khai nhiều dự án OOH & Pano ngoài trời cho các đối tác lớn như Droppii và Bệnh viện Đa khoa Tâm Anh. Từ những biển Pano tấm lớn đặt tại các vị trí đắc địa đến hệ thống bảng biển ngoài trời, các thiết kế luôn đảm bảo sự tối giản, cô đọng thông điệp, tối ưu khả năng nhận diện thương hiệu ngay từ cái nhìn đầu tiên và đáp ứng hoàn hảo các tiêu chuẩn in ấn kỹ thuật cao.",
     images: [
+      "assets/project/PROJECT MOI 4/thumb ooh.png",
+      "assets/project/PROJECT MOI 4/ooh.png",
       "assets/project/PROJECT MOI 4/482060000_637016059075300_7423239404543374676_n.jpg",
       "assets/project/PROJECT MOI 4/481205044_637016065741966_2972354016353524401_n.jpg",
       "assets/project/PROJECT MOI 4/481957965_640000128776893_2093790120869678526_n.jpg",
       "assets/project/PROJECT MOI 4/481243410_640000285443544_7297242368093751569_n.jpg",
       "assets/project/PROJECT MOI 4/481236545_640000242110215_8297018304055706494_n.jpg",
       "assets/project/PROJECT MOI 4/482004536_640000342110205_8902323921238406522_n.jpg",
+      "assets/project/PROJECT MOI 4/1788408486773_2299389257586383672_1378275671276150513_7936865ee806524fcf56f85af678b9ad.jpg",
+      "assets/project/PROJECT MOI 4/thumb pano.png",
     ],
   },
   "project-moi-3": {

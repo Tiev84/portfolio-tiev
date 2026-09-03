@@ -1,18 +1,22 @@
 {
   "id": "project-moi-4",
   "title": "OOH - PANO",
-  "category": "",
-  "description": "",
+  "category": "LARGE SCLAE PRINTING",
+  "description": "Với lợi thế tư duy thị giác cỡ lớn và khả năng xử lý bố cục chuẩn xác, Tiến đã từng trực tiếp triển khai nhiều dự án OOH & Pano ngoài trời cho các đối tác lớn như Droppii và Bệnh viện Đa khoa Tâm Anh. Từ những biển Pano tấm lớn đặt tại các vị trí đắc địa đến hệ thống bảng biển ngoài trời, các thiết kế luôn đảm bảo sự tối giản, cô đọng thông điệp, tối ưu khả năng nhận diện thương hiệu ngay từ cái nhìn đầu tiên và đáp ứng hoàn hảo các tiêu chuẩn in ấn kỹ thuật cao.",
   "wide": false,
   "order": 19,
-  "cover": "482060000_637016059075300_7423239404543374676_n.jpg",
+  "cover": "thumb ooh.png",
   "images": [
+    "thumb ooh.png",
+    "ooh.png",
     "482060000_637016059075300_7423239404543374676_n.jpg",
     "481205044_637016065741966_2972354016353524401_n.jpg",
     "481957965_640000128776893_2093790120869678526_n.jpg",
     "481243410_640000285443544_7297242368093751569_n.jpg",
     "481236545_640000242110215_8297018304055706494_n.jpg",
-    "482004536_640000342110205_8902323921238406522_n.jpg"
+    "482004536_640000342110205_8902323921238406522_n.jpg",
+    "1788408486773_2299389257586383672_1378275671276150513_7936865ee806524fcf56f85af678b9ad.jpg",
+    "thumb pano.png"
   ],
   "hidden": []
 }
