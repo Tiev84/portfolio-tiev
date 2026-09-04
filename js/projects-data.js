@@ -388,10 +388,10 @@ window.PROJECTS = {
   "project-moi-3": {
     category: "PRINTING",
     title: "FNB MENU DESIGN",
-    description: "",
+    description: "Với vốn kinh nghiệm phong phú trong lĩnh vực FnB, Tiến đã trực tiếp thiết kế nhiều sản phẩm Menu in ấn cho đa dạng thương hiệu nhà hàng và quán ăn. Đáp ứng trọn vẹn từng yêu cầu riêng biệt từ đối tác, các sản phẩm menu được triển khai linh hoạt trên nhiều kích thước và quy cách—từ menu gấp gọn tiện lợi, menu cuốn đóng tập sang trọng đến các dạng bảng menu tại bàn hay treo tường. Sự kết hợp khéo léo giữa tư duy sắp xếp bố cục món ăn khoa học, xử lý hình ảnh bắt mắt và chọn lọc chất liệu in phù hợp đã giúp nâng cao trải nghiệm thực khách, đồng thời tôn lên phong cách đặc trưng của từng thương hiệu.",
     images: [
       "assets/project/PROJECT MOI 3/menu thumb.png",
-      "assets/project/PROJECT MOI 3/Group 4 copy.png",
+      "assets/project/PROJECT MOI 3/menu an nhien.png",
     ],
   },
   "bingto-vlog": {
