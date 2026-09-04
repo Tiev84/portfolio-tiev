@@ -392,6 +392,7 @@ window.PROJECTS = {
     images: [
       "assets/project/PROJECT MOI 3/menu thumb.png",
       "assets/project/PROJECT MOI 3/menu an nhien.png",
+      "assets/project/PROJECT MOI 3/menu nhan duyen 1.png",
     ],
   },
   "bingto-vlog": {
