@@ -390,6 +390,7 @@ window.PROJECTS = {
     title: "FNB MENU DESIGN",
     description: "",
     images: [
+      "assets/project/PROJECT MOI 3/menu thumb.png",
       "assets/project/PROJECT MOI 3/Group 4 copy.png",
     ],
   },
