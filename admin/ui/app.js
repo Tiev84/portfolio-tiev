@@ -847,6 +847,9 @@ function showManualLogin(repoPath, loi) {
        • <b>Password</b> — <b>không phải mật khẩu GitHub</b>. GitHub đã bỏ cách
          đó. Phải dán <b>Personal Access Token</b>, tạo tại
          <code>github.com/settings/tokens</code> (chọn quyền <code>repo</code>).<br /><br />
+       <b>Lúc dán token, màn hình sẽ không hiện gì cả</b> — không dấu sao, không
+       dấu chấm, Terminal hiện hình 🔑 để báo đang che kín. Đó là bình thường,
+       không phải bị treo. Cứ dán (Cmd+V) rồi bấm Enter.<br /><br />
        Nhập xong một lần là máy nhớ luôn. Quay lại đây bấm “Đăng lên web”.`
     )
   );

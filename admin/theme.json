@@ -30,7 +30,10 @@
     "grid_row_gap": 31,
     "card_ratio": "1 / 1",
     "card_ratio_wide": "4500 / 3519",
-    "card_ratio_mobile": "1.55 / 1"
+    "card_ratio_mobile": "1.55 / 1",
+    "gallery_width": 100,
+    "card_title_size": 16,
+    "card_category_size": 10
   },
   "grid": {
     "auto_pattern": true,
