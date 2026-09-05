@@ -755,6 +755,15 @@ label.check input {
   font-size: 13.5px;
 }
 
+#busy-text {
+  /* Lúc tải video, câu thông báo có xuống dòng để tách tên file, phần
+     trăm và lời dặn — không có dòng này thì chúng dính hết vào nhau. */
+  white-space: pre-line;
+  text-align: center;
+  max-width: 460px;
+  line-height: 1.6;
+}
+
 .spinner {
   width: 38px;
   height: 38px;

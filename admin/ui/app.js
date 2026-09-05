@@ -539,22 +539,19 @@ async function uploadFiles(files) {
   const list = [...files];
   if (!list.length) return;
 
+  // Video đi đường khác hẳn: lên thẳng GitHub Releases, không vào repo.
+  // Để trong repo thì Git LFS nuốt mất, web xem chỉ thấy khung đen.
+  const videos = list.filter((f) => VIDEO_EXT.test(f.name));
+  const anh = list.filter((f) => !VIDEO_EXT.test(f.name));
+
   const projectId = current.id;
   let done = 0;
 
   busy(`Đang thêm 0/${list.length}…`);
   try {
-    for (const file of list) {
-      const laVideo = VIDEO_EXT.test(file.name);
-
-      // Video đi đường khác: lên thẳng GitHub Releases, không vào repo.
-      // Để trong repo thì Git LFS nuốt mất, web xem chỉ thấy khung đen.
-      $("#busy-text").textContent = laVideo
-        ? `Đang tải video lên GitHub ${done + 1}/${list.length} — ${file.name} ` +
-          `(${fmtSize(file.size)}, có thể mất vài phút)`
-        : `Đang thêm ảnh ${done + 1}/${list.length} — ${file.name}`;
-
-      const res = await fetch(laVideo ? "/api/videos/upload" : "/api/images/upload", {
+    for (const file of anh) {
+      $("#busy-text").textContent = `Đang thêm ảnh ${done + 1}/${list.length} — ${file.name}`;
+      const res = await fetch("/api/images/upload", {
         method: "POST",
         headers: {
           "Content-Type": "application/octet-stream",
@@ -564,12 +561,20 @@ async function uploadFiles(files) {
         body: file,
       });
       const data = await res.json().catch(() => ({ ok: false, error: "Lỗi không rõ" }));
-      if (!res.ok || data.ok === false) {
-        toast(`${file.name}: ${data.error}`, "err");
-      } else {
+      if (!res.ok || data.ok === false) toast(`${file.name}: ${data.error}`, "err");
+      else done += 1;
+    }
+
+    for (const file of videos) {
+      const nhan = `Video ${done + 1}/${list.length} — ${file.name} (${fmtSize(file.size)})`;
+      try {
+        await taiVideoLen(file, projectId, nhan);
         done += 1;
+      } catch (err) {
+        toast(`${file.name}: ${err.message}`, "err");
       }
     }
+
     scheduleBuild();
     await load();
   } finally {
@@ -577,6 +582,74 @@ async function uploadFiles(files) {
   }
 
   if (done) toast(`Đã thêm ${done} file`, "ok");
+}
+
+/**
+ * Tải một video lên GitHub Releases.
+ *
+ * Dùng XMLHttpRequest chứ không dùng fetch vì chỉ nó mới báo được đã gửi
+ * bao nhiêu phần trăm. File vài trăm MB mà màn hình đứng im không nhúc
+ * nhích thì ai cũng tưởng app treo.
+ *
+ * Việc này có hai chặng và phải nói thật cả hai:
+ *   1. Gửi file từ trình duyệt sang app — chạy trong máy nên rất nhanh.
+ *   2. App đẩy tiếp lên GitHub — chặng này lâu, phụ thuộc mạng, và trình
+ *      duyệt KHÔNG biết gì về nó. Nếu chỉ hiện thanh phần trăm của chặng 1
+ *      thì nó nhảy lên 100% rồi đứng im hàng phút, còn khó hiểu hơn.
+ */
+function taiVideoLen(file, projectId, nhan) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    let dongHo = null;
+
+    xhr.upload.onprogress = (e) => {
+      if (!e.lengthComputable) return;
+      const phanTram = Math.round((e.loaded / e.total) * 100);
+      $("#busy-text").textContent = `${nhan}\nĐang đưa vào app… ${phanTram}%`;
+    };
+
+    // Gửi xong chặng 1, bắt đầu chặng 2 — đếm giây để thấy app còn sống
+    xhr.upload.onloadend = () => {
+      const batDau = Date.now();
+      dongHo = setInterval(() => {
+        const giay = Math.round((Date.now() - batDau) / 1000);
+        $("#busy-text").textContent =
+          `${nhan}\nĐang đẩy lên GitHub… ${giay} giây\n` +
+          "File nặng thì lâu, cứ để yên đừng tắt app.";
+      }, 1000);
+    };
+
+    const xong = () => clearInterval(dongHo);
+
+    xhr.onload = () => {
+      xong();
+      let data;
+      try {
+        data = JSON.parse(xhr.responseText);
+      } catch {
+        return reject(new Error(`App trả về câu trả lời lạ (mã ${xhr.status})`));
+      }
+      if (xhr.status >= 400 || data.ok === false) {
+        return reject(new Error(data.error || `Thất bại, mã ${xhr.status}`));
+      }
+      resolve(data);
+    };
+
+    xhr.onerror = () => {
+      xong();
+      reject(new Error("Mất kết nối tới app. Thử tắt app rồi mở lại."));
+    };
+    xhr.onabort = () => {
+      xong();
+      reject(new Error("Đã hủy"));
+    };
+
+    xhr.open("POST", "/api/videos/upload");
+    xhr.setRequestHeader("Content-Type", "application/octet-stream");
+    xhr.setRequestHeader("X-Project-Id", b64(projectId));
+    xhr.setRequestHeader("X-Filename", b64(file.name));
+    xhr.send(file);
+  });
 }
 
 /* ---- kho video trên GitHub Releases ---- */
@@ -596,7 +669,9 @@ async function moKhoVideo() {
   );
 
   if (!data.videos.length) {
-    body.push(el("p", "hint", "Kho đang trống. Kéo một file video vào khung ảnh để đưa lên."));
+    body.push(
+      el("p", "hint", 'Kho đang trống. Bấm "⬆ Tải video mới lên" ở dưới để đưa video đầu tiên lên.')
+    );
   }
 
   const list = el("div", "video-store");
@@ -650,7 +725,21 @@ async function moKhoVideo() {
   });
   body.push(list);
 
-  modal({ title: "Kho video trên GitHub", body, actions: [{ label: "Đóng", onClick: closeModal }] });
+  modal({
+    title: "Kho video trên GitHub",
+    body,
+    actions: [
+      { label: "Đóng", onClick: closeModal },
+      {
+        label: "⬆ Tải video mới lên",
+        kind: "primary",
+        onClick: () => {
+          closeModal();
+          $("#video-input").click();
+        },
+      },
+    ],
+  });
 }
 
 function b64(text) {
@@ -699,6 +788,13 @@ $("#btn-delete-project").onclick = () =>
   );
 
 $("#btn-add-image").onclick = () => $("#file-input").click();
+
+$("#btn-add-video").onclick = () => $("#video-input").click();
+
+$("#video-input").onchange = (e) => {
+  uploadFiles(e.target.files);
+  e.target.value = "";
+};
 
 $("#btn-video-store").onclick = () => {
   // guard() da hien loi bang toast roi, o day chi can nuot loi lai
