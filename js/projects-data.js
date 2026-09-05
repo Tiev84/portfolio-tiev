@@ -463,6 +463,7 @@ window.PROJECTS = {
       "assets/project/PROJECT MOI 7/528327068_122119895948932701_6307129062458487922_n.jpg",
       "assets/project/PROJECT MOI 7/519095977_122114488316932701_2564112330347380035_n.jpg",
       "assets/project/PROJECT MOI 7/518196310_122107122302932701_1557275460819053808_n.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/video/project-moi-7--FDown.vn_Tai_video_Facebook_720p.HD._0fa7.mp4",
     ],
   },
   "project-moi-8": {
