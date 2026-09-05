@@ -504,7 +504,7 @@ window.PROJECTS = {
     title: "LOGOFOLIO - NHIỀU THƯƠNG HIỆU",
     description: "",
     images: [
-      "assets/project/PROJECT MOI 10/1784980741146_2299389257586383672_7062042480160280272_69c2a9cf05e87346a59c273c590cfc59.jpg",
+      "assets/project/PROJECT MOI 10/THUMB LOGO.png",
     ],
   },
 };
