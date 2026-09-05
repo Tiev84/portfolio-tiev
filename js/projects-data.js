@@ -163,6 +163,7 @@ window.PROJECTS = {
     description: "Chính sách “3 màng lọc” của Droppii là cam kết chiến lược nhằm nâng cao uy tín hàng hóa, được lan tỏa xuyên suốt qua chuỗi tọa đàm livestream The Approver gồm 4 tập phát sóng trong 4 tháng. Trong chiến dịch dài hơi này, Tiến giữ vai trò định hình thị giác chủ đạo khi sáng tạo toàn bộ Key Visual (KV), bộ bài đăng Social Media truyền thông cho 3 màng lọc và trọn bộ thiết kế phục vụ phát sóng cho Tập 1 khởi động. Sau khi hoàn thiện khung thiết kế chuẩn, Tiến trực tiếp hướng dẫn và dẫn dắt các bạn Intern thực hiện adapt hình ảnh cho 3 tập tiếp theo, đảm bảo tính đồng bộ nhận diện thương hiệu cũng như tối ưu hiệu suất làm việc nhóm.",
     images: [
       "assets/project/KING JADES 8.3/THUMB approver.jpg",
+      "https://github.com/Tiev84/portfolio-tiev/releases/download/video/king-jades-83--FDown.vn_Tai_video_Facebook_1080p_54ee.mp4",
       "assets/project/KING JADES 8.3/3 LOP.png",
       "assets/project/KING JADES 8.3/vuong 3 lop 1.png",
       "assets/project/KING JADES 8.3/vuong 3 lop 2.png",
