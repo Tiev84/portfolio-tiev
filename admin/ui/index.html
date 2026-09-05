@@ -112,12 +112,18 @@
               <h2>Hình ảnh <span class="count" id="img-count"></span></h2>
               <div>
                 <button class="btn ghost small" id="btn-add-image">+ Thêm ảnh</button>
+                <button class="btn ghost small" id="btn-video-store">🎬 Kho video</button>
               </div>
             </div>
 
             <p class="hint">
               Kéo thả để đổi thứ tự. Ảnh đầu tiên (hoặc ảnh gắn ⭐) sẽ làm ảnh bìa.
               Bạn cũng có thể kéo file thẳng từ máy vào khung dưới đây.
+            </p>
+            <p class="hint">
+              Video được đưa lên <b>GitHub Releases</b> chứ không nằm trong repo —
+              nhờ vậy không vướng trần 100 MB và chạy được trên web (file .mp4 để
+              trong repo sẽ bị Git LFS chặn, web xem chỉ thấy khung đen).
             </p>
 
             <div class="warn-box hidden" id="img-warning"></div>

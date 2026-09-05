@@ -15,6 +15,7 @@ import shutil
 import time
 import unicodedata
 from pathlib import Path
+from urllib.parse import unquote
 
 import home
 import theme
@@ -121,6 +122,14 @@ def is_media(name: str) -> bool:
 
 def is_video(name: str) -> bool:
     return Path(name).suffix.lower() in VIDEO_EXT
+
+
+def is_remote(name: str) -> bool:
+    """
+    Mục này là link ngoài (video nằm trên GitHub Releases) chứ không phải
+    file trong thư mục project.
+    """
+    return name.startswith(("http://", "https://"))
 
 
 def safe_name(name: str) -> str:
@@ -266,14 +275,19 @@ def scan(persist: bool = True) -> list[dict]:
     for folder, meta in pairs:
         on_disk = {f.name for f in folder.iterdir() if f.is_file() and is_media(f.name)}
 
-        images = [n for n in meta["images"] if n in on_disk]
-        hidden = [n for n in meta["hidden"] if n in on_disk]
+        # Giữ lại mục còn trên đĩa, cộng thêm link video ngoài (GitHub Releases)
+        images = [n for n in meta["images"] if n in on_disk or is_remote(n)]
+        hidden = [n for n in meta["hidden"] if n in on_disk or is_remote(n)]
 
         known = set(images) | set(hidden)
         new_files = sorted(on_disk - known, key=natural_key)
         images.extend(new_files)
 
-        cover = meta["cover"] if meta["cover"] in images else (images[0] if images else "")
+        # Ảnh bìa phải là ảnh tĩnh trong thư mục: video không cắt được thumbnail
+        cover = meta["cover"] if meta["cover"] in images else ""
+        if not cover:
+            anh = [n for n in images if not is_remote(n) and not is_video(n)]
+            cover = anh[0] if anh else ""
 
         changed = (
             meta["id"] != read_meta(folder)["id"]
@@ -291,11 +305,28 @@ def scan(persist: bool = True) -> list[dict]:
         lfs_exts = lfs_extensions()
 
         def item(name: str, hidden: bool) -> dict:
+            if is_remote(name):
+                # Video trên GitHub Releases: không nằm trong repo nên không
+                # dính Git LFS và cũng không vướng trần 100 MB.
+                return {
+                    # entry = đúng chuỗi ghi trong _project.json, dùng để sắp
+                    # xếp / xoá. name chỉ là tên đẹp để hiện lên giao diện.
+                    "entry": name,
+                    "name": unquote(name.rsplit("/", 1)[-1]),
+                    "url": name,
+                    "video": True,
+                    "remote": True,
+                    "hidden": hidden,
+                    "size": 0,
+                    "warning": "",
+                }
             size = (folder / name).stat().st_size
             return {
+                "entry": name,
                 "name": name,
                 "url": f"{rel}/{name}",
                 "video": is_video(name),
+                "remote": False,
                 "hidden": hidden,
                 "size": size,
                 "warning": media_warning(name, size, lfs_exts),
@@ -367,7 +398,8 @@ def render_projects_data(projects: list[dict]) -> str:
         lines.append(f"    description: {_js_string(p['description'])},")
         lines.append("    images: [")
         for name in p["images"]:
-            lines.append(f"      {_js_string(f'{rel}/{name}')},")
+            src = name if is_remote(name) else f"{rel}/{name}"
+            lines.append(f"      {_js_string(src)},")
         lines.append("    ],")
         lines.append("  },")
     lines.append("};")

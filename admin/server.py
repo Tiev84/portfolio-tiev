@@ -19,8 +19,10 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tempfile
 import threading
 import time
+import uuid
 import webbrowser
 from functools import partial
 from http import HTTPStatus
@@ -30,6 +32,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import home  # noqa: E402
+import release  # noqa: E402
 import store  # noqa: E402
 import theme  # noqa: E402
 
@@ -514,12 +517,18 @@ class Handler(SimpleHTTPRequestHandler):
         folder = self._folder(data["id"])
         meta = store.read_meta(folder)
         on_disk = {f.name for f in folder.iterdir() if f.is_file() and store.is_media(f.name)}
-        meta["images"] = [n for n in data.get("images", []) if n in on_disk]
+
+        def giu(name: str) -> bool:
+            # Link video trên GitHub Releases không có file trên đĩa
+            return name in on_disk or store.is_remote(name)
+
+        meta["images"] = [n for n in data.get("images", []) if giu(n)]
         meta["hidden"] = [
-            n for n in data.get("hidden", []) if n in on_disk and n not in meta["images"]
+            n for n in data.get("hidden", []) if giu(n) and n not in meta["images"]
         ]
         if meta["cover"] not in meta["images"]:
-            meta["cover"] = meta["images"][0] if meta["images"] else ""
+            anh = [n for n in meta["images"] if not store.is_remote(n) and not store.is_video(n)]
+            meta["cover"] = anh[0] if anh else ""
         store.write_meta(folder, meta)
         self.send_json({"ok": True})
 
@@ -530,6 +539,10 @@ class Handler(SimpleHTTPRequestHandler):
         name = store.safe_name(data.get("name") or "")
         if name not in meta["images"]:
             return self.send_json({"ok": False, "error": "Ảnh không nằm trong project"}, 400)
+        if store.is_video(name):
+            return self.send_json(
+                {"ok": False, "error": "Ảnh bìa phải là ảnh tĩnh, không dùng video được"}, 400
+            )
         meta["cover"] = name
         store.write_meta(folder, meta)
         self.send_json({"ok": True})
@@ -537,19 +550,161 @@ class Handler(SimpleHTTPRequestHandler):
     def api_images_delete(self):
         data = self.read_json()
         folder = self._folder(data["id"])
-        name = store.safe_name(data.get("name") or "")
+        raw = data.get("name") or ""
+
+        if store.is_remote(raw):
+            # Video ngoài: chỉ gỡ khỏi project. File vẫn nằm nguyên trên
+            # GitHub Releases — muốn xoá hẳn thì vào mục "Kho video".
+            # Cố ý làm vậy: cùng một video có thể đang dùng ở project khác,
+            # và xoá trên GitHub là không lấy lại được.
+            self._go_khoi_meta(folder, raw)
+            return self.send_json({"ok": True})
+
+        name = store.safe_name(raw)
         target = folder / name
         if not target.is_file():
             return self.send_json({"ok": False, "error": "Không tìm thấy file"}, 404)
         dest = store.to_trash(target)
+        self._go_khoi_meta(folder, name)
+        self.send_json({"ok": True, "trash": str(dest)})
+
+    def _go_khoi_meta(self, folder, entry: str) -> None:
+        meta = store.read_meta(folder)
+        meta["images"] = [n for n in meta["images"] if n != entry]
+        meta["hidden"] = [n for n in meta["hidden"] if n != entry]
+        if meta["cover"] == entry:
+            anh = [n for n in meta["images"] if not store.is_remote(n) and not store.is_video(n)]
+            meta["cover"] = anh[0] if anh else ""
+        store.write_meta(folder, meta)
+
+    # ---- video trên GitHub Releases -------------------------------------
+
+    def _dang_dung(self) -> set[str]:
+        """Mọi link video đang được project nào đó dùng."""
+        dung: set[str] = set()
+        for f in store.PROJECT_DIR.iterdir():
+            if f.is_dir() and not f.name.startswith(("_", ".")):
+                meta = store.read_meta(f)
+                dung.update(meta["images"] + meta["hidden"])
+        return dung
+
+    def api_videos_upload(self):
+        """
+        Nhận video rồi đẩy thẳng lên GitHub Releases.
+
+        Video KHÔNG đi vào repo: file .mp4 trong repo bị Git LFS nuốt mất
+        (web chỉ nhận được cái phiếu gửi), còn bỏ LFS thì vướng trần 100 MB.
+        Releases cho tới 2 GB và link tải là link công khai.
+        """
+        project_id = base64.b64decode(self.headers["X-Project-Id"]).decode("utf-8")
+        filename = base64.b64decode(self.headers["X-Filename"]).decode("utf-8")
+        folder = self._folder(project_id)
+
+        name = store.safe_name(filename)
+        if not store.is_video(name):
+            return self.send_json(
+                {"ok": False, "error": f"“{name}” không phải video (.mp4 .webm .mov .ogg)"}, 400
+            )
+
+        length = int(self.headers.get("Content-Length") or 0)
+        if length <= 0:
+            return self.send_json({"ok": False, "error": "File rỗng"}, 400)
+        if length > release.MAX_ASSET:
+            return self.send_json(
+                {"ok": False, "error": "GitHub Releases chỉ nhận file tối đa 2 GB"}, 400
+            )
+
+        # Tên đặt kèm mã project để hai project không giẫm lên tên nhau
+        ten_tren_github = f"{store.slugify(project_id)}--{name}"
+
+        tmp = Path(tempfile.gettempdir()) / f"pf-upload-{uuid.uuid4().hex}{Path(name).suffix}"
+        try:
+            with open(tmp, "wb") as fh:
+                remaining = length
+                while remaining > 0:
+                    chunk = self.rfile.read(min(1 << 20, remaining))
+                    if not chunk:
+                        break
+                    fh.write(chunk)
+                    remaining -= len(chunk)
+
+            if tmp.stat().st_size < length:
+                return self.send_json({"ok": False, "error": "Nhận thiếu dữ liệu, thử lại"}, 400)
+
+            try:
+                asset = release.upload(tmp, ten_tren_github)
+            except release.ReleaseError as err:
+                return self.send_json({"ok": False, "error": str(err)}, 502)
+        finally:
+            tmp.unlink(missing_ok=True)
 
         meta = store.read_meta(folder)
-        meta["images"] = [n for n in meta["images"] if n != name]
-        meta["hidden"] = [n for n in meta["hidden"] if n != name]
-        if meta["cover"] == name:
-            meta["cover"] = meta["images"][0] if meta["images"] else ""
+        if asset["url"] not in meta["images"]:
+            meta["images"].append(asset["url"])
         store.write_meta(folder, meta)
-        self.send_json({"ok": True, "trash": str(dest)})
+        self.send_json({"ok": True, "url": asset["url"], "name": asset["name"]})
+
+    def api_videos_list(self):
+        """Danh sách video đang nằm trên Releases, kể cả cái chưa gắn vào project."""
+        try:
+            assets = release.list_assets()
+        except release.ReleaseError as err:
+            return self.send_json({"ok": False, "error": str(err)}, 502)
+
+        dung = self._dang_dung()
+        for a in assets:
+            a["used"] = a["url"] in dung
+        self.send_json({"ok": True, "videos": assets})
+
+    def api_videos_destroy(self):
+        """
+        Xoá hẳn một video khỏi GitHub Releases. Không lấy lại được.
+
+        Chỉ cho xoá file do app đưa lên và không project nào còn dùng —
+        video bạn tự tay đưa lên trước đây thì app không đụng tới.
+        """
+        data = self.read_json()
+        url = (data.get("url") or "").strip()
+
+        if url in self._dang_dung():
+            return self.send_json(
+                {"ok": False, "error": "Video này vẫn đang nằm trong một project"}, 400
+            )
+        try:
+            asset = release.find_asset(url)
+            if asset is None:
+                return self.send_json({"ok": False, "error": "Không thấy video trên GitHub"}, 404)
+            if not asset["managed"]:
+                return self.send_json(
+                    {
+                        "ok": False,
+                        "error": (
+                            f"“{asset['name']}” nằm ở bản phát hành “{asset['tag']}” "
+                            "do bạn tự tạo, app không xoá.\n"
+                            "Muốn xoá thì vào trang Releases trên GitHub."
+                        ),
+                    },
+                    400,
+                )
+            release.delete_asset(asset["id"])
+        except release.ReleaseError as err:
+            return self.send_json({"ok": False, "error": str(err)}, 502)
+        self.send_json({"ok": True})
+
+    def api_videos_attach(self):
+        """Gắn một video đã có sẵn trên Releases vào project."""
+        data = self.read_json()
+        folder = self._folder(data["id"])
+        url = (data.get("url") or "").strip()
+        if not store.is_remote(url):
+            return self.send_json({"ok": False, "error": "Link không hợp lệ"}, 400)
+
+        meta = store.read_meta(folder)
+        if url in meta["images"] or url in meta["hidden"]:
+            return self.send_json({"ok": False, "error": "Video này đã có trong project"}, 400)
+        meta["images"].append(url)
+        store.write_meta(folder, meta)
+        self.send_json({"ok": True})
 
     def api_images_upload(self):
         project_id = base64.b64decode(self.headers["X-Project-Id"]).decode("utf-8")

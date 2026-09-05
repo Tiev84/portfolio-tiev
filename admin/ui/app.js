@@ -355,10 +355,15 @@ function renderImages() {
 
   current.items.forEach((item) => {
     const tile = el("div", `tile${item.hidden ? " is-hidden" : ""}`);
-    tile.dataset.name = item.name;
+    tile.dataset.name = item.entry;
     tile.draggable = true;
 
-    if (item.video) {
+    if (item.remote) {
+      // Video trên GitHub Releases — không có file trong thư mục project
+      tile.appendChild(
+        el("div", "file-video", `🎬<br />${escapeHtml(item.name)}<br />GitHub Releases`)
+      );
+    } else if (item.video) {
       tile.appendChild(
         el("div", "file-video", `🎬<br />${escapeHtml(item.name)}<br />${fmtSize(item.size)}`)
       );
@@ -374,7 +379,7 @@ function renderImages() {
       const index = visible.indexOf(item) + 1;
       tile.appendChild(el("div", "idx", String(index)));
     }
-    if (item.name === current.cover) tile.appendChild(el("div", "star", "⭐"));
+    if (item.entry === current.cover) tile.appendChild(el("div", "star", "⭐"));
 
     // File không lên web được thì phải nói ngay, đừng để phát hiện lúc
     // khách vào xem mới thấy khung video đứng im.
@@ -392,18 +397,18 @@ function renderImages() {
     if (!item.hidden) {
       const cover = el("button", null, "⭐ Bìa");
       cover.title = "Dùng làm ảnh bìa";
-      cover.onclick = () => setCover(item.name);
+      cover.onclick = () => setCover(item.entry);
       tools.appendChild(cover);
     }
 
     const toggle = el("button", null, item.hidden ? "👁 Hiện" : "🚫 Ẩn");
     toggle.title = item.hidden ? "Hiện lại trên web" : "Giữ file nhưng không hiện trên web";
-    toggle.onclick = () => toggleHidden(item.name);
+    toggle.onclick = () => toggleHidden(item.entry);
     tools.appendChild(toggle);
 
     const del = el("button", "del", "🗑");
     del.title = "Xóa ảnh";
-    del.onclick = () => deleteImage(item.name);
+    del.onclick = () => deleteImage(item.entry, item.name, item.remote);
     tools.appendChild(del);
 
     tile.appendChild(tools);
@@ -421,7 +426,7 @@ function fmtSize(bytes) {
 
 function currentOrder() {
   const names = [...$("#image-grid").querySelectorAll(".tile")].map((t) => t.dataset.name);
-  const hiddenSet = new Set(current.items.filter((i) => i.hidden).map((i) => i.name));
+  const hiddenSet = new Set(current.items.filter((i) => i.hidden).map((i) => i.entry));
   return {
     images: names.filter((n) => !hiddenSet.has(n)),
     hidden: names.filter((n) => hiddenSet.has(n)),
@@ -499,23 +504,36 @@ async function toggleHidden(name) {
   await saveOrder(order);
 }
 
-function deleteImage(name) {
-  confirmBox(
-    "Xóa ảnh?",
-    `“${name}” sẽ được chuyển vào admin/_trash/ (vẫn lấy lại được), và bị gỡ khỏi web sau khi bạn đăng lên.`,
-    "Xóa ảnh",
-    async () => {
-      await guard("Đang xóa…", async () => {
-        await post("/api/images/delete", { id: current.id, name });
-        scheduleBuild();
-        await load();
-      });
-      toast("Đã xóa ảnh", "ok");
-    }
-  );
+function deleteImage(entry, label, remote) {
+  const [title, message, nut, xong] = remote
+    ? [
+        "Gỡ video khỏi project?",
+        `“${label}” sẽ không còn hiện trong project này nữa.\n\n` +
+          "File vẫn nằm nguyên trên GitHub Releases — muốn gắn lại lúc nào cũng được " +
+          'qua nút "🎬 Kho video".',
+        "Gỡ video",
+        "Đã gỡ video khỏi project",
+      ]
+    : [
+        "Xóa ảnh?",
+        `“${label}” sẽ được chuyển vào admin/_trash/ (vẫn lấy lại được), và bị gỡ khỏi web sau khi bạn đăng lên.`,
+        "Xóa ảnh",
+        "Đã xóa ảnh",
+      ];
+
+  confirmBox(title, message, nut, async () => {
+    await guard("Đang xóa…", async () => {
+      await post("/api/images/delete", { id: current.id, name: entry });
+      scheduleBuild();
+      await load();
+    });
+    toast(xong, "ok");
+  });
 }
 
 /* ---- tải ảnh lên ---- */
+
+const VIDEO_EXT = /\.(mp4|webm|mov|ogg)$/i;
 
 async function uploadFiles(files) {
   const list = [...files];
@@ -524,11 +542,19 @@ async function uploadFiles(files) {
   const projectId = current.id;
   let done = 0;
 
-  busy(`Đang thêm ảnh 0/${list.length}…`);
+  busy(`Đang thêm 0/${list.length}…`);
   try {
     for (const file of list) {
-      $("#busy-text").textContent = `Đang thêm ảnh ${done + 1}/${list.length} — ${file.name}`;
-      const res = await fetch("/api/images/upload", {
+      const laVideo = VIDEO_EXT.test(file.name);
+
+      // Video đi đường khác: lên thẳng GitHub Releases, không vào repo.
+      // Để trong repo thì Git LFS nuốt mất, web xem chỉ thấy khung đen.
+      $("#busy-text").textContent = laVideo
+        ? `Đang tải video lên GitHub ${done + 1}/${list.length} — ${file.name} ` +
+          `(${fmtSize(file.size)}, có thể mất vài phút)`
+        : `Đang thêm ảnh ${done + 1}/${list.length} — ${file.name}`;
+
+      const res = await fetch(laVideo ? "/api/videos/upload" : "/api/images/upload", {
         method: "POST",
         headers: {
           "Content-Type": "application/octet-stream",
@@ -550,7 +576,81 @@ async function uploadFiles(files) {
     idle();
   }
 
-  if (done) toast(`Đã thêm ${done} ảnh`, "ok");
+  if (done) toast(`Đã thêm ${done} file`, "ok");
+}
+
+/* ---- kho video trên GitHub Releases ---- */
+
+async function moKhoVideo() {
+  const data = await guard("Đang đọc kho video trên GitHub…", () => post("/api/videos/list"));
+  const dangCo = new Set(current.items.map((i) => i.entry));
+
+  const body = [];
+  body.push(
+    el(
+      "p",
+      "hint",
+      "Video nằm trên GitHub Releases, không nằm trong repo. Nhờ vậy không vướng " +
+        "trần 100 MB của GitHub và web phát được bình thường."
+    )
+  );
+
+  if (!data.videos.length) {
+    body.push(el("p", "hint", "Kho đang trống. Kéo một file video vào khung ảnh để đưa lên."));
+  }
+
+  const list = el("div", "video-store");
+  data.videos.forEach((v) => {
+    const row = el("div", "video-row");
+    row.appendChild(
+      el(
+        "div",
+        "video-meta",
+        `<b>${escapeHtml(v.name)}</b><br /><span class="hint">${fmtSize(v.size)} · ` +
+          `bản phát hành “${escapeHtml(v.tag)}”${v.used ? " · đang được dùng" : ""}</span>`
+      )
+    );
+
+    if (dangCo.has(v.url)) {
+      row.appendChild(el("span", "hint", "✓ đã có trong project này"));
+    } else {
+      const gan = el("button", "btn ghost small", "+ Gắn vào project");
+      gan.onclick = async () => {
+        closeModal();
+        await guard("Đang gắn video…", async () => {
+          await post("/api/videos/attach", { id: current.id, url: v.url });
+          scheduleBuild();
+          await load();
+        });
+        toast("Đã gắn video vào project", "ok");
+      };
+      row.appendChild(gan);
+    }
+
+    // Chỉ xoá được video do app đưa lên và không project nào còn dùng.
+    // Video bạn tự tay đưa lên GitHub thì app không đụng vào.
+    if (v.managed && !v.used) {
+      const xoa = el("button", "btn danger small", "🗑");
+      xoa.title = "Xóa hẳn khỏi GitHub";
+      xoa.onclick = () =>
+        confirmBox(
+          "Xóa hẳn video khỏi GitHub?",
+          `“${v.name}” sẽ bị xóa khỏi GitHub Releases. Không lấy lại được.`,
+          "Xóa hẳn",
+          async () => {
+            await guard("Đang xóa…", () => post("/api/videos/destroy", { url: v.url }));
+            toast("Đã xóa video khỏi GitHub", "ok");
+            moKhoVideo();
+          }
+        );
+      row.appendChild(xoa);
+    }
+
+    list.appendChild(row);
+  });
+  body.push(list);
+
+  modal({ title: "Kho video trên GitHub", body, actions: [{ label: "Đóng", onClick: closeModal }] });
 }
 
 function b64(text) {
@@ -599,6 +699,11 @@ $("#btn-delete-project").onclick = () =>
   );
 
 $("#btn-add-image").onclick = () => $("#file-input").click();
+
+$("#btn-video-store").onclick = () => {
+  // guard() da hien loi bang toast roi, o day chi can nuot loi lai
+  moKhoVideo().catch(() => {});
+};
 
 $("#file-input").onchange = (e) => {
   uploadFiles(e.target.files);
