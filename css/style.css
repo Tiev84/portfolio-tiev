@@ -241,7 +241,11 @@ footer {
 .skill-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+
+  /* Mỗi hàng kéo giãn cho chạm đều hai mép, nhờ vậy các hàng thẳng lề
+     với nhau. Để "center" thì mỗi hàng tự canh giữa theo độ dài riêng,
+     hàng dài hàng ngắn so le trông rất lệch. */
+  justify-content: space-between;
   gap: 7px 4px;
 }
 
