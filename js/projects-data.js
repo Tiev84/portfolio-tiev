@@ -504,7 +504,7 @@ window.PROJECTS = {
     title: "LOGOFOLIO - NHIỀU THƯƠNG HIỆU",
     description: "",
     images: [
-      "assets/project/PROJECT MOI 10/thumb logo xanh.png",
+      "assets/project/PROJECT MOI 10/thumb logo xanh (1).png",
     ],
   },
 };
