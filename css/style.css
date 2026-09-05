@@ -242,16 +242,14 @@ footer {
   display: flex;
   flex-wrap: wrap;
 
-  /* Mỗi hàng kéo giãn cho chạm đều hai mép, nhờ vậy các hàng thẳng lề
-     với nhau. Để "center" thì mỗi hàng tự canh giữa theo độ dài riêng,
-     hàng dài hàng ngắn so le trông rất lệch. */
-  justify-content: space-between;
+  justify-content: center;
   gap: 7px 4px;
 }
 
 .skill-item {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
 
   height: 38px;
@@ -645,6 +643,18 @@ footer {
 @media (min-width: 768px) and (max-width: 1023px) {
   .container {
     width: min(100% - 60px, 760px);
+  }
+}
+
+/* Từ 1024px trở lên khung rộng 850px, các chip kỹ năng luôn xếp gọn thành
+   2 hàng đầy (4 + 5). Chỉ ở khổ này mới cho chúng giãn ngang lấp chỗ thừa:
+   hai hàng thẳng lề nhau mà khoảng hở giữa các box vẫn giữ nguyên 4px.
+
+   Dưới 1024px thì KHÔNG bật, vì lúc đó các chip vỡ hàng kiểu 3/1/4/1 —
+   hàng chỉ có 1 chip sẽ bị kéo dài hết khung, nhìn rất kỳ. */
+@media (min-width: 1024px) {
+  .skill-item {
+    flex: 1 0 auto; /* số 0 = không cho co lại, kẻo chữ bị bóp */
   }
 }
 
