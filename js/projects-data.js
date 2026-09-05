@@ -38,7 +38,7 @@ window.PROJECTS = {
   "digital-advertising-droppii": {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
     title: "DIGITAL ADVERTISING DROPPII",
-    description: "Các thiết kế Digital Advertising được phát triển nhằm đảm bảo tính đồng nhất thương hiệu, khả năng truyền tải thông tin nhanh và hiệu quả trên các nền tảng số.",
+    description: "Trong các chiến dịch mở rộng quy mô của Droppii, Tiến trực tiếp đảm nhiệm thiết kế hệ thống Digital Advertising nhằm thu hút đối tác kinh doanh mới. Tận dụng tư duy thị giác nhạy bén cùng khả năng tối ưu hóa hình ảnh truyền thông, các quảng cáo số do Tiến thực hiện luôn duy trì sự đồng bộ chặt chẽ với nhận diện thương hiệu. Bằng cách sắp xếp bố cục thông điệp ngắn gọn, làm nổi bật các giá trị cốt lõi và tích hợp các yếu tố kích thích hành động (CTA) trực quan, các sản phẩm thiết kế không chỉ gây ấn tượng mạnh từ cái nhìn đầu tiên mà còn góp phần gia tăng tỷ lệ chuyển đổi hiệu quả cho thương hiệu.",
     images: [
       "assets/project/DIGITAL ADVERTISING DROPPII/thumb ads (1).png",
       "assets/project/DIGITAL ADVERTISING DROPPII/153 OPT2.png",
@@ -80,7 +80,7 @@ window.PROJECTS = {
   "expo-health": {
     category: "SOCIAL MEDIA | POSM",
     title: "EXPO SỨC KHỎE DROPPII",
-    description: "Meta meta meta",
+    description: "EXPO Ngày Hội Sức Khỏe Droppii (16 & 23/11/2025) là chuỗi sự kiện trải nghiệm và tư vấn chăm sóc sức khỏe chủ động quy mô lớn, quy tụ đông đảo các đối tác và chuyên gia hàng đầu. Trong chiến dịch này, Tiến đảm nhiệm vai trò thiết kế thị giác toàn diện—từ việc sáng tạo Key Visual (KV) chủ đạo mang tinh thần tươi mới, hiện đại đến việc triển khai đồng bộ chuỗi Social Posts truyền thông sôi nổi trên Fanpage. Bên cạnh đó, Tiến trực tiếp sản xuất hệ thống POSM in ấn phục vụ trực tiếp tại sự kiện như standee, backdrop và tờ rơi, đảm bảo tính nhất quán nhận diện thương hiệu và mang lại không gian trải nghiệm chuyên nghiệp cho khách tham quan.",
     images: [
       "assets/project/EXPO SUC KHOE DROPPII/thumb expo (1).png",
       "assets/project/EXPO SUC KHOE DROPPII/DIEM HEN SUC KHOE TEASER 2.png",
@@ -94,7 +94,7 @@ window.PROJECTS = {
   "sale-event": {
     category: "SOCIAL MEDIA | UI - UX DESIGN",
     title: "SALE EVENT 28.3 DROPPII",
-    description: "Meta meta meta",
+    description: "Sale Event Cuối Tháng (28/03/2026) của Droppii là chương trình ưu đãi đặc biệt dành riêng cho cộng đồng đối tác, nổi bật với chính sách miễn toàn bộ phí phát sinh cho các đơn hàng phát sinh trong ngày cùng hàng loạt voucher giảm giá hấp dẫn. Trong chiến dịch này, Tiến trực tiếp đảm nhiệm vai trò định hình thị giác toàn diện—từ việc thiết kế Key Visual (KV) chủ đạo mang tinh thần bùng nổ, sáng tạo bộ Social Posts kích cầu truyền thông trên Fanpage, đến việc xây dựng giao diện Landing Page tối ưu trải nghiệm người dùng. Từng thiết kế được chăm chút chỉn chu, làm nổi bật các quyền lợi trọng tâm, góp phần thúc đẩy lượng đơn hàng và mang lại hiệu quả chuyển đổi vượt trội cho sự kiện.",
     images: [
       "assets/project/SALE EVENT DROPPII/thumb 28.png",
       "https://github.com/Tiev84/portfolio-tiev/releases/download/v1.0/FDown.vn_Tai_video_Facebook_720p.HD._782a.mp4",
