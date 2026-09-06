@@ -165,6 +165,10 @@ else
     ok "Đã có sẵn: $REPO"
   else
     mkdir -p "$(dirname "$REPO")" || die "Không tạo được $(dirname "$REPO")"
+    printf '    repo nặng khoảng 1 GB (ảnh gốc các project) — lần tải đầu
+'
+    printf '    có thể mất 5-20 phút tuỳ mạng. Cứ để yên, đừng đóng cửa sổ.
+'
     git $LFS_OFF clone "$REPO_URL" "$REPO" || die "Tải repo thất bại. Kiểm tra mạng rồi thử lại."
     ok "Đã tải về: $REPO"
   fi
@@ -218,10 +222,22 @@ if [ ! -x "$VENV/bin/python3" ]; then
   "$PYTHON" -m venv "$VENV" || die "Không tạo được môi trường Python tại $VENV"
 fi
 "$VENV/bin/python3" -m pip install --quiet --upgrade pip >/dev/null 2>&1
+# Pillow giờ là bắt buộc, không còn là tuỳ chọn: app dùng nó để tạo bản ảnh
+# nhẹ cho web (assets/_web/). Thiếu nó thì không tạo được ảnh nhẹ cho ảnh MỚI
+# bạn thêm vào — những ảnh đó sẽ lên web ở kích thước gốc, nặng hàng chục MB.
 if "$VENV/bin/python3" -m pip install --quiet Pillow; then
   ok "Pillow"
 else
-  warn "Không cài được Pillow — app vẫn chạy, chỉ là ảnh xem trước sẽ nặng."
+  printf '    lần đầu không được, thử lại...
+'
+  if "$VENV/bin/python3" -m pip install Pillow; then
+    ok "Pillow"
+  else
+    warn "KHÔNG cài được Pillow.
+       App vẫn chạy và ảnh cũ vẫn nhẹ như thường, nhưng ảnh MỚI bạn thêm
+       sẽ lên web ở kích thước gốc — trang sẽ tải rất chậm trên điện thoại.
+       Nên chạy lại file cài này khi mạng ổn hơn."
+  fi
 fi
 
 # ------------------------------------------------------------

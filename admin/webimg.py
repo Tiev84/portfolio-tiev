@@ -88,7 +88,22 @@ def web_url(rel: str, size: str = "full") -> str:
     global _DIRTY
 
     src = REPO / rel
-    if not HAS_PIL or size not in SIZES or not src.is_file():
+    if size not in SIZES or not src.is_file():
+        return rel
+
+    dich_co_san = out_path(rel, size)
+
+    if not HAS_PIL:
+        # Máy này thiếu Pillow nên không tạo mới được. Nhưng bản nhẹ có thể đã
+        # được máy khác tạo rồi đẩy lên — cứ dùng nó.
+        #
+        # Quan trọng: KHÔNG được trả về ảnh gốc ở đây. Nếu trả về, chỉ cần
+        # người dùng build một lần trên máy thiếu Pillow là cả trang web quay
+        # lại trỏ vào file gốc hàng chục MB, xoá sạch phần tối ưu.
+        if dich_co_san.is_file():
+            ra = str(dich_co_san.relative_to(REPO)).replace("\\", "/")
+            _USED.add(ra)
+            return ra
         return rel
 
     try:

@@ -507,6 +507,7 @@ window.PROJECTS = {
     description: "",
     images: [
       "assets/_web/full/project/PROJECT MOI 10/thumb logo xanh (1).png.webp",
+      "assets/_web/full/project/PROJECT MOI 10/logofolio.png.webp",
     ],
   },
 };
