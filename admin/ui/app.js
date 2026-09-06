@@ -24,6 +24,16 @@ async function api(path, options = {}) {
   try {
     data = await res.json();
   } catch {
+    // 404 trên một địa chỉ /api/ gần như luôn có một nguyên nhân: app đang
+    // chạy bản code cũ. Trang web đọc lại file .js mỗi lần tải nên đã có
+    // nút mới, còn máy chủ thì giữ code trong bộ nhớ từ lúc khởi động —
+    // hai bên lệch nhau. Nói thẳng ra thay vì để người dùng đoán.
+    if (res.status === 404 && path.startsWith("/api/")) {
+      throw new Error(
+        "App đang chạy bản cũ nên chưa biết chức năng này.\n" +
+          "Tắt app rồi mở lại bằng icon Portfolio Manager là xong."
+      );
+    }
     throw new Error(`Máy chủ trả về lỗi ${res.status}`);
   }
   if (!res.ok || data.ok === false) {
@@ -1271,6 +1281,47 @@ let THEME_FIELDS = [];
 let THEME_DEFAULTS = null;
 // Form tab Giao dien da duoc dung chua (khac voi: da co du lieu chua)
 let THEME_UI_READY = false;
+
+/**
+ * Máy chủ có đang chạy bản code cũ không?
+ *
+ * File .js được trình duyệt đọc lại mỗi lần tải trang, còn file .py thì
+ * Python giữ trong bộ nhớ từ lúc khởi động. Sau khi code được cập nhật mà
+ * chưa khởi động lại app, hai bên lệch nhau: giao diện có nút mới nhưng
+ * bấm vào thì máy chủ báo 404. Nói trước còn hơn để người dùng vấp phải.
+ */
+api("/api/app-info")
+  .then((d) => {
+    if (!d.stale) return;
+    modal({
+      title: "Cần khởi động lại app",
+      body: [
+        el(
+          "p",
+          "hint",
+          "Code của app vừa được cập nhật, nhưng app đang chạy vẫn là bản cũ " +
+            "trong bộ nhớ. Một số nút mới sẽ báo lỗi cho tới khi bạn khởi động lại."
+        ),
+        el("p", "hint", `<b>Tắt app</b> rồi mở lại bằng icon Portfolio Manager.`),
+        el("p", "hint", `File đã đổi: <code>${d.files.map(escapeHtml).join(", ")}</code>`),
+      ],
+      actions: [
+        { label: "Để sau", onClick: closeModal },
+        {
+          label: "Tắt app ngay",
+          kind: "primary",
+          onClick: () => {
+            closeModal();
+            post("/api/quit").catch(() => {});
+            document.body.innerHTML =
+              '<p style="padding:60px;text-align:center">Đã tắt. ' +
+              "Mở lại bằng icon Portfolio Manager.</p>";
+          },
+        },
+      ],
+    });
+  })
+  .catch(() => {}); // bản cũ chưa có địa chỉ này, im lặng bỏ qua
 
 // Nạp sớm để lưới project trong app hiện đúng tỉ lệ ngay từ lần mở đầu tiên
 api("/api/theme")

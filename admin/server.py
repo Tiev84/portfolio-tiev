@@ -47,6 +47,29 @@ PORT = int(os.environ.get("PORTFOLIO_ADMIN_PORT", "4321"))
 
 MAX_UPLOAD = 200 * 1024 * 1024  # 200 MB / file
 
+# Python nạp code vào bộ nhớ lúc khởi động rồi giữ nguyên đó. Sửa file .py
+# trên đĩa KHÔNG làm tiến trình đang chạy đổi theo — app vẫn chạy bản cũ cho
+# tới khi tắt hẳn rồi mở lại. Trước đây điều này gây khó hiểu: giao diện có
+# nút mới (file .js đọc lại mỗi lần tải trang) nhưng bấm vào thì máy chủ báo
+# 404 vì nó chưa biết endpoint đó.
+#
+# Nên chụp lại dấu vân tay của các file .py ngay lúc khởi động, để sau này
+# so lại và nói thẳng cho người dùng biết là cần khởi động lại.
+CODE_DIR = Path(__file__).resolve().parent
+
+
+def code_fingerprint() -> dict:
+    dau = {}
+    for f in sorted(CODE_DIR.glob("*.py")):
+        try:
+            dau[f.name] = f.stat().st_mtime_ns
+        except OSError:
+            pass
+    return dau
+
+
+CODE_AT_START = code_fingerprint()
+
 try:
     from PIL import Image, ImageOps
 
@@ -346,6 +369,15 @@ class Handler(SimpleHTTPRequestHandler):
                     "placeholder": store.PLACEHOLDER_COVER,
                 }
             )
+
+        if path == "/api/app-info":
+            gio = code_fingerprint()
+            cu = sorted(
+                ten
+                for ten, moc in gio.items()
+                if CODE_AT_START.get(ten) != moc
+            )
+            return self.send_json({"ok": True, "stale": bool(cu), "files": cu})
 
         if path == "/api/thumb":
             rel = (query.get("path") or [""])[0]
