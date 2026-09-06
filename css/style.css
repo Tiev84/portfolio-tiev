@@ -536,22 +536,39 @@ footer {
     flex-wrap: wrap;
 
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
-    gap: 7px 5px;
+    gap: 6px 4px;
   }
 
+  /*
+    Trên điện thoại khung chỉ rộng ~335px, mà hai nhãn dài ("Thiết kế in ấn
+    khổ lớn..." và "Ứng dụng AI...") rộng tới 303 và 326px — mỗi cái chiếm
+    trọn một hàng, thành ra cả khối bị vỡ thành 6 hàng lỏng lẻo.
+
+    Nên ở đây cho chữ XUỐNG DÒNG trong chip và chặn mỗi chip tối đa nửa
+    khung. Hai nhãn dài co lại thành hai dòng và đứng cạnh nhau vừa khít,
+    còn các nhãn ngắn vẫn giữ nguyên bề ngang thật của chúng.
+  */
   .skill-item {
-    height: 30px;
-    padding: 3px 9px 3px 4px;
+    max-width: calc(50% - 2px);
 
-    font-size: 8.5px;
-    white-space: nowrap;
+    height: auto;
+    min-height: 28px;
+    padding: 4px 8px 4px 3px;
+    gap: 5px;
+
+    font-size: 8px;
+    line-height: 1.3;
+
+    white-space: normal;
+    text-align: left;
   }
 
-  .skill-item img {
-    width: 21px;
-    height: 21px;
+  .skill-item img,
+  .skill-item .skill-icon {
+    width: 18px;
+    height: 18px;
   }
 
   /* ===== CLIENTS ===== */

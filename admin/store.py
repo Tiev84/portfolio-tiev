@@ -19,6 +19,7 @@ from urllib.parse import unquote
 
 import home
 import theme
+import webimg
 
 REPO = Path(__file__).resolve().parent.parent
 PROJECT_DIR = REPO / "assets" / "project"
@@ -338,7 +339,9 @@ def scan(persist: bool = True) -> list[dict]:
                 "folder": folder.name,
                 "folder_abs": str(folder),
                 "new_count": len(new_files),
-                "cover_url": f"{rel}/{cover}" if cover else PLACEHOLDER_COVER,
+                "cover_url": (
+                    webimg.web_url(f"{rel}/{cover}", "cover") if cover else PLACEHOLDER_COVER
+                ),
                 "items": [item(n, False) for n in images]
                 + [item(n, True) for n in hidden],
             }
@@ -398,7 +401,9 @@ def render_projects_data(projects: list[dict]) -> str:
         lines.append(f"    description: {_js_string(p['description'])},")
         lines.append("    images: [")
         for name in p["images"]:
-            src = name if is_remote(name) else f"{rel}/{name}"
+            # Link video ngoài thì giữ nguyên; ảnh thì đổi sang bản nhẹ,
+            # kẻo web gửi cho người xem đúng file thiết kế gốc 30 MB.
+            src = name if is_remote(name) else webimg.web_url(f"{rel}/{name}", "full")
             lines.append(f"      {_js_string(src)},")
         lines.append("    ],")
         lines.append("  },")
@@ -417,7 +422,14 @@ def render_grid(projects: list[dict]) -> str:
             f'            <a href="project-detail.html?project={p["id"]}" class="project-link">'
         )
         out.append('              <div class="project-image">')
-        out.append(f'                <img src="{p["cover_url"]}" alt="{_attr(p["title"])}" />')
+        # Bốn thẻ đầu nằm ngay màn hình đầu nên tải luôn; từ thẻ 5 trở đi
+        # chỉ tải khi người xem cuộn tới. Trang có 28 thẻ, không làm vậy
+        # là điện thoại phải tải hết cả 28 ảnh mới xong.
+        lazy = "" if index <= 4 else ' loading="lazy"'
+        out.append(
+            f'                <img src="{p["cover_url"]}" alt="{_attr(p["title"])}"'
+            f'{lazy} decoding="async" />'
+        )
         out.append("              </div>")
         out.append('              <div class="project-info">')
         out.append(f'                <p class="project-category">{_attr(p["category"])}</p>')
@@ -462,6 +474,7 @@ def _matching_div_close(html: str, start: int) -> int:
 
 def build() -> dict:
     """Ghi css/theme.css, js/projects-data.js và lưới project trong portfolio.html."""
+    webimg.begin()
     theme.build()
     home.build()
     projects = scan()
@@ -486,8 +499,16 @@ def build() -> dict:
 
     page.write_text(html, encoding="utf-8")
 
+    # Ảnh nhẹ nào không còn trang nào trỏ tới thì xoá, kẻo repo phình mãi
+    # theo từng lần đổi ảnh. webimg tự ghi lại đường dẫn nó đã trả ra trong
+    # lần build này, nên chỉ việc hỏi lại.
+    thua = webimg.prune(webimg.used())
+    webimg.flush()
+
     return {
         "projects": len(projects),
         "images": sum(len(p["images"]) for p in projects),
+        "web_images": webimg.stats(),
+        "pruned": thua,
         "files": ["css/theme.css", "index.html", "js/projects-data.js", "portfolio.html"],
     }

@@ -16,6 +16,7 @@ import re
 from pathlib import Path
 
 import store
+import webimg
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
@@ -300,7 +301,8 @@ def render_about(cfg: dict) -> list[str]:
         "          </a>",
         "        </div>",
         '        <div class="portrait-wrap">',
-        f'          <img src="{esc(slot_url("portrait"))}" alt="{esc(a["image_alt"])}" class="portrait-img" />',
+        f'          <img src="{esc(webimg.web_url(slot_url("portrait"), "full"))}"'
+        f' alt="{esc(a["image_alt"])}" class="portrait-img" loading="lazy" decoding="async" />',
         '          <i class="deco deco-a"></i>',
         '          <i class="deco deco-b"></i>',
         "        </div>",
@@ -335,7 +337,8 @@ def render_clients(cfg: dict) -> list[str]:
         f"          <p>{multiline(c['text'])}</p>",
         "        </div>",
         '        <div class="portfolio-board">',
-        f'          <img src="{esc(slot_url("clients"))}" alt="{esc(c["image_alt"])}" class="clients-img" />',
+        f'          <img src="{esc(webimg.web_url(slot_url("clients"), "full"))}"'
+        f' alt="{esc(c["image_alt"])}" class="clients-img" loading="lazy" decoding="async" />',
         '          <i class="deco board-left"></i>',
         '          <i class="deco board-right"></i>',
         "        </div>",
