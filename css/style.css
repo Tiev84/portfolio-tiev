@@ -536,7 +536,9 @@ footer {
     flex-wrap: wrap;
 
     justify-content: center;
-    align-items: flex-start;
+
+    /* Chip trong cùng một hàng kéo cao bằng nhau, dù chữ ít dòng hơn */
+    align-items: stretch;
 
     gap: 6px 4px;
   }
@@ -555,20 +557,37 @@ footer {
 
     height: auto;
     min-height: 28px;
-    padding: 4px 8px 4px 3px;
-    gap: 5px;
+    padding: 4px 6px 4px 3px;
+    gap: 4px;
 
-    font-size: 8px;
+    /*
+      Cỡ chữ co giãn theo bề ngang máy.
+
+      Lý do phải làm vậy: hai chip dài nhất nằm cạnh nhau ở hàng giữa, mỗi
+      cái được nửa khung. Chữ "Ứng dụng AI..." dài 266px, cần 133px chỗ mới
+      xuống vừa 2 dòng. Để cỡ chữ cố định thì trên máy hẹp nó thiếu đúng vài
+      pixel và rớt thành 3 dòng, lệch hẳn với chip bên cạnh.
+
+      Cho cỡ chữ tỉ lệ với bề ngang màn hình thì chữ và chỗ chứa co giãn cùng
+      nhau, nên số dòng giữ nguyên trên mọi máy. Chặn hai đầu để máy quá hẹp
+      chữ không bé quá, máy rộng không to quá.
+    */
+    /* Chặn trên là 8px vì khung .skills dừng ở max-width 350px: máy rộng
+       hơn nữa thì chỗ chứa không tăng nữa, chữ to thêm là tràn dòng. */
+    font-size: clamp(7.2px, 2vw, 8px);
     line-height: 1.3;
 
     white-space: normal;
     text-align: left;
+
+    /* Tránh để một chữ lẻ loi rớt xuống dòng cuối ("...Magnific / Workflow") */
+    text-wrap: pretty;
   }
 
   .skill-item img,
   .skill-item .skill-icon {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
   }
 
   /* ===== CLIENTS ===== */
