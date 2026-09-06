@@ -1134,6 +1134,52 @@ def already_running() -> bool:
         return sock.connect_ex(("127.0.0.1", PORT)) == 0
 
 
+def running_is_stale() -> bool | None:
+    """
+    Bản đang chạy có phải code cũ không?
+
+    True  = cũ, cần khởi động lại.
+    False = đang chạy đúng bản mới nhất.
+    None  = không hỏi được (máy chủ bận hoặc lỗi) — lúc đó ĐỪNG tắt nó,
+            thà mở lại trình duyệt còn hơn giết nhầm một app đang khoẻ.
+    """
+    import urllib.error
+    import urllib.request
+
+    try:
+        with urllib.request.urlopen(
+            f"http://127.0.0.1:{PORT}/api/app-info", timeout=3
+        ) as res:
+            return bool(json.loads(res.read()).get("stale"))
+    except urllib.error.HTTPError as err:
+        # 404 = bản đang chạy cũ tới mức chưa có cả địa chỉ này
+        return True if err.code == 404 else None
+    except Exception:
+        return None
+
+
+def stop_running(cho: float = 12) -> bool:
+    """Bảo bản đang chạy tự tắt, rồi chờ nó nhả cổng ra."""
+    import urllib.request
+
+    try:
+        urllib.request.urlopen(
+            urllib.request.Request(
+                f"http://127.0.0.1:{PORT}/api/quit", data=b"{}", method="POST"
+            ),
+            timeout=5,
+        ).read()
+    except Exception:
+        pass  # nó tắt ngay khi vừa trả lời nên lỗi ở đây là chuyện thường
+
+    het = time.time() + cho
+    while time.time() < het:
+        if not already_running():
+            return True
+        time.sleep(0.3)
+    return False
+
+
 def use_utf8_output() -> None:
     """
     Console Windows mặc định là cp1252, ghi log ra file cũng vậy — in tiếng Việt
@@ -1158,9 +1204,24 @@ def main() -> None:
     url = f"http://localhost:{PORT}/admin/"
 
     if already_running():
-        print(f"App đang chạy sẵn rồi — mở lại {url}")
-        webbrowser.open(url)
-        return
+        # Bản đang chạy giữ code trong bộ nhớ từ lúc nó khởi động. Nếu code
+        # đã được cập nhật từ đó tới giờ, chỉ mở lại trình duyệt là vô ích —
+        # nhìn thì giống vừa khởi động lại, nhưng máy chủ vẫn là bản cũ và
+        # các nút mới sẽ báo 404. Nên ở đây tắt hẳn nó rồi chạy lại.
+        cu = running_is_stale()
+
+        if cu is False or cu is None:
+            print(f"App đang chạy sẵn rồi — mở lại {url}")
+            webbrowser.open(url)
+            return
+
+        print("Bản đang chạy là code cũ — đang tắt để nạp lại...")
+        if not stop_running():
+            sys.exit(
+                "Không tắt được bản đang chạy.\n"
+                "Đóng cửa sổ Terminal của app rồi bấm lại icon Portfolio Manager."
+            )
+        print("Đã tắt bản cũ. Khởi động lại...")
 
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
 
