@@ -1,0 +1,150 @@
+{
+  "nodes": [
+    {
+      "key": "chao",
+      "title": "Lời chào mở đầu",
+      "message": "Chào bạn! Mình là trợ lý của Tiến — Graphics Designer.\nBạn đang quan tâm điều gì ạ?",
+      "replies": [
+        {
+          "text": "Xem bảng giá",
+          "to": "bang-gia"
+        },
+        {
+          "text": "Quy trình làm việc",
+          "to": "quy-trinh"
+        },
+        {
+          "text": "Xem portfolio",
+          "to": "portfolio"
+        },
+        {
+          "text": "Chat trực tiếp với Tiến",
+          "to": "gap-nguoi"
+        }
+      ]
+    },
+    {
+      "key": "bang-gia",
+      "title": "Bảng giá",
+      "message": "Tiến báo giá theo từng hạng mục, tuỳ khối lượng và độ phức tạp.\nBạn cần hạng mục nào ạ?",
+      "replies": [
+        {
+          "text": "Social Post",
+          "to": "gia-social"
+        },
+        {
+          "text": "Thiết kế in ấn / POSM",
+          "to": "gia-posm"
+        },
+        {
+          "text": "Landing page / UI-UX",
+          "to": "gia-uiux"
+        },
+        {
+          "text": "Nhận báo giá riêng",
+          "to": "gap-nguoi"
+        }
+      ]
+    },
+    {
+      "key": "gia-social",
+      "title": "Giá — Social Post",
+      "message": "Social Post tính theo bộ hoặc theo tháng.\nGửi Tiến brief và số lượng bài, Tiến báo giá chính xác trong ngày nhé.",
+      "replies": [
+        {
+          "text": "Gửi brief ngay",
+          "to": "gap-nguoi"
+        },
+        {
+          "text": "Xem hạng mục khác",
+          "to": "bang-gia"
+        }
+      ]
+    },
+    {
+      "key": "gia-posm",
+      "title": "Giá — In ấn / POSM",
+      "message": "POSM và ấn phẩm khổ lớn (backdrop, standee, photobooth, sign...) tính theo đầu hạng mục.\nBạn cho Tiến biết sự kiện và danh sách hạng mục cần làm nhé.",
+      "replies": [
+        {
+          "text": "Gửi danh sách hạng mục",
+          "to": "gap-nguoi"
+        },
+        {
+          "text": "Xem hạng mục khác",
+          "to": "bang-gia"
+        }
+      ]
+    },
+    {
+      "key": "gia-uiux",
+      "title": "Giá — Landing page / UI-UX",
+      "message": "Landing page tính theo số màn hình và mức độ tương tác.\nBạn mô tả sơ dự án để Tiến ước lượng nhé.",
+      "replies": [
+        {
+          "text": "Mô tả dự án",
+          "to": "gap-nguoi"
+        },
+        {
+          "text": "Xem hạng mục khác",
+          "to": "bang-gia"
+        }
+      ]
+    },
+    {
+      "key": "quy-trinh",
+      "title": "Quy trình làm việc",
+      "message": "Quy trình của Tiến gồm 4 bước:\n1. Nhận brief và thống nhất phạm vi\n2. Gửi hướng thiết kế để bạn duyệt\n3. Triển khai và chỉnh sửa theo góp ý\n4. Bàn giao file gốc\n\nBạn muốn biết thêm gì không ạ?",
+      "replies": [
+        {
+          "text": "Thời gian bao lâu?",
+          "to": "thoi-gian"
+        },
+        {
+          "text": "Xem bảng giá",
+          "to": "bang-gia"
+        },
+        {
+          "text": "Bắt đầu dự án",
+          "to": "gap-nguoi"
+        }
+      ]
+    },
+    {
+      "key": "thoi-gian",
+      "title": "Thời gian thực hiện",
+      "message": "Tuỳ hạng mục: một bộ Social Post thường 2-3 ngày, bộ POSM cho sự kiện thường 5-7 ngày.\nGấp hơn thì báo Tiến, sắp xếp được ạ.",
+      "replies": [
+        {
+          "text": "Trao đổi với Tiến",
+          "to": "gap-nguoi"
+        },
+        {
+          "text": "Xem quy trình",
+          "to": "quy-trinh"
+        }
+      ]
+    },
+    {
+      "key": "portfolio",
+      "title": "Xem portfolio",
+      "message": "Bạn xem các dự án của Tiến tại mục Portfolio trên web nhé — có đủ Social Media, POSM, Landing page và ấn phẩm sự kiện.",
+      "replies": [
+        {
+          "text": "Xem bảng giá",
+          "to": "bang-gia"
+        },
+        {
+          "text": "Chat trực tiếp với Tiến",
+          "to": "gap-nguoi"
+        }
+      ]
+    },
+    {
+      "key": "gap-nguoi",
+      "title": "Chuyển cho người thật",
+      "message": "Bạn để lại nội dung và cách liên hệ nhé, Tiến sẽ trả lời sớm nhất.\nNếu Tiến đang online thì trả lời ngay tại đây luôn ạ.",
+      "replies": []
+    }
+  ]
+}

@@ -31,6 +31,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import chatbot  # noqa: E402
 import home  # noqa: E402
 import release  # noqa: E402
 import store  # noqa: E402
@@ -389,6 +390,18 @@ class Handler(SimpleHTTPRequestHandler):
                 return super().do_GET()
             data, ctype = result
             return self.send_bytes(data, ctype, cache="max-age=86400")
+
+        if path == "/api/chatbot":
+            cfg = chatbot.load()
+            return self.send_json(
+                {
+                    "ok": True,
+                    "chatbot": cfg,
+                    "defaults": chatbot.DEFAULTS,
+                    "issues": chatbot.check(cfg),
+                    "max_replies": chatbot.MAX_REPLIES,
+                }
+            )
 
         if path == "/api/home":
             return self.send_json(
@@ -1057,6 +1070,24 @@ class Handler(SimpleHTTPRequestHandler):
         theme.build()
         store.build()
         self.send_json({"ok": True, "theme": cfg})
+
+    # ---- kịch bản chatbot -----------------------------------------------
+
+    def api_chatbot_save(self):
+        """
+        Lưu kịch bản. KHÔNG đẩy gì lên tawk.to — họ không có cửa cho việc đó
+        (xem phần đầu admin/chatbot.py). Kịch bản nằm trong repo để hai máy
+        đồng bộ, rồi chép tay sang dashboard tawk.to.
+        """
+        cfg = chatbot.save(self.read_json().get("chatbot") or {})
+        self.send_json({"ok": True, "chatbot": cfg, "issues": chatbot.check(cfg)})
+
+    def api_chatbot_reset(self):
+        cfg = chatbot.save(chatbot.DEFAULTS)
+        self.send_json({"ok": True, "chatbot": cfg, "issues": chatbot.check(cfg)})
+
+    def api_chatbot_export(self):
+        self.send_json({"ok": True, "text": chatbot.export_text()})
 
     def api_theme_accent_preview(self):
         """Xem trước bộ màu suy ra, CHƯA ghi gì cả."""

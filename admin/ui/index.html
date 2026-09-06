@@ -28,6 +28,7 @@
         <button class="tab is-on" id="tab-projects" type="button">Project</button>
         <button class="tab" id="tab-home" type="button">Trang chủ</button>
         <button class="tab" id="tab-theme" type="button">Giao diện</button>
+        <button class="tab" id="tab-chatbot" type="button">Chatbot</button>
       </nav>
 
       <div class="bar-right">
@@ -408,6 +409,43 @@
       </div>
     </main>
 
+    <!-- ================= KỊCH BẢN CHATBOT ================= -->
+    <main id="view-chatbot" class="view hidden">
+      <div class="container">
+        <div class="page-head">
+          <div>
+            <h1>Kịch bản chatbot</h1>
+            <p class="hint">
+              Soạn ở đây, kiểm tra lỗi, rồi chép sang tawk.to.
+              <b>tawk.to không cho đẩy kịch bản lên bằng lệnh</b> — cả REST API
+              lẫn JavaScript API của họ đều không có chỗ tạo/sửa hội thoại, nên
+              bước cuối vẫn phải chép tay một lần.
+            </p>
+          </div>
+          <div class="edit-head-actions">
+            <button class="btn ghost" id="btn-bot-preview">▶ Chạy thử</button>
+            <button class="btn ghost" id="btn-bot-export">📋 Xuất để chép</button>
+            <button class="btn danger ghost" id="btn-bot-reset">Về mẫu gốc</button>
+            <button class="btn primary" id="btn-bot-save">Lưu kịch bản</button>
+          </div>
+        </div>
+
+        <div class="warn-box hidden" id="bot-issues"></div>
+
+        <div class="bot-layout">
+          <div id="bot-nodes"></div>
+          <div class="bot-side">
+            <div class="card">
+              <h2>Sơ đồ hội thoại</h2>
+              <div id="bot-map"></div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn ghost" id="btn-bot-add">+ Thêm câu trả lời</button>
+      </div>
+    </main>
+
     <!-- ================= MODAL ================= -->
     <div class="modal-backdrop hidden" id="modal">
       <div class="modal">
@@ -421,5 +459,6 @@
     <div class="busy hidden" id="busy"><div class="spinner"></div><span id="busy-text"></span></div>
 
     <script src="/admin/app.js"></script>
+    <script src="/admin/chatbot.js"></script>
   </body>
 </html>
