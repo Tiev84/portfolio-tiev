@@ -1026,6 +1026,53 @@ class Handler(SimpleHTTPRequestHandler):
         store.build()
         self.send_json({"ok": True, "theme": cfg})
 
+    def api_theme_accent_preview(self):
+        """Xem trước bộ màu suy ra, CHƯA ghi gì cả."""
+        try:
+            ho = theme.accent_family(self.read_json().get("color") or "")
+        except ValueError as err:
+            return self.send_json({"ok": False, "error": str(err)}, 400)
+        self.send_json(
+            {
+                "ok": True,
+                "colors": ho,
+                "contrast": round(theme.contrast(ho["accent"], ho["on-accent"]), 1),
+            }
+        )
+
+    def api_theme_accent(self):
+        """
+        Đổi toàn bộ chỗ đang màu vàng sang một màu khác.
+
+        Chỉ nhận MỘT màu rồi tự suy ra cả bộ bốn, vì bốn màu đó phải ăn khớp
+        nhau — chỉnh tay từng cái gần như chắc chắn lệch tông.
+        """
+        data = self.read_json()
+
+        if data.get("reset"):
+            # Về vàng gốc thì lấy đúng số trong DEFAULTS, không tính lại,
+            # kẻo sai một hai đơn vị so với bản thiết kế ban đầu.
+            moi = {k: theme.DEFAULTS["colors"][k] for k in theme.ACCENT_TOKENS}
+        else:
+            try:
+                moi = theme.accent_family(data.get("color") or "")
+            except ValueError as err:
+                return self.send_json({"ok": False, "error": str(err)}, 400)
+
+        cfg = theme.load()
+        cfg["colors"].update(moi)
+        cfg = theme.save(cfg)
+        theme.build()
+        store.build()
+        self.send_json(
+            {
+                "ok": True,
+                "theme": cfg,
+                "colors": moi,
+                "contrast": round(theme.contrast(moi["accent"], moi["on-accent"]), 1),
+            }
+        )
+
     def api_quit(self):
         self.send_json({"ok": True})
         # shutdown() phải gọi từ thread khác, không thì tự khoá chính mình

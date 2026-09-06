@@ -1269,6 +1269,8 @@ load().catch((err) => toast(err.message, "err"));
 let THEME = null;
 let THEME_FIELDS = [];
 let THEME_DEFAULTS = null;
+// Form tab Giao dien da duoc dung chua (khac voi: da co du lieu chua)
+let THEME_UI_READY = false;
 
 // Nạp sớm để lưới project trong app hiện đúng tỉ lệ ngay từ lần mở đầu tiên
 api("/api/theme")
@@ -1308,7 +1310,12 @@ function showTheme() {
   $("#tab-projects").classList.remove("is-on");
   $("#tab-theme").classList.add("is-on");
   window.scrollTo(0, 0);
-  if (!THEME) loadTheme();
+
+  // Phải xét ĐÃ DỰNG FORM chưa, chứ không phải đã có dữ liệu chưa. App nạp
+  // THEME ngầm ngay lúc khởi động (để lưới project hiện đúng tỉ lệ), nên
+  // xét `!THEME` thì gần như luôn sai — form không bao giờ được dựng và cả
+  // tab này hiện ra trống trơn.
+  if (!THEME_UI_READY) loadTheme();
   else refreshPreview();
 }
 
@@ -1331,9 +1338,118 @@ async function loadTheme() {
   THEME_FIELDS = data.fields;
   THEME_DEFAULTS = data.defaults;
   renderColorFields();
+  renderAccentPresets();
+  fillThemeForm();
+  dongBoOMauNhan();
+  refreshPreview();
+  THEME_UI_READY = true;
+}
+
+/* ---- màu chủ đạo: đổi mọi chỗ đang vàng cùng một lúc ---- */
+
+// Vài màu gợi ý sẵn, để khỏi phải tự mò trong bảng chọn màu
+const ACCENT_PRESETS = [
+  { hex: "#ffda24", ten: "Vàng gốc" },
+  { hex: "#ff8a3d", ten: "Cam" },
+  { hex: "#ff5f56", ten: "Đỏ san hô" },
+  { hex: "#f06292", ten: "Hồng" },
+  { hex: "#c084fc", ten: "Tím" },
+  { hex: "#4dabf7", ten: "Xanh dương" },
+  { hex: "#38d9a9", ten: "Xanh ngọc" },
+  { hex: "#4ade80", ten: "Xanh lá" },
+];
+
+function renderAccentPresets() {
+  const host = $("#accent-presets");
+  host.innerHTML = "";
+  ACCENT_PRESETS.forEach((m) => {
+    const o = el("button", "accent-chip");
+    o.type = "button";
+    o.style.background = m.hex;
+    o.title = `${m.ten} — ${m.hex}`;
+    o.onclick = () => {
+      $("#t-accent-master").value = m.hex;
+      $("#t-accent-hex").value = m.hex;
+      xemTruocMauNhan(m.hex);
+    };
+    host.appendChild(o);
+  });
+}
+
+/**
+ * Hỏi máy chủ xem một màu sẽ đẻ ra bộ bốn màu nào, rồi hiện thử.
+ *
+ * Việc tính toán để bên máy chủ làm (admin/theme.py) chứ không viết lại ở
+ * đây, để hai bên không bao giờ ra kết quả khác nhau.
+ */
+let hen = null;
+async function xemTruocMauNhan(hex) {
+  clearTimeout(hen);
+  hen = setTimeout(async () => {
+    let d;
+    try {
+      d = await post("/api/theme/accent-preview", { color: hex });
+    } catch {
+      return; // đang gõ dở mã màu, chưa cần kêu ca
+    }
+    Object.assign(THEME.colors, d.colors);
+    fillThemeForm();
+    applyPreviewTheme();
+    veKetQuaMauNhan(d);
+  }, 120);
+}
+
+function veKetQuaMauNhan(d) {
+  const c = d.colors;
+  const dat = d.contrast >= 4.5;
+  $("#accent-result").innerHTML =
+    `<div class="accent-swatches">
+       <span style="background:${c.accent}" title="Màu nhấn ${c.accent}"></span>
+       <span style="background:${c["accent-hover"]}" title="Khi rê chuột ${c["accent-hover"]}"></span>
+       <span style="background:${c["accent-dim"]}" title="Viền nhạt ${c["accent-dim"]}"></span>
+       <span style="background:${c.accent};color:${c["on-accent"]}" title="Chữ trên nền nhấn">Aa</span>
+     </div>
+     <p class="hint ${dat ? "" : "warn-text"}">
+       Chữ trên nền màu này tương phản <b>${d.contrast}:1</b> —
+       ${dat ? "đọc rõ, đạt chuẩn." : "hơi khó đọc, nên chọn màu đậm hoặc nhạt hơn."}
+     </p>`;
+}
+
+async function apDungMauNhan(reset) {
+  const hex = $("#t-accent-hex").value.trim();
+  if (!reset && !/^#[0-9a-fA-F]{6}$/.test(hex)) {
+    return toast("Mã màu phải có dạng #rrggbb", "err");
+  }
+  const d = await guard("Đang đổi màu toàn web…", () =>
+    post("/api/theme/accent", reset ? { reset: true } : { color: hex })
+  );
+  THEME = d.theme;
   fillThemeForm();
   refreshPreview();
+  dongBoOMauNhan();
+  veKetQuaMauNhan(d);
+  toast(reset ? "Đã trả về màu vàng gốc" : "Đã đổi màu toàn web", "ok");
 }
+
+function dongBoOMauNhan() {
+  const v = THEME.colors.accent;
+  $("#t-accent-master").value = v;
+  $("#t-accent-hex").value = v;
+}
+
+$("#t-accent-master").oninput = (e) => {
+  $("#t-accent-hex").value = e.target.value;
+  xemTruocMauNhan(e.target.value);
+};
+$("#t-accent-hex").oninput = (e) => {
+  const v = e.target.value.trim();
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+    $("#t-accent-master").value = v;
+    xemTruocMauNhan(v);
+  }
+};
+$("#btn-accent-apply").onclick = () => apDungMauNhan(false).catch(() => {});
+$("#btn-accent-yellow").onclick = () => apDungMauNhan(true).catch(() => {});
 
 function renderColorFields() {
   const host = $("#color-groups");

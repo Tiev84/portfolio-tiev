@@ -12,6 +12,7 @@ Từ đó sinh lại phần giữa HOME:START và HOME:END trong index.html.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import store
@@ -229,6 +230,48 @@ def multiline(text: str) -> str:
     return "<br />".join(esc(line) for line in (text or "").split("\n"))
 
 
+# Mã màu vàng nằm cứng bên trong 9 file icon kỹ năng (.svg). Khác một chút
+# so với màu nhấn của web (#ffda24) vì bộ icon vẽ riêng.
+ICON_YELLOW = "#FFDC31"
+
+ICON_DIR = REPO / "assets" / "icons"
+
+
+def render_icon(name: str) -> str:
+    """
+    Nhúng thẳng nội dung file .svg vào trang thay vì dùng thẻ <img>.
+
+    Lý do: ảnh nạp qua <img> là một tài liệu riêng, CSS của trang không với
+    vào trong được — nên icon sẽ mãi vàng dù người dùng đổi màu chủ đạo.
+    Nhúng thẳng vào thì đổi được: mã vàng cứng trong file được thay bằng
+    currentColor, và CSS chỉ việc đặt màu chữ cho nó.
+
+    File không phải .svg (hoặc đọc không được) thì quay về dùng <img> như cũ.
+    """
+    duong = ICON_DIR / name
+    if duong.suffix.lower() != ".svg" or not duong.is_file():
+        return f'<img src="assets/icons/{esc(name)}" alt="" />'
+
+    try:
+        svg = duong.read_text(encoding="utf-8")
+    except OSError:
+        return f'<img src="assets/icons/{esc(name)}" alt="" />'
+
+    svg = svg[svg.index("<svg") :] if "<svg" in svg else svg
+    svg = svg.replace(ICON_YELLOW, "currentColor").replace(ICON_YELLOW.lower(), "currentColor")
+
+    # id bên trong <defs> (clip-path, pattern...) là chung cho cả trang khi
+    # nhúng thẳng. Chín icon dùng trùng id là đè nhau, hình vỡ hết — nên
+    # thêm tiền tố riêng cho từng icon.
+    rieng = "ic-" + duong.stem
+    for cu in sorted(set(re.findall(r'id="([^"]+)"', svg)), key=len, reverse=True):
+        svg = svg.replace(f'id="{cu}"', f'id="{rieng}-{cu}"')
+        svg = svg.replace(f"url(#{cu})", f"url(#{rieng}-{cu})")
+
+    svg = svg.replace("<svg ", '<svg class="skill-icon" aria-hidden="true" ', 1)
+    return " ".join(svg.split())
+
+
 def render_hero(cfg: dict) -> list[str]:
     h = cfg["hero"]
     return [
@@ -275,7 +318,7 @@ def render_skills(cfg: dict) -> list[str]:
     for item in s["items"]:
         out += [
             '          <span class="skill-item">',
-            f'            <img src="assets/icons/{esc(item["icon"])}" alt="" />',
+            f"            {render_icon(item['icon'])}",
             f"            {esc(item['text'])}",
             "          </span>",
         ]

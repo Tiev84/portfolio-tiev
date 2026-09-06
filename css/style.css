@@ -263,13 +263,21 @@ footer {
   white-space: nowrap;
 }
 
-.skill-item img {
+.skill-item img,
+.skill-item .skill-icon {
   width: 23px;
   height: 23px;
 
   display: block;
   object-fit: contain;
   flex-shrink: 0;
+}
+
+/* Icon kỹ năng được nhúng thẳng vào trang (không phải <img>), và phần nền
+   tròn của nó dùng currentColor — nên chỉ cần đặt màu chữ ở đây là icon
+   đổi màu theo màu chủ đạo. Xem render_icon() trong admin/home.py. */
+.skill-item .skill-icon {
+  color: var(--accent);
 }
 .clients {
   padding-top: 0;

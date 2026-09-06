@@ -116,6 +116,126 @@ def save(data: dict) -> dict:
     return merged
 
 
+# ----------------------------------------------------------------------
+# Màu chủ đạo
+#
+# Màu vàng của web không phải một màu, mà là một BỘ bốn màu ăn khớp nhau:
+# màu nhấn, màu khi rê chuột (đậm hơn), viền nhạt, và màu chữ nằm trên nền
+# đó. Đổi tay từng cái thì gần như chắc chắn lệch tông.
+#
+# Nên ở đây chỉ nhận MỘT màu rồi tự suy ra ba màu còn lại, giữ đúng quan hệ
+# sáng - tối như bộ vàng gốc.
+# ----------------------------------------------------------------------
+
+# Độ sáng của accent-hover và accent-dim so với accent, đo từ bộ vàng gốc
+# (#ffda24 -> #e1bd00 -> #d5b600). Tính ngay tại đây để nếu sau này đổi
+# DEFAULTS thì quan hệ vẫn tự khớp theo.
+def _hex_to_rgb(value: str) -> tuple[int, int, int]:
+    v = value.strip().lstrip("#")
+    if len(v) == 3:
+        v = "".join(c * 2 for c in v)
+    # Kiểm tra cả độ dài lẫn ký tự ở đây, để lỗi báo ra bằng tiếng Việt
+    # thay vì câu tiếng Anh khó hiểu của hàm int().
+    if len(v) != 6 or any(c not in "0123456789abcdefABCDEF" for c in v):
+        raise ValueError(f"“{value}” không phải mã màu. Phải có dạng #rrggbb, ví dụ #ffda24.")
+    return tuple(int(v[i : i + 2], 16) for i in (0, 2, 4))  # type: ignore[return-value]
+
+
+def _rgb_to_hex(rgb: tuple[float, float, float]) -> str:
+    return "#" + "".join(f"{max(0, min(255, round(c))):02x}" for c in rgb)
+
+
+def _rgb_to_hsl(rgb: tuple[int, int, int]) -> tuple[float, float, float]:
+    r, g, b = (c / 255 for c in rgb)
+    hi, lo = max(r, g, b), min(r, g, b)
+    light = (hi + lo) / 2
+    if hi == lo:
+        return 0.0, 0.0, light
+    d = hi - lo
+    sat = d / (2 - hi - lo) if light > 0.5 else d / (hi + lo)
+    if hi == r:
+        hue = ((g - b) / d) % 6
+    elif hi == g:
+        hue = (b - r) / d + 2
+    else:
+        hue = (r - g) / d + 4
+    return hue / 6, sat, light
+
+
+def _hsl_to_rgb(h: float, s: float, light: float) -> tuple[float, float, float]:
+    if s == 0:
+        return (light * 255,) * 3
+    q = light * (1 + s) if light < 0.5 else light + s - light * s
+    p = 2 * light - q
+
+    def kenh(t: float) -> float:
+        t = t % 1
+        if t < 1 / 6:
+            return p + (q - p) * 6 * t
+        if t < 1 / 2:
+            return q
+        if t < 2 / 3:
+            return p + (q - p) * (2 / 3 - t) * 6
+        return p
+
+    return tuple(kenh(h + k) * 255 for k in (1 / 3, 0, -1 / 3))  # type: ignore[return-value]
+
+
+def _luminance(rgb: tuple[int, int, int]) -> float:
+    """Độ sáng cảm nhận theo chuẩn WCAG, để chọn chữ đen hay chữ trắng."""
+
+    def tuyen_tinh(c: float) -> float:
+        c /= 255
+        return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+
+    r, g, b = (tuyen_tinh(c) for c in rgb)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast(a: str, b: str) -> float:
+    """Tỉ lệ tương phản giữa hai màu. Chữ dễ đọc cần từ 4.5 trở lên."""
+    la, lb = _luminance(_hex_to_rgb(a)), _luminance(_hex_to_rgb(b))
+    hi, lo = max(la, lb), min(la, lb)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+_L_GOC = _rgb_to_hsl(_hex_to_rgb(DEFAULTS["colors"]["accent"]))[2]
+TI_LE_HOVER = _rgb_to_hsl(_hex_to_rgb(DEFAULTS["colors"]["accent-hover"]))[2] / _L_GOC
+TI_LE_DIM = _rgb_to_hsl(_hex_to_rgb(DEFAULTS["colors"]["accent-dim"]))[2] / _L_GOC
+
+
+ACCENT_TOKENS = ("accent", "accent-hover", "accent-dim", "on-accent")
+
+
+def accent_family(value: str) -> dict:
+    """
+    Từ một màu, dựng đủ bộ bốn màu nhấn.
+
+    Màu sáng thì rê chuột sẽ tối đi (như bộ vàng gốc). Nhưng màu tối mà tối
+    thêm nữa thì gần như không thấy khác gì, nên đổi chiều: sáng lên, lệch
+    đúng bằng chừng đó.
+    """
+    hue, sat, light = _rgb_to_hsl(_hex_to_rgb(value))
+
+    if light > 0.5:
+        l_hover, l_dim = light * TI_LE_HOVER, light * TI_LE_DIM
+    else:
+        l_hover = light + (1 - light) * (1 - TI_LE_HOVER)
+        l_dim = light + (1 - light) * (1 - TI_LE_DIM)
+
+    accent = _rgb_to_hex(_hsl_to_rgb(hue, sat, light))
+    # Chữ trên nền màu nhấn: chọn bên nào đọc rõ hơn, không đoán mò
+    den, trang = DEFAULTS["colors"]["on-accent"], "#ffffff"
+    on_accent = den if contrast(accent, den) >= contrast(accent, trang) else trang
+
+    return {
+        "accent": accent,
+        "accent-hover": _rgb_to_hex(_hsl_to_rgb(hue, sat, l_hover)),
+        "accent-dim": _rgb_to_hex(_hsl_to_rgb(hue, sat, l_dim)),
+        "on-accent": on_accent,
+    }
+
+
 def block_size(cfg: dict | None = None) -> int:
     grid = (cfg or load())["grid"]
     return max(1, int(grid["wide_per_block"]) + int(grid["narrow_per_block"]))

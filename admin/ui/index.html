@@ -282,7 +282,30 @@
           </div>
 
           <div class="card">
+            <h2>Màu chủ đạo</h2>
+            <p class="hint">
+              Đổi <b>mọi chỗ đang màu vàng</b> trên web sang màu khác cùng một lúc:
+              nút bấm, viền, icon kỹ năng, tiêu đề chân trang, gạch chân trang chi tiết.
+              Chọn một màu, app tự tính màu khi rê chuột, viền nhạt và màu chữ đi kèm.
+            </p>
+
+            <div class="accent-pick">
+              <input id="t-accent-master" type="color" />
+              <input id="t-accent-hex" type="text" spellcheck="false" />
+              <button class="btn primary small" id="btn-accent-apply">Áp dụng</button>
+              <button class="btn ghost small" id="btn-accent-yellow">Về vàng gốc</button>
+            </div>
+
+            <div class="accent-presets" id="accent-presets"></div>
+            <div class="accent-result" id="accent-result"></div>
+          </div>
+
+          <div class="card">
             <h2>Màu sắc</h2>
+            <p class="hint">
+              Chỉnh từng màu một. Bốn màu trong nhóm <b>Nhấn</b> đã được đặt sẵn
+              theo Màu chủ đạo ở trên — chỉ động vào đây khi bạn muốn tinh chỉnh riêng.
+            </p>
             <div id="color-groups"></div>
           </div>
 
