@@ -371,6 +371,13 @@ window.PROJECTS = {
       "assets/_web/full/project/PROJECT MOI 2/cover page.png.webp",
       "assets/_web/full/project/PROJECT MOI 2/UU DAI TET.png.webp",
       "assets/_web/full/project/PROJECT MOI 2/ava page.png.webp",
+      "assets/_web/full/project/PROJECT MOI 2/standee kj.png.webp",
+      "assets/_web/full/project/PROJECT MOI 2/POSTER KJ.png.webp",
+      "assets/_web/full/project/PROJECT MOI 2/580041686_122304707528236001_5688739458887133946_n.jpg.webp",
+      "assets/_web/full/project/PROJECT MOI 2/580313751_122304708230236001_7803307607019097856_n.jpg.webp",
+      "assets/_web/full/project/PROJECT MOI 2/588918065_122306961824236001_5572777049609346934_n.jpg.webp",
+      "assets/_web/full/project/PROJECT MOI 2/647855602_122324801600236001_8630835441871908604_n (1).jpg.webp",
+      "assets/_web/full/project/PROJECT MOI 2/649210280_122324801546236001_7297678388727207433_n (1).jpg.webp",
     ],
   },
   "project-moi-4": {
