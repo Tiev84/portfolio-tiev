@@ -107,6 +107,50 @@ project.images.forEach((src, index) => {
     source.type = kieu[(duoi || "mp4").toLowerCase()] || "video/mp4";
     video.appendChild(source);
 
+    /*
+      Trình duyệt nào không phát được video này thì gỡ hẳn ô đó khỏi trang,
+      thay vì để lại một khung đen bấm không lên.
+
+      Vì sao lại có chuyện không phát được: video nằm trên GitHub Releases
+      bị trả về với Content-Type "application/octet-stream". Chrome trên
+      máy tính và Android tự đoán nội dung nên vẫn phát; Safari trên iPhone
+      tin theo Content-Type nên từ chối. (Video để trong repo thì không dính
+      chuyện này — máy chủ trả đúng video/mp4.)
+
+      Ở đây KHÔNG đoán theo bề ngang màn hình hay tên trình duyệt: cứ để
+      chính trình duyệt thử rồi báo. Như vậy máy nào phát được thì vẫn thấy
+      video, máy nào không thì trang gọn gàng — không phải giấu nhầm.
+
+      Chỉ gỡ khi lỗi là "không đọc được định dạng/nguồn" (mã 3 và 4).
+      Lỗi mạng (mã 2) thì giữ nguyên, vì mạng chập chờn không có nghĩa là
+      video hỏng.
+    */
+    let daGo = false;
+    let daThuLai = false;
+
+    const goNeuKhongPhatDuoc = () => {
+      if (daGo) return;
+      const ma = video.error ? video.error.code : null;
+      const hetNguon = video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE;
+      if (!(ma === 3 || ma === 4 || hetNguon)) return;
+
+      // Mạng chập chờn một nhịp cũng cho ra trạng thái "hết nguồn" y hệt
+      // lúc trình duyệt thật sự từ chối định dạng. Thử lại một lần để
+      // khỏi giấu nhầm video vẫn tốt.
+      if (!daThuLai) {
+        daThuLai = true;
+        setTimeout(() => video.load(), 1200);
+        return;
+      }
+
+      daGo = true;
+      item.remove();
+    };
+
+    video.addEventListener("error", goNeuKhongPhatDuoc);
+    // Khi dùng <source>, lỗi nổ trên chính thẻ source chứ không phải video
+    source.addEventListener("error", goNeuKhongPhatDuoc);
+
     // Tự động phát khi cuộn tới trên mobile
     const videoObserver = new IntersectionObserver(
       (entries) => {
