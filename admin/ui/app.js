@@ -1730,6 +1730,9 @@ const H = {
   cHeading: "#c-heading",
   cText: "#c-text",
   cImgAlt: "#c-img-alt",
+  cBtnShow: "#c-btn-show",
+  cBtnText: "#c-btn-text",
+  cBtnHref: "#c-btn-href",
   sHeading: "#s-heading",
 };
 
@@ -1791,6 +1794,9 @@ function fillHomeForm() {
   $(H.cHeading).value = HOME.clients.heading;
   $(H.cText).value = HOME.clients.text;
   $(H.cImgAlt).value = HOME.clients.image_alt;
+  $(H.cBtnShow).checked = HOME.clients.button_show !== false;
+  $(H.cBtnText).value = HOME.clients.button_text || "";
+  $(H.cBtnHref).value = HOME.clients.button_href || "";
 
   $(H.sHeading).value = HOME.skills.heading;
 }
@@ -1814,6 +1820,9 @@ function readHomeForm() {
     heading: $(H.cHeading).value,
     text: $(H.cText).value,
     image_alt: $(H.cImgAlt).value,
+    button_show: $(H.cBtnShow).checked,
+    button_text: $(H.cBtnText).value,
+    button_href: $(H.cBtnHref).value,
   };
   HOME.skills = {
     heading: $(H.sHeading).value,

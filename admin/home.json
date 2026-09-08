@@ -64,6 +64,9 @@
   "clients": {
     "heading": "DOANH NGHIỆP\n& KHÁCH HÀNG\nĐÃ CỘNG TÁC",
     "text": "Tiến đã có kinh nghiệm hợp tác cùng nhiều thương hiệu và đối tác đa dạng, từ các thương hiệu như Droppii, Bệnh viện Tâm Anh, Điền Quân Network, Fujiwa, Liên đoàn Thương mại và Công nghiệp Việt Nam VCCI cho đến các thương hiệu F&B trong và ngoài nước, những khách hàng cá nhân,... Nhờ khả năng linh hoạt theo từng ngành nghề, Tiến luôn mang đến những thiết kế vừa vặn, đúng gu và hiệu quả cho từng dự án.",
-    "image_alt": "Doanh nghiệp và khách hàng đã cộng tác"
+    "image_alt": "Doanh nghiệp và khách hàng đã cộng tác",
+    "button_show": true,
+    "button_text": "PORTFOLIO CỦA TÔI",
+    "button_href": "portfolio.html"
   }
 }

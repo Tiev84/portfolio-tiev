@@ -335,6 +335,15 @@ footer {
 
   border-radius: inherit;
 }
+/* Nút "Portfolio của tôi" ở cuối khối khách hàng — chỗ người xem dừng lại
+   sau khi đọc hết trang giới thiệu. Khoảng hở trên rộng hơn dưới để nút
+   thuộc về khối khách hàng chứ không dính vào chân trang. */
+.clients-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 54px;
+}
+
 .board-left {
   height: 95px;
   width: 30px;

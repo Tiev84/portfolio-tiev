@@ -15,6 +15,7 @@ Thiếu Pillow thì mọi thứ vẫn chạy — chỉ là web quay về dùng �
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -75,6 +76,38 @@ def used() -> set[str]:
     return set(_USED)
 
 
+_VAN_TAY: dict[str, str] = {}
+
+
+def _dau_van_tay(src: Path) -> str | None:
+    """
+    Dấu nhận dạng của file gốc, dùng để biết có cần tạo lại bản nhẹ không.
+
+    Phải dựa vào NỘI DUNG file, không được dùng thời điểm sửa: `git pull`
+    và `git clone` đặt lại thời điểm cho mọi file, nên lấy mốc thời gian
+    thì cứ mỗi lần đồng bộ là toàn bộ vài trăm ảnh bị coi là đã đổi và
+    phải nén lại từ đầu — chờ mấy phút hoàn toàn vô ích.
+
+    Băm cả file nghe nặng nhưng thực ra chỉ đọc đĩa: khoảng một hai giây
+    cho cả kho ảnh, so với ba phút nén lại.
+    """
+    key = str(src)
+    if key in _VAN_TAY:
+        return _VAN_TAY[key]  # cover và full cùng đọc một file, băm một lần đủ
+
+    try:
+        h = hashlib.sha1()
+        with open(src, "rb") as fh:
+            for chunk in iter(lambda: fh.read(1 << 20), b""):
+                h.update(chunk)
+        dau = f"{src.stat().st_size}:{h.hexdigest()[:16]}"
+    except OSError:
+        return None
+
+    _VAN_TAY[key] = dau
+    return dau
+
+
 def out_path(rel: str, size: str) -> Path:
     """assets/project/GALA/a.png  ->  assets/_web/cover/project/GALA/a.png.webp"""
     return WEB_DIR / size / (rel.split("assets/", 1)[-1] + EXT)
@@ -106,12 +139,10 @@ def web_url(rel: str, size: str = "full") -> str:
             return ra
         return rel
 
-    try:
-        stat = src.stat()
-    except OSError:
+    dau = _dau_van_tay(src)
+    if dau is None:
         return rel
-
-    dau = f"{stat.st_mtime_ns}:{stat.st_size}:{SIZES[size]}:{QUALITY}"
+    dau = f"{dau}:{SIZES[size]}:{QUALITY}"
     khoa = f"{size}|{rel}"
     dich = out_path(rel, size)
 

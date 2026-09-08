@@ -104,6 +104,12 @@ DEFAULTS = {
             "quả cho từng dự án."
         ),
         "image_alt": "Doanh nghiệp và khách hàng đã cộng tác",
+        # Nút đặt ở cuối khối khách hàng, ngay trước chân trang: xem hết
+        # trang giới thiệu là có chỗ bấm sang portfolio luôn, khỏi cuộn
+        # ngược lên đầu trang.
+        "button_show": True,
+        "button_text": "PORTFOLIO CỦA TÔI",
+        "button_href": "portfolio.html",
     },
 }
 
@@ -330,7 +336,7 @@ def render_skills(cfg: dict) -> list[str]:
 
 def render_clients(cfg: dict) -> list[str]:
     c = cfg["clients"]
-    return [
+    out = [
         '      <section class="clients container" id="portfolio">',
         '        <div class="clients-intro">',
         f"          <h2>{multiline(c['heading'])}</h2>",
@@ -342,8 +348,20 @@ def render_clients(cfg: dict) -> list[str]:
         '          <i class="deco board-left"></i>',
         '          <i class="deco board-right"></i>',
         "        </div>",
-        "      </section>",
     ]
+
+    if c.get("button_show", True) and c.get("button_text", "").strip():
+        out += [
+            '        <div class="clients-cta">',
+            f'          <a class="btn" href="{esc(c["button_href"])}">',
+            f"            <strong>{esc(c['button_text'])}</strong>",
+            "            <span>→</span>",
+            "          </a>",
+            "        </div>",
+        ]
+
+    out.append("      </section>")
+    return out
 
 
 RENDERERS = {
