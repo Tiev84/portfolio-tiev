@@ -1,6 +1,12 @@
 # Auto detect text files and perform LF normalization
 * text=auto
-*.mp4 filter=lfs diff=lfs merge=lfs -text
+# KHÔNG đưa video qua Git LFS: GitHub Pages và Vercel không đọc được LFS,
+# web sẽ nhận về phiếu gửi vài trăm byte thay vì video. Video dưới 95 MB
+# để thẳng trong repo (máy chủ trả đúng Content-Type video/mp4, iPhone
+# phát được); video lớn hơn thì đưa lên GitHub Releases.
+*.mp4 -text
+*.mov -text
+*.webm -text
 
 # Script cho macOS/Linux phải giữ xuống dòng kiểu LF, không thì bash báo lỗi
 *.command text eol=lf

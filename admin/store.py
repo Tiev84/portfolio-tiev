@@ -79,6 +79,12 @@ def natural_key(name: str):
 # Video vì thế hiện khung phát rồi đứng im. Phải cảnh báo ngay trong app.
 GITHUB_FILE_LIMIT = 100 * 1024 * 1024  # GitHub từ chối file thường quá 100 MB
 
+# Video nhỏ hơn mức này được để thẳng trong repo. Chừa 5 MB an toàn dưới
+# trần 100 MB của GitHub. Để trong repo thì máy chủ web trả đúng
+# Content-Type: video/mp4 — iPhone mới chịu phát. Video lớn hơn buộc phải
+# lên GitHub Releases, nơi mọi file đều bị trả về application/octet-stream.
+VIDEO_IN_REPO_LIMIT = 95 * 1024 * 1024
+
 
 def lfs_extensions() -> set[str]:
     """Đuôi file đang bị .gitattributes đẩy qua Git LFS."""

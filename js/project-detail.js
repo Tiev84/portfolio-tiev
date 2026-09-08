@@ -91,7 +91,21 @@ project.images.forEach((src, index) => {
       video.poster = project.images[0];
     }
 
-    video.src = src;
+    // Dùng <source type> thay vì video.src: khai báo thẳng đây là mp4.
+    //
+    // Cần thiết vì GitHub Releases trả Content-Type "application/octet-stream"
+    // cho mọi file. Chrome tự đoán nội dung nên vẫn phát, còn Safari trên
+    // iPhone tin theo Content-Type và từ chối phát. Khai báo type ở đây giúp
+    // Safari biết phải mong đợi gì.
+    //
+    // Cách chắc chắn nhất vẫn là để video trong repo (máy chủ trả đúng
+    // video/mp4) — xem admin/store.py, video dưới 95 MB đi đường đó.
+    const kieu = { mp4: "video/mp4", webm: "video/webm", mov: "video/mp4", ogg: "video/ogg" };
+    const duoi = (src.match(/\.(mp4|webm|mov|ogg)($|\?)/i) || [])[1];
+    const source = document.createElement("source");
+    source.src = src;
+    source.type = kieu[(duoi || "mp4").toLowerCase()] || "video/mp4";
+    video.appendChild(source);
 
     // Tự động phát khi cuộn tới trên mobile
     const videoObserver = new IntersectionObserver(

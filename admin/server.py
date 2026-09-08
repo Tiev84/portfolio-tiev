@@ -635,11 +635,22 @@ class Handler(SimpleHTTPRequestHandler):
 
     def api_videos_upload(self):
         """
-        Nhận video rồi đẩy thẳng lên GitHub Releases.
+        Nhận video và cất vào chỗ hợp lý nhất.
 
-        Video KHÔNG đi vào repo: file .mp4 trong repo bị Git LFS nuốt mất
-        (web chỉ nhận được cái phiếu gửi), còn bỏ LFS thì vướng trần 100 MB.
-        Releases cho tới 2 GB và link tải là link công khai.
+        Dưới 95 MB -> để thẳng trong thư mục project (đi cùng repo).
+            Máy chủ web trả đúng `Content-Type: video/mp4`, nên iPhone phát
+            được. Đây là đường ưu tiên.
+
+        Từ 95 MB trở lên -> GitHub Releases.
+            GitHub từ chối file thường quá 100 MB nên không còn cách khác.
+            Nhưng Releases trả `application/octet-stream` cho MỌI file, mà
+            Safari trên iPhone tin theo Content-Type và từ chối phát —
+            Chrome thì tự đoán nội dung nên vẫn chạy. Vì vậy phải báo rõ
+            cho người dùng biết hạn chế này.
+
+        (Trước đây mọi video đều lên Releases vì .mp4 bị .gitattributes đẩy
+        qua Git LFS, mà Pages/Vercel không đọc được LFS. Quy tắc LFS đó đã
+        được gỡ, nên đường trong repo giờ dùng được.)
         """
         project_id = base64.b64decode(self.headers["X-Project-Id"]).decode("utf-8")
         filename = base64.b64decode(self.headers["X-Filename"]).decode("utf-8")
@@ -658,6 +669,9 @@ class Handler(SimpleHTTPRequestHandler):
             return self.send_json(
                 {"ok": False, "error": "GitHub Releases chỉ nhận file tối đa 2 GB"}, 400
             )
+
+        if length < store.VIDEO_IN_REPO_LIMIT:
+            return self._nhan_video_vao_repo(folder, name, length)
 
         # Tên đặt kèm mã project để hai project không giẫm lên tên nhau
         ten_tren_github = f"{store.slugify(project_id)}--{name}"
@@ -688,6 +702,27 @@ class Handler(SimpleHTTPRequestHandler):
             meta["images"].append(asset["url"])
         store.write_meta(folder, meta)
         self.send_json({"ok": True, "url": asset["url"], "name": asset["name"]})
+
+    def _nhan_video_vao_repo(self, folder, name: str, length: int):
+        """Ghi video vào thư mục project, giống hệt cách nhận ảnh."""
+        target = store.unique_path(folder, name)
+        with open(target, "wb") as fh:
+            remaining = length
+            while remaining > 0:
+                chunk = self.rfile.read(min(1 << 20, remaining))
+                if not chunk:
+                    break
+                fh.write(chunk)
+                remaining -= len(chunk)
+
+        if target.stat().st_size < length:
+            target.unlink(missing_ok=True)
+            return self.send_json({"ok": False, "error": "Nhận thiếu dữ liệu, thử lại"}, 400)
+
+        meta = store.read_meta(folder)
+        meta["images"].append(target.name)
+        store.write_meta(folder, meta)
+        self.send_json({"ok": True, "name": target.name, "noi_luu": "repo"})
 
     def api_videos_list(self):
         """Danh sách video đang nằm trên Releases, kể cả cái chưa gắn vào project."""

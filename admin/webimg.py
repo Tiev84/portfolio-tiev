@@ -20,7 +20,11 @@ import json
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-WEB_DIR = REPO / "assets" / "_web"
+# Tên thư mục KHÔNG được bắt đầu bằng dấu gạch dưới: GitHub Pages chạy
+# Jekyll, mà Jekyll bỏ qua mọi thứ có tên bắt đầu bằng "_" — đặt là
+# "_web" thì cả trang mất sạch ảnh, trả về 404, trong khi Vercel vẫn
+# hiện bình thường nên rất dễ tưởng là ổn.
+WEB_DIR = REPO / "assets" / "web"
 INDEX = WEB_DIR / "_index.json"
 
 # Bề ngang tối đa của từng cỡ (px). Nhân đôi so với kích thước hiển thị thật
